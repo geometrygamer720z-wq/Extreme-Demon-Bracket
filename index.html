@@ -358,7 +358,6 @@
       font-size: 13.5px;
     }
 
-    /* Modals */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -465,7 +464,7 @@
     <header class="header">
       <div>
         <h1 id="page-title" class="title" title="Triple click for admin login">Extreme Demon Tournament</h1>
-        <p class="subtitle">1v1 matchups &amp; tournament bracket</p>
+        <p class="subtitle">Global 1v1 matchups &amp; tournament bracket</p>
       </div>
 
       <div class="header-actions">
@@ -502,7 +501,7 @@
     <section id="arena" class="arena"></section>
 
     <section class="ranking-card">
-      <h2 class="ranking-title">Elo Standings</h2>
+      <h2 class="ranking-title">Global Elo Standings</h2>
       <div id="rank-list" class="rank-list"></div>
     </section>
   </div>
@@ -535,13 +534,13 @@
 
   <script>
     const ADMIN_PASSWORD = "6767XDXD";
-    const STORAGE_KEY = "extreme_demon_tournament_levels_v1";
+    const DB_URL = "https://extreme-demon-tournament-default-rtdb.firebaseio.com";
     const AREDL_ENDPOINTS = [
       "https://aredl.net/api/aredl/levels",
       "https://aredl.net/api/v1/levels"
     ];
 
-    const FALLBACK_AREDL_CATALOG = [
+    const INITIAL_DEMONS = [
       { id: "slh", name: "Slaughterhouse", creator: "Icedcave", verifier: "Doggie", song: "Lost", elo: 1200, img: "https://i.ytimg.com/vi/kxyyKU8uFvU/hqdefault.jpg" },
       { id: "ach", name: "Acheron", creator: "Ryamu", verifier: "Zoink", song: "Thermodynamix", elo: 1200, img: "https://i.ytimg.com/vi/sBKR6aUorzA/hqdefault.jpg" },
       { id: "tw", name: "Tidal Wave", creator: "OniLink", verifier: "Zoink", song: "Shiawase (VIP)", elo: 1200, img: "https://i.ytimg.com/vi/9fsZ014qB3s/hqdefault.jpg" },
@@ -549,12 +548,16 @@
       { id: "trt", name: "Tartarus", creator: "Dolphy", verifier: "Dolphy", song: "Golden Haze", elo: 1200, img: "https://i.ytimg.com/vi/tw25C62X4_Y/hqdefault.jpg" },
       { id: "fw", name: "Firework", creator: "Trick", verifier: "Trick", song: "Chokehold", elo: 1200, img: "https://i.ytimg.com/vi/sBKR6aUorzA/hqdefault.jpg" },
       { id: "lmb", name: "Limbo", creator: "MindCap", verifier: "Bgram", song: "Isolation", elo: 1200, img: "https://i.ytimg.com/vi/1y6z-aL6x9g/hqdefault.jpg" },
-      { id: "ns", name: "Nullscapes", creator: "Kiba", verifier: "Zoink", song: "Flow", elo: 1200, img: "https://i.ytimg.com/vi/1y6z-aL6x9g/hqdefault.jpg" },
+      { id: "ns", name: "Nullscapes", creator: "Kiba", verifier: "Zoink", song: "Flow", elo: 1200, img: "https://i.ytimg.com/vi/1y6z-aL6x9g/hqdefault.jpg" }
+    ];
+
+    const FALLBACK_AREDL_CATALOG = [
+      ...INITIAL_DEMONS,
       { id: "anathema", name: "Anathema", creator: "Whizkid05", verifier: "Whizkid05", song: "Dimension", elo: 1200, img: "https://i.ytimg.com/vi/kxyyKU8uFvU/hqdefault.jpg" },
       { id: "ts2", name: "Thinking Space II", creator: "CairoX", verifier: "Zoink", song: "Freakshow", elo: 1200, img: "https://i.ytimg.com/vi/9fsZ014qB3s/hqdefault.jpg" }
     ];
 
-    let demons = loadSavedDemons();
+    let demons = [];
     let aredlCatalog = [...FALLBACK_AREDL_CATALOG];
     let isAdmin = false;
     let titleClickCount = 0;
@@ -565,7 +568,6 @@
     let cupQueue = [];
     let nextRoundQueue = [];
     let cupRoundName = "Quarterfinals";
-    let cupFinished = false;
     let votesCount = 0;
 
     const pageTitleEl = document.getElementById("page-title");
@@ -587,21 +589,47 @@
     const aredlStatusEl = document.getElementById("aredl-status");
     const aredlListEl = document.getElementById("aredl-list");
 
-    function loadSavedDemons() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed)) return parsed;
-        }
-      } catch (_) {}
-      return FALLBACK_AREDL_CATALOG.slice(0, 8).map((d) => ({ ...d }));
+    async function fetchGlobalDemons() {
+      const res = await fetch(`${DB_URL}/demons.json`);
+      if (!res.ok) throw new Error("Failed to read Firebase");
+      const data = await res.json();
+
+      if (!data) {
+        await saveGlobalDemons(INITIAL_DEMONS);
+        return [...INITIAL_DEMONS];
+      }
+
+      if (Array.isArray(data)) {
+        return data.filter(Boolean);
+      }
+
+      return Object.values(data).filter(Boolean);
     }
 
-    function saveDemons() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(demons));
-      } catch (_) {}
+    async function saveGlobalDemons(list) {
+      const payload = {};
+      list.forEach((d) => {
+        payload[d.id] = d;
+      });
+      await fetch(`${DB_URL}/demons.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    async function patchGlobalDemonElo(demon) {
+      await fetch(`${DB_URL}/demons/${demon.id}.json`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ elo: demon.elo })
+      });
+    }
+
+    async function deleteGlobalDemon(id) {
+      await fetch(`${DB_URL}/demons/${id}.json`, {
+        method: "DELETE"
+      });
     }
 
     function normalizeAredlItem(item, index) {
@@ -688,20 +716,21 @@
         .join("");
 
       aredlListEl.querySelectorAll("[data-add-id]").forEach((btn) => {
-        btn.addEventListener("click", () => {
+        btn.addEventListener("click", async () => {
           const chosen = aredlCatalog.find((d) => d.id === btn.dataset.addId);
           if (!chosen) return;
-          demons.push({ ...chosen, elo: 1200 });
-          saveDemons();
+          const newDemon = { ...chosen, elo: 1200 };
+          demons.push(newDemon);
+          await saveGlobalDemons(demons);
           renderAredlOptions();
           refreshAllViews();
         });
       });
     }
 
-    function removeLevel(id) {
+    async function removeLevel(id) {
       demons = demons.filter((d) => d.id !== id);
-      saveDemons();
+      await deleteGlobalDemon(id);
       refreshAllViews();
     }
 
@@ -794,18 +823,18 @@
       return copy;
     }
 
-    function updateElo(winner, loser) {
+    async function updateElo(winner, loser) {
       const k = 32;
       const expectedWin = 1 / (1 + Math.pow(10, (loser.elo - winner.elo) / 400));
       winner.elo = Math.round(winner.elo + k * (1 - expectedWin));
       loser.elo = Math.round(loser.elo - k * expectedWin);
-      saveDemons();
+      await Promise.all([patchGlobalDemonElo(winner), patchGlobalDemonElo(loser)]);
     }
 
     function renderStandings() {
       const sorted = [...demons].sort((a, b) => b.elo - a.elo);
       if (sorted.length === 0) {
-        rankListEl.innerHTML = `<div class="aredl-sub">No levels in standings.</div>`;
+        rankListEl.innerHTML = `<div class="aredl-sub">No levels in global standings.</div>`;
         return;
       }
       rankListEl.innerHTML = sorted
@@ -829,7 +858,6 @@
     }
 
     function setupCup() {
-      cupFinished = false;
       championBannerEl.classList.remove("show");
       if (demons.length < 2) {
         arenaEl.innerHTML = `<div class="notice-box" style="grid-column: 1 / -1;">Add at least 2 levels in Admin Mode to start a bracket.</div>`;
@@ -846,7 +874,6 @@
     function advanceCupMatch() {
       if (cupQueue.length === 1 && nextRoundQueue.length === 0) {
         const champ = cupQueue[0];
-        cupFinished = true;
         arenaEl.innerHTML = "";
         roundLabelEl.textContent = "Tournament Complete";
         matchCounterEl.textContent = "";
@@ -861,7 +888,6 @@
         }
         if (nextRoundQueue.length === 1) {
           const champ = nextRoundQueue[0];
-          cupFinished = true;
           arenaEl.innerHTML = "";
           roundLabelEl.textContent = "Tournament Complete";
           matchCounterEl.textContent = "";
@@ -882,13 +908,13 @@
       championBannerEl.classList.remove("show");
       if (demons.length < 2 || !pair[0] || !pair[1]) {
         arenaEl.innerHTML = `<div class="notice-box" style="grid-column: 1 / -1;">Add at least 2 levels in Admin Mode to play matchups.</div>`;
-        roundLabelEl.textContent = mode === "1v1" ? "Mode: 1v1 Showdown" : "Bracket Cup";
+        roundLabelEl.textContent = mode === "1v1" ? "Mode: Global 1v1 Showdown" : "Bracket Cup";
         matchCounterEl.textContent = `Levels active: ${demons.length}`;
         return;
       }
 
       if (mode === "1v1") {
-        roundLabelEl.textContent = "Mode: Endless 1v1 Showdown";
+        roundLabelEl.textContent = "Mode: Global 1v1 Showdown";
         matchCounterEl.textContent = `Votes cast: ${votesCount}`;
       } else {
         roundLabelEl.textContent = `Stage: ${cupRoundName}`;
@@ -902,11 +928,11 @@
       `;
 
       arenaEl.querySelectorAll(".vote-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
+        btn.addEventListener("click", async () => {
           const idx = Number(btn.dataset.idx);
           const winner = pair[idx];
           const loser = pair[idx === 0 ? 1 : 0];
-          handleVote(winner, loser);
+          await handleVote(winner, loser);
         });
       });
     }
@@ -928,9 +954,9 @@
       `;
     }
 
-    function handleVote(winner, loser) {
+    async function handleVote(winner, loser) {
       votesCount++;
-      updateElo(winner, loser);
+      await updateElo(winner, loser);
       renderStandings();
 
       if (mode === "1v1") {
@@ -970,8 +996,16 @@
     document.getElementById("btn-cup").addEventListener("click", () => startMode("cup"));
     restartBtn.addEventListener("click", setupCup);
 
-    renderStandings();
-    startMode("1v1");
+    (async function init() {
+      arenaEl.innerHTML = `<div class="notice-box" style="grid-column: 1 / -1;">Loading global tournament data...</div>`;
+      try {
+        demons = await fetchGlobalDemons();
+      } catch (_) {
+        demons = [...INITIAL_DEMONS];
+      }
+      renderStandings();
+      startMode("1v1");
+    })();
   </script>
 </body>
 </html>
