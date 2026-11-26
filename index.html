@@ -44,7 +44,6 @@
       margin: 0 auto;
     }
 
-    /* Top Header */
     .topbar {
       display: flex;
       justify-content: space-between;
@@ -150,7 +149,6 @@
       border: 1px solid var(--line);
     }
 
-    /* Cup Banner */
     .cup-hero {
       display: flex;
       justify-content: center;
@@ -175,7 +173,6 @@
       transform: skewX(14deg);
     }
 
-    /* Admin Controls Bar */
     .admin-bar {
       display: none;
       justify-content: space-between;
@@ -205,7 +202,6 @@
       gap: 8px;
     }
 
-    /* Match of the Day / Active Duel */
     .duel-section {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -272,7 +268,7 @@
 
     .clean-photo-wrap {
       width: 100%;
-      height: 150px;
+      height: 155px;
       background: #040913;
       overflow: hidden;
     }
@@ -320,11 +316,6 @@
       cursor: pointer;
     }
 
-    .vote-btn:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-
     .locked-notice {
       background: rgba(15, 23, 42, 0.7);
       border: 1px dashed var(--line);
@@ -335,7 +326,6 @@
       font-size: 13px;
     }
 
-    /* Cup Bracket Layout */
     .bracket-card {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -427,6 +417,12 @@
       margin-bottom: 2px;
     }
 
+    .slot-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     .slot-btn {
       width: 100%;
       background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(2, 132, 199, 0.14));
@@ -458,6 +454,25 @@
 
     .slot-btn.advance-ready {
       border-color: rgba(34, 197, 94, 0.65);
+    }
+
+    .slot-del-btn {
+      display: none;
+      background: rgba(239, 68, 68, 0.22);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      border-radius: 7px;
+      padding: 6px 8px;
+      font-size: 11px;
+      font-weight: 900;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .slot-del-btn.visible {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .slot-thumb {
@@ -494,7 +509,6 @@
       color: var(--gold);
     }
 
-    /* Standings */
     .standings-card {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -546,7 +560,6 @@
       flex-shrink: 0;
     }
 
-    /* Corner Floating Add Button for Admin */
     .corner-add-btn {
       display: none;
       position: fixed;
@@ -570,7 +583,6 @@
       gap: 6px;
     }
 
-    /* Modals */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -589,7 +601,7 @@
 
     .modal-box {
       width: 100%;
-      max-width: 560px;
+      max-width: 580px;
       max-height: 86vh;
       background: var(--panel);
       border: 1px solid var(--line);
@@ -650,8 +662,8 @@
     }
 
     .catalog-clean-img {
-      width: 72px;
-      height: 44px;
+      width: 78px;
+      height: 46px;
       border-radius: 7px;
       object-fit: cover;
       flex-shrink: 0;
@@ -709,11 +721,11 @@
 
     <section id="admin-bar" class="admin-bar">
       <div class="admin-bar-note">
-        Admin Controls: Click any bracket slot to place/clear a demon, add from AREDL, and start the tournament.
+        Admin Controls: Click any slot to pick from AREDL, or click X on any slot to delete it.
       </div>
       <div class="admin-bar-actions">
         <button id="toggle-start-btn" class="btn btn-win" type="button">Start Tournament</button>
-        <button id="clear-bracket-btn" class="btn btn-danger" type="button">Clear Slots</button>
+        <button id="clear-bracket-btn" class="btn btn-danger" type="button">Clear All Slots</button>
       </div>
     </section>
 
@@ -736,8 +748,6 @@
             <path d="M84 28 C87 14, 82 6, 76 5 C74 13, 73 19, 71 24 Z" fill="#e2e8f0" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
             <path d="M54 22 C54 11, 58 6, 60 5 C62 6, 66 11, 66 22 Z" fill="#f1f5f9" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
             <circle cx="60" cy="64" r="42" fill="#dc2626" stroke="#090d16" stroke-width="4.5"/>
-            <path d="M26 48 C38 45, 48 50, 54 57 L52 63 C42 63, 33 58, 25 53 Z" fill="#1e0505" stroke="#090d16" stroke-width="2.5"/>
-            <path d="M94 48 C82 45, 72 50, 66 57 L68 63 C78 63, 87 58, 95 53 Z" fill="#1e0505" stroke="#090d16" stroke-width="2.5"/>
             <path d="M30 51 C39 50, 47 54, 51 59 C43 60, 35 57, 30 51 Z" fill="#fde047"/>
             <path d="M90 51 C81 50, 73 54, 69 59 C77 60, 85 57, 90 51 Z" fill="#fde047"/>
             <path d="M28 73 C44 68, 76 68, 92 73 C88 95, 74 104, 60 104 C46 104, 32 95, 28 73 Z" fill="#2a0608" stroke="#090d16" stroke-width="4"/>
@@ -763,10 +773,8 @@
     </section>
   </div>
 
-  <!-- Corner Add Button (Admin Only) -->
   <button id="corner-add-btn" class="corner-add-btn" type="button">+ Add from AREDL</button>
 
-  <!-- Password Modal -->
   <div id="password-modal" class="modal-backdrop" aria-hidden="true">
     <div class="modal-box">
       <h2 class="modal-title">Admin Access</h2>
@@ -779,21 +787,20 @@
     </div>
   </div>
 
-  <!-- AREDL Picker Modal (Admin Only) -->
   <div id="aredl-modal" class="modal-backdrop" aria-hidden="true">
     <div class="modal-box">
-      <h2 class="modal-title">AREDL Demons &amp; Slot Assignment</h2>
-      <p class="modal-sub">Choose which bracket slot to fill, then pick a demon with its clean image.</p>
+      <h2 class="modal-title">AREDL Catalog &amp; Slot Manager</h2>
+      <p class="modal-sub">Pick a slot, choose a level from AREDL with its clean thumbnail, or remove the current level.</p>
 
       <label for="target-slot-select" class="modal-sub">Target Bracket Slot:</label>
       <select id="target-slot-select" class="select-field"></select>
 
       <input id="aredl-search-input" class="input-field" type="text" placeholder="Search demon name, creator, or verifier..." />
-      <div id="aredl-status-line" class="modal-sub">Loading AREDL catalog...</div>
+      <div id="aredl-status-line" class="modal-sub">Loading AREDL levels...</div>
       <div id="aredl-catalog-list" class="catalog-scroll"></div>
 
       <div class="modal-footer">
-        <button id="clear-selected-slot-btn" class="btn btn-danger" type="button">Empty Slot</button>
+        <button id="clear-selected-slot-btn" class="btn btn-danger" type="button">Remove Demon from Slot</button>
         <button id="close-aredl-btn" class="btn btn-ghost" type="button">Close</button>
       </div>
     </div>
@@ -803,8 +810,8 @@
     const ADMIN_PASSWORD = "6767XDXD";
     const DB_URL = "https://extreme-demon-tournament-default-rtdb.firebaseio.com";
     const AREDL_ENDPOINTS = [
-      "https://aredl.net/api/aredl/levels",
-      "https://aredl.net/api/v1/levels"
+      "https://api.aredl.net/v2/api/aredl/levels",
+      "https://aredl.net/api/aredl/levels"
     ];
 
     const EXTREME_DEMON_FACE_SVG = `data:image/svg+xml;utf8,${encodeURIComponent(`
@@ -828,32 +835,17 @@
       </svg>
     `)}`;
 
-    const FALLBACK_DEMONS = [
-      { id: "slh", name: "Slaughterhouse", creator: "Icedcave", verifier: "Doggie", song: "Lost", elo: 1200, img: "https://i.ytimg.com/vi/kxyyKU8uFvU/hqdefault.jpg" },
-      { id: "ach", name: "Acheron", creator: "Ryamu", verifier: "Zoink", song: "Thermodynamix", elo: 1200, img: "https://i.ytimg.com/vi/sBKR6aUorzA/hqdefault.jpg" },
-      { id: "tw", name: "Tidal Wave", creator: "OniLink", verifier: "Zoink", song: "Shiawase (VIP)", elo: 1200, img: "https://i.ytimg.com/vi/9fsZ014qB3s/hqdefault.jpg" },
-      { id: "bb", name: "Bloodbath", creator: "Riot", verifier: "Riot", song: "At the Speed of Light", elo: 1200, img: "https://i.ytimg.com/vi/tw25C62X4_Y/hqdefault.jpg" },
-      { id: "trt", name: "Tartarus", creator: "Dolphy", verifier: "Dolphy", song: "Golden Haze", elo: 1200, img: "https://i.ytimg.com/vi/tw25C62X4_Y/hqdefault.jpg" },
-      { id: "fw", name: "Firework", creator: "Trick", verifier: "Trick", song: "Chokehold", elo: 1200, img: "https://i.ytimg.com/vi/sBKR6aUorzA/hqdefault.jpg" },
-      { id: "lmb", name: "Limbo", creator: "MindCap", verifier: "Bgram", song: "Isolation", elo: 1200, img: "https://i.ytimg.com/vi/1y6z-aL6x9g/hqdefault.jpg" },
-      { id: "ns", name: "Nullscapes", creator: "Kiba", verifier: "Zoink", song: "Flow", elo: 1200, img: "https://i.ytimg.com/vi/1y6z-aL6x9g/hqdefault.jpg" },
-      { id: "anathema", name: "Anathema", creator: "Whizkid05", verifier: "Whizkid05", song: "Dimension", elo: 1200, img: "https://i.ytimg.com/vi/kxyyKU8uFvU/hqdefault.jpg" },
-      { id: "ts2", name: "Thinking Space II", creator: "CairoX", verifier: "Zoink", song: "Freakshow", elo: 1200, img: "https://i.ytimg.com/vi/9fsZ014qB3s/hqdefault.jpg" }
-    ];
-
-    const INITIAL_SLOTS = Array.from({ length: 8 }, (_, idx) => ({ ...FALLBACK_DEMONS[idx] }));
-
     let tournamentState = {
       started: false,
-      slots: [...INITIAL_SLOTS],
+      slots: Array(8).fill(null),
       semiA: [null, null],
       semiB: [null, null],
       finalists: [null, null],
       winner: null,
-      standings: [...FALLBACK_DEMONS.slice(0, 8)]
+      standings: []
     };
 
-    let catalog = [...FALLBACK_DEMONS];
+    let catalog = [];
     let isAdmin = false;
     let selectedSlotIndex = 0;
     let titleClicks = 0;
@@ -889,18 +881,33 @@
       );
     }
 
+    function extractYoutubeIdFromUrl(url) {
+      if (typeof url !== "string" || !url) return "";
+      const match = url.match(/(?:v=|\/embed\/|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+      return match ? match[1] : "";
+    }
+
     function extractCleanImageUrl(item) {
-      const candidate =
+      const directUrl =
         item.thumbnail ||
         item.image ||
         item.cover ||
         item.banner ||
-        (item.video_id ? `https://i.ytimg.com/vi/${item.video_id}/hqdefault.jpg` : "") ||
-        (item.youtube_id ? `https://i.ytimg.com/vi/${item.youtube_id}/hqdefault.jpg` : "");
+        "";
 
-      if (typeof candidate === "string" && candidate.startsWith("http")) {
-        return candidate;
+      if (typeof directUrl === "string" && directUrl.startsWith("http")) {
+        return directUrl;
       }
+
+      const ytId =
+        item.video_id ||
+        item.youtube_id ||
+        extractYoutubeIdFromUrl(item.video_url || item.verification_video || item.url || "");
+
+      if (ytId) {
+        return `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg`;
+      }
+
       return EXTREME_DEMON_FACE_SVG;
     }
 
@@ -929,8 +936,7 @@
           return;
         }
         await loadAredlCatalog(false);
-        const afterFetch = findAredlImageByNameOrId(demonName, demonId);
-        imgEl.src = afterFetch || EXTREME_DEMON_FACE_SVG;
+        imgEl.src = findAredlImageByNameOrId(demonName, demonId) || EXTREME_DEMON_FACE_SVG;
       });
     }
 
@@ -943,7 +949,12 @@
       const verifier =
         item.verifier ||
         (Array.isArray(item.verifiers) ? item.verifiers.map((v) => v.name || v).join(", ") : "Unknown");
-      const song = item.song || item.song_name || item.music || "Newgrounds / NCS";
+      const song =
+        item.song ||
+        item.song_name ||
+        item.music ||
+        (item.song_info && item.song_info.name) ||
+        "Newgrounds / NCS";
       const id = slugifyName(item.id || name, `demon-${idx}`);
 
       return {
@@ -963,16 +974,20 @@
           const res = await fetch(url, { headers: { Accept: "application/json" } });
           if (!res.ok) continue;
           const data = await res.json();
-          const list = Array.isArray(data) ? data : (data.levels || data.data || []);
+          const list = Array.isArray(data)
+            ? data
+            : (data.levels || data.data || data.items || []);
+
           if (Array.isArray(list) && list.length > 0) {
             catalog = list.map(normalizeAredlDemon);
-            aredlStatusLineEl.textContent = `Loaded ${catalog.length} levels from AREDL.`;
+            aredlStatusLineEl.textContent = `Loaded ${catalog.length} levels from AREDL API.`;
             if (shouldRender) renderCatalogList();
             return;
           }
         } catch (_) {}
       }
-      aredlStatusLineEl.textContent = "Showing AREDL demon catalog with clean images.";
+
+      aredlStatusLineEl.textContent = "Could not load live AREDL API right now. Check connection or CORS.";
       if (shouldRender) renderCatalogList();
     }
 
@@ -985,9 +1000,12 @@
         return;
       }
 
+      const rawSlots = Array.isArray(data.slots) ? data.slots : [];
+      const normalizedSlots = Array.from({ length: 8 }, (_, i) => rawSlots[i] || null);
+
       tournamentState = {
         started: Boolean(data.started),
-        slots: Array.isArray(data.slots) && data.slots.length === 8 ? data.slots : Array(8).fill(null),
+        slots: normalizedSlots,
         semiA: Array.isArray(data.semiA) && data.semiA.length === 2 ? data.semiA : [null, null],
         semiB: Array.isArray(data.semiB) && data.semiB.length === 2 ? data.semiB : [null, null],
         finalists: Array.isArray(data.finalists) && data.finalists.length === 2 ? data.finalists : [null, null],
@@ -1152,10 +1170,64 @@
       `;
     }
 
-    function buildSlotButton(demon, labelText, onClickFn, extraClass = "") {
+    async function deleteSlotDemon(slotIdx) {
+      if (!isAdmin) return;
+      tournamentState.slots[slotIdx] = null;
+      await pushTournamentToFirebase();
+      populateSlotSelect();
+      renderAll();
+    }
+
+    function buildEditableSlotRow(demon, slotIdx, fallbackLabel) {
+      const wrap = document.createElement("div");
+      wrap.className = "slot-wrapper";
+
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = `slot-btn ${demon ? "advance-ready" : "empty"} ${extraClass}`.trim();
+      btn.className = `slot-btn ${demon ? "advance-ready" : "empty"}`;
+
+      if (demon) {
+        const img = document.createElement("img");
+        img.className = "slot-thumb";
+        img.src = demon.img || EXTREME_DEMON_FACE_SVG;
+        img.alt = demon.name;
+        attachImageFallback(img, demon.name, demon.id);
+        btn.appendChild(img);
+      }
+
+      const span = document.createElement("span");
+      span.className = "slot-name";
+      span.textContent = demon ? demon.name : fallbackLabel;
+      btn.appendChild(span);
+
+      btn.addEventListener("click", () => {
+        if (isAdmin) {
+          openAredlModalForSlot(slotIdx);
+        }
+      });
+
+      wrap.appendChild(btn);
+
+      if (isAdmin && demon) {
+        const delBtn = document.createElement("button");
+        delBtn.type = "button";
+        delBtn.className = "slot-del-btn visible";
+        delBtn.title = `Remove ${demon.name}`;
+        delBtn.textContent = "X";
+        delBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          deleteSlotDemon(slotIdx);
+        });
+        wrap.appendChild(delBtn);
+      }
+
+      return wrap;
+    }
+
+    function buildReadonlySlotButton(demon, labelText) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = `slot-btn ${demon ? "advance-ready" : "empty"}`;
 
       if (demon) {
         const img = document.createElement("img");
@@ -1171,7 +1243,6 @@
       span.textContent = demon ? demon.name : labelText;
       btn.appendChild(span);
 
-      btn.addEventListener("click", onClickFn);
       return btn;
     }
 
@@ -1187,49 +1258,45 @@
       colA1.className = "round-col";
       colA1.innerHTML = `<div class="round-heading">Quarterfinals</div>`;
       [0, 1, 2, 3].forEach((idx) => {
-        colA1.appendChild(
-          buildSlotButton(slots[idx], `Slot A${idx + 1}`, () => openAredlModalForSlot(idx))
-        );
+        colA1.appendChild(buildEditableSlotRow(slots[idx], idx, `Slot A${idx + 1}`));
       });
 
       const colA2 = document.createElement("div");
       colA2.className = "round-col";
       colA2.innerHTML = `<div class="round-heading">Semifinals</div>`;
-      colA2.appendChild(buildSlotButton(semiA[0], "Semi A1", () => {}));
-      colA2.appendChild(buildSlotButton(semiA[1], "Semi A2", () => {}));
+      colA2.appendChild(buildReadonlySlotButton(semiA[0], "Semi A1"));
+      colA2.appendChild(buildReadonlySlotButton(semiA[1], "Semi A2"));
 
       const colA3 = document.createElement("div");
       colA3.className = "round-col";
       colA3.innerHTML = `<div class="round-heading">Finalist A</div>`;
-      colA3.appendChild(buildSlotButton(finalists[0], "Finalist A", () => {}));
+      colA3.appendChild(buildReadonlySlotButton(finalists[0], "Finalist A"));
 
       const colCenter = document.createElement("div");
       colCenter.className = "round-col";
       const finalBox = document.createElement("div");
       finalBox.className = "final-box";
       finalBox.innerHTML = `<div class="final-label">FINAL</div>`;
-      finalBox.appendChild(buildSlotButton(finalists[0], "Left Finalist", () => {}));
-      finalBox.appendChild(buildSlotButton(finalists[1], "Right Finalist", () => {}));
+      finalBox.appendChild(buildReadonlySlotButton(finalists[0], "Left Finalist"));
+      finalBox.appendChild(buildReadonlySlotButton(finalists[1], "Right Finalist"));
       colCenter.appendChild(finalBox);
 
       const colB3 = document.createElement("div");
       colB3.className = "round-col";
       colB3.innerHTML = `<div class="round-heading">Finalist B</div>`;
-      colB3.appendChild(buildSlotButton(finalists[1], "Finalist B", () => {}));
+      colB3.appendChild(buildReadonlySlotButton(finalists[1], "Finalist B"));
 
       const colB2 = document.createElement("div");
       colB2.className = "round-col";
       colB2.innerHTML = `<div class="round-heading">Semifinals</div>`;
-      colB2.appendChild(buildSlotButton(semiB[0], "Semi B1", () => {}));
-      colB2.appendChild(buildSlotButton(semiB[1], "Semi B2", () => {}));
+      colB2.appendChild(buildReadonlySlotButton(semiB[0], "Semi B1"));
+      colB2.appendChild(buildReadonlySlotButton(semiB[1], "Semi B2"));
 
       const colB1 = document.createElement("div");
       colB1.className = "round-col";
       colB1.innerHTML = `<div class="round-heading">Quarterfinals</div>`;
       [4, 5, 6, 7].forEach((idx, i) => {
-        colB1.appendChild(
-          buildSlotButton(slots[idx], `Slot B${i + 1}`, () => openAredlModalForSlot(idx))
-        );
+        colB1.appendChild(buildEditableSlotRow(slots[idx], idx, `Slot B${i + 1}`));
       });
 
       bracketBoardEl.append(colA1, colA2, colA3, colCenter, colB3, colB2, colB1);
@@ -1292,8 +1359,13 @@
         );
       });
 
+      if (filtered.length === 0) {
+        aredlCatalogListEl.innerHTML = `<div class="modal-sub">No AREDL levels found for that search.</div>`;
+        return;
+      }
+
       aredlCatalogListEl.innerHTML = filtered
-        .slice(0, 80)
+        .slice(0, 120)
         .map(
           (item) => `
           <div class="catalog-card">
@@ -1330,6 +1402,7 @@
           tournamentState.slots[slotIdx] = demonCopy;
           ensureInStandings(demonCopy);
           await pushTournamentToFirebase();
+          populateSlotSelect();
           renderAll();
         });
       });
@@ -1412,10 +1485,7 @@
     document.getElementById("clear-selected-slot-btn").addEventListener("click", async () => {
       if (!isAdmin) return;
       const slotIdx = Number(targetSlotSelectEl.value);
-      tournamentState.slots[slotIdx] = null;
-      await pushTournamentToFirebase();
-      populateSlotSelect();
-      renderAll();
+      await deleteSlotDemon(slotIdx);
     });
 
     aredlSearchInputEl.addEventListener("input", renderCatalogList);
