@@ -3,19 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Extreme Demon Tournament — 1v1 Showdowns</title>
+  <title>Extreme Demon Tournament</title>
   <style>
     :root {
-      --bg: #080a10;
-      --panel: #101522;
-      --panel-2: #171e30;
-      --line: rgba(148, 163, 184, 0.14);
+      --bg-0: #050b16;
+      --bg-1: #091529;
+      --panel: rgba(11, 23, 44, 0.88);
+      --panel-2: rgba(16, 34, 65, 0.92);
+      --line: rgba(56, 189, 248, 0.22);
+      --line-strong: rgba(56, 189, 248, 0.55);
       --text: #f8fafc;
-      --muted: #94a3b8;
-      --accent: #38bdf8;
+      --muted: #9fb3cc;
+      --cyan: #38bdf8;
+      --cyan-2: #0284c7;
+      --gold: #fbbf24;
       --win: #22c55e;
       --danger: #ef4444;
-      --gold: #eab308;
     }
 
     * {
@@ -26,345 +29,555 @@
       margin: 0;
       min-height: 100vh;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background:
-        radial-gradient(circle at 50% -10%, rgba(56, 189, 248, 0.15), transparent 45%),
-        var(--bg);
       color: var(--text);
-      padding: 24px 16px 60px;
+      background:
+        radial-gradient(circle at 50% 8%, rgba(56, 189, 248, 0.22), transparent 42%),
+        radial-gradient(circle at 12% 25%, rgba(2, 132, 199, 0.16), transparent 36%),
+        radial-gradient(circle at 88% 25%, rgba(2, 132, 199, 0.16), transparent 36%),
+        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 100%);
+      padding: 20px 14px 96px;
+      overflow-x: hidden;
     }
 
     .container {
-      max-width: 920px;
+      max-width: 1220px;
       margin: 0 auto;
     }
 
-    .header {
+    /* Top Header */
+    .topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 22px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--line);
+      margin-bottom: 18px;
+      padding: 12px 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
     }
 
-    .title {
+    .brand-title {
       margin: 0;
-      font-size: 22px;
-      font-weight: 850;
-      user-select: none;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.4px;
       cursor: pointer;
+      user-select: none;
+      text-transform: uppercase;
     }
 
-    .subtitle {
-      margin: 3px 0 0;
+    .brand-sub {
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .status-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      color: var(--muted);
+    }
+
+    .status-pill.live {
+      border-color: rgba(34, 197, 94, 0.5);
+      background: rgba(34, 197, 94, 0.14);
+      color: #86efac;
+    }
+
+    .admin-pill {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      background: rgba(251, 191, 36, 0.15);
+      border: 1px solid rgba(251, 191, 36, 0.5);
+      color: var(--gold);
+    }
+
+    .admin-pill.active {
+      display: inline-flex;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 8px 13px;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-cyan {
+      background: linear-gradient(135deg, var(--cyan), var(--cyan-2));
+      color: #04101d;
+    }
+
+    .btn-win {
+      background: var(--win);
+      color: #05150b;
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.18);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.45);
+    }
+
+    .btn-ghost {
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    /* Cup Banner */
+    .cup-hero {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .cup-ribbon {
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      color: #04101f;
+      font-weight: 950;
+      font-size: clamp(16px, 2.5vw, 23px);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 34px;
+      transform: skewX(-14deg);
+      border-radius: 6px;
+      box-shadow: 0 10px 28px rgba(2, 132, 199, 0.35);
+    }
+
+    .cup-ribbon span {
+      display: inline-block;
+      transform: skewX(14deg);
+    }
+
+    /* Admin Controls Bar */
+    .admin-bar {
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 12px 16px;
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.38);
+      border-radius: 14px;
+    }
+
+    .admin-bar.active {
+      display: flex;
+    }
+
+    .admin-bar-note {
+      font-size: 12.5px;
+      color: #fde68a;
+      font-weight: 600;
+    }
+
+    .admin-bar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Match of the Day / Active Duel */
+    .duel-section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 24px;
+    }
+
+    .duel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .duel-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+    }
+
+    .duel-meta {
       font-size: 12.5px;
       color: var(--muted);
     }
 
-    .header-actions {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .admin-badge {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      background: rgba(234, 179, 8, 0.14);
-      border: 1px solid rgba(234, 179, 8, 0.45);
-      color: var(--gold);
-      padding: 7px 12px;
-      border-radius: 9px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .admin-badge.active {
-      display: inline-flex;
-    }
-
-    .mode-switch {
-      display: flex;
-      background: var(--panel);
-      padding: 4px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      gap: 4px;
-    }
-
-    .mode-btn {
-      border: none;
-      background: transparent;
-      color: var(--muted);
-      padding: 8px 14px;
-      border-radius: 7px;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .mode-btn.active {
-      background: var(--accent);
-      color: #061018;
-    }
-
-    .admin-panel {
-      display: none;
-      background: var(--panel);
-      border: 1px solid rgba(234, 179, 8, 0.35);
-      border-radius: 16px;
-      padding: 16px 18px;
-      margin-bottom: 20px;
-    }
-
-    .admin-panel.active {
-      display: block;
-    }
-
-    .admin-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .admin-title {
-      margin: 0;
-      font-size: 15px;
-      font-weight: 850;
-      color: var(--gold);
-    }
-
-    .btn-add {
-      background: var(--win);
-      color: #051309;
-      border: none;
-      border-radius: 9px;
-      padding: 9px 14px;
-      font-weight: 800;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .btn-exit-admin {
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 4px 8px;
-      font-size: 11.5px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .managed-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 8px;
-    }
-
-    .managed-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      background: var(--panel-2);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 8px 11px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .btn-remove {
-      background: rgba(239, 68, 68, 0.16);
-      color: #fca5a5;
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      border-radius: 7px;
-      padding: 4px 8px;
-      font-size: 11.5px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .round-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .arena {
+    .duel-grid {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       gap: 14px;
       align-items: stretch;
-      margin-bottom: 24px;
     }
 
-    @media (max-width: 720px) {
-      .arena {
+    @media (max-width: 760px) {
+      .duel-grid {
         grid-template-columns: 1fr;
       }
-      .vs-badge {
+      .duel-vs {
         text-align: center;
       }
     }
 
-    .vs-badge {
+    .duel-vs {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 900;
-      font-size: 16px;
-      color: var(--accent);
-      padding: 6px;
+      font-weight: 950;
+      font-size: 18px;
+      color: var(--cyan);
+      padding: 4px 8px;
     }
 
-    .fighter-card {
-      background: var(--panel);
+    .fighter-box {
+      background: var(--panel-2);
       border: 1.5px solid var(--line);
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: transform 0.14s ease, border-color 0.14s ease;
     }
 
-    .fighter-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(56, 189, 248, 0.45);
-    }
-
-    .fighter-thumb {
+    .clean-photo-wrap {
       width: 100%;
-      height: 165px;
-      object-fit: cover;
-      background: #05070c;
+      height: 150px;
+      background: #040913;
+      overflow: hidden;
     }
 
-    .fighter-body {
-      padding: 16px;
+    .clean-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .fighter-content {
+      padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       flex: 1;
     }
 
     .fighter-name {
       margin: 0;
-      font-size: 19px;
+      font-size: 17px;
       font-weight: 850;
     }
 
-    .fighter-meta {
-      font-size: 13px;
+    .fighter-info {
+      font-size: 12.5px;
       color: var(--muted);
-      line-height: 1.45;
+    }
+
+    .vote-action {
+      margin-top: auto;
+      padding-top: 8px;
     }
 
     .vote-btn {
-      margin-top: auto;
-      padding: 12px;
+      width: 100%;
+      padding: 10px 12px;
       border: none;
       border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), #0284c7);
-      color: #051018;
-      font-weight: 850;
-      font-size: 14px;
+      background: linear-gradient(135deg, var(--cyan), var(--cyan-2));
+      color: #04101d;
+      font-weight: 900;
+      font-size: 13px;
       cursor: pointer;
     }
 
-    .champion-banner {
-      display: none;
-      background: rgba(34, 197, 94, 0.14);
-      border: 1px solid rgba(34, 197, 94, 0.45);
-      border-radius: 14px;
-      padding: 16px 18px;
-      margin-bottom: 22px;
-      justify-content: space-between;
+    .vote-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .locked-notice {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Cup Bracket Layout */
+    .bracket-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px 16px;
+      margin-bottom: 24px;
+    }
+
+    .groups-bar {
+      display: grid;
+      grid-template-columns: 1fr 220px 1fr;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
+      margin-bottom: 16px;
+      text-align: center;
     }
 
-    .champion-banner.show {
+    @media (max-width: 960px) {
+      .groups-bar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .group-label {
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: 0.6px;
+      color: var(--text);
+    }
+
+    .trophy-center {
       display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
     }
 
-    .btn-reset {
-      background: var(--win);
-      color: #051309;
-      border: none;
-      border-radius: 9px;
-      padding: 9px 14px;
+    .extreme-demon-center-icon {
+      width: 74px;
+      height: 74px;
+      filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.45));
+    }
+
+    .winner-badge {
+      background: linear-gradient(180deg, #facc15, #d97706);
+      color: #1e1300;
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: 1px;
+      padding: 5px 14px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      max-width: 220px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .bracket-board {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 8px;
+      align-items: center;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+
+    @media (max-width: 1020px) {
+      .bracket-board {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+    }
+
+    .round-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 132px;
+    }
+
+    .round-heading {
+      text-align: center;
+      font-size: 10.5px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 2px;
+    }
+
+    .slot-btn {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(2, 132, 199, 0.14));
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      padding: 7px 8px;
+      color: var(--text);
+      font-size: 11.5px;
       font-weight: 800;
+      text-align: left;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: border-color 0.12s ease, background 0.12s ease;
+      min-height: 36px;
     }
 
-    .ranking-card {
+    .slot-btn:hover {
+      border-color: var(--cyan);
+      background: rgba(56, 189, 248, 0.25);
+    }
+
+    .slot-btn.empty {
+      color: var(--muted);
+      border-style: dashed;
+      background: rgba(15, 23, 42, 0.55);
+    }
+
+    .slot-btn.advance-ready {
+      border-color: rgba(34, 197, 94, 0.65);
+    }
+
+    .slot-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #040913;
+    }
+
+    .slot-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    .final-box {
+      background: var(--panel-2);
+      border: 1.5px solid rgba(250, 204, 21, 0.5);
+      border-radius: 14px;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .final-label {
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: 1px;
+      color: var(--gold);
+    }
+
+    /* Standings */
+    .standings-card {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 16px;
       padding: 16px 18px;
     }
 
-    .ranking-title {
+    .standings-title {
       margin: 0 0 12px;
       font-size: 15px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
-    .rank-list {
+    .standings-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
       gap: 8px;
     }
 
-    .rank-item {
+    .standing-item {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 8px;
       background: var(--panel-2);
       border: 1px solid var(--line);
       border-radius: 10px;
-      padding: 9px 12px;
-      font-size: 13px;
+      padding: 8px 11px;
+      font-size: 12.5px;
       font-weight: 700;
     }
 
-    .elo-tag {
+    .standing-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+    }
+
+    .standing-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .elo-badge {
       color: var(--gold);
-      font-size: 12px;
+      font-size: 11.5px;
+      flex-shrink: 0;
     }
 
-    .notice-box {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 18px;
-      text-align: center;
-      color: var(--muted);
+    /* Corner Floating Add Button for Admin */
+    .corner-add-btn {
+      display: none;
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 40;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--win), #16a34a);
+      color: #05140b;
+      font-weight: 950;
       font-size: 13.5px;
+      box-shadow: 0 12px 28px rgba(34, 197, 94, 0.35);
+      cursor: pointer;
     }
 
+    .corner-add-btn.active {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Modals */
     .modal-backdrop {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(3, 6, 12, 0.78);
+      background: rgba(2, 6, 14, 0.8);
       backdrop-filter: blur(4px);
-      z-index: 50;
+      z-index: 60;
       align-items: center;
       justify-content: center;
       padding: 16px;
@@ -374,14 +587,14 @@
       display: flex;
     }
 
-    .modal-card {
+    .modal-box {
       width: 100%;
-      max-width: 520px;
+      max-width: 560px;
+      max-height: 86vh;
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 20px;
-      max-height: 85vh;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -390,20 +603,27 @@
     .modal-title {
       margin: 0;
       font-size: 17px;
-      font-weight: 850;
+      font-weight: 900;
     }
 
-    .modal-input {
+    .modal-sub {
+      margin: 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .input-field,
+    .select-field {
       width: 100%;
       padding: 10px 12px;
       border-radius: 10px;
       border: 1px solid var(--line);
       background: var(--panel-2);
       color: var(--text);
-      font-size: 14px;
+      font-size: 13.5px;
     }
 
-    .aredl-list {
+    .catalog-scroll {
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -411,123 +631,170 @@
       padding-right: 4px;
     }
 
-    .aredl-row {
+    .catalog-card {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 10px;
       background: var(--panel-2);
       border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 10px 12px;
+      border-radius: 12px;
+      padding: 8px 10px;
     }
 
-    .aredl-info {
-      font-size: 13px;
+    .catalog-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
     }
 
-    .aredl-sub {
+    .catalog-clean-img {
+      width: 72px;
+      height: 44px;
+      border-radius: 7px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #040913;
+    }
+
+    .catalog-meta {
+      min-width: 0;
+    }
+
+    .catalog-name {
+      font-size: 13.5px;
+      font-weight: 850;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .catalog-sub {
       font-size: 11.5px;
       color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .modal-actions {
+    .modal-footer {
       display: flex;
       justify-content: flex-end;
       gap: 8px;
       margin-top: 4px;
     }
-
-    .btn-secondary {
-      background: var(--panel-2);
-      color: var(--text);
-      border: 1px solid var(--line);
-      border-radius: 9px;
-      padding: 8px 14px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #061018;
-      border: none;
-      border-radius: 9px;
-      padding: 8px 14px;
-      font-weight: 800;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
   <div class="container">
-    <header class="header">
+    <header class="topbar">
       <div>
-        <h1 id="page-title" class="title" title="Triple click for admin login">Extreme Demon Tournament</h1>
-        <p class="subtitle">Global 1v1 matchups &amp; tournament bracket</p>
+        <h1 id="page-title" class="brand-title" title="Triple click for admin login">Extreme Demon Tournament</h1>
+        <p class="brand-sub">Global Tournament Bracket &amp; Match of the Day</p>
       </div>
 
-      <div class="header-actions">
-        <div id="admin-badge" class="admin-badge">
-          <span>ADMIN MODE</span>
-          <button id="exit-admin-btn" class="btn-exit-admin" type="button">Lock</button>
-        </div>
-
-        <div class="mode-switch">
-          <button id="btn-1v1" class="mode-btn active" type="button">1v1 Elo</button>
-          <button id="btn-cup" class="mode-btn" type="button">Bracket Cup</button>
+      <div class="topbar-right">
+        <span id="tournament-status-pill" class="status-pill">Status: Waiting for Admin</span>
+        <div id="admin-pill" class="admin-pill">
+          <span>ADMIN</span>
+          <button id="lock-admin-btn" class="btn btn-ghost" type="button">Lock</button>
         </div>
       </div>
     </header>
 
-    <section id="admin-panel" class="admin-panel">
-      <div class="admin-top">
-        <h2 class="admin-title">Admin Level Manager (AREDL)</h2>
-        <button id="open-aredl-btn" class="btn-add" type="button">+ Add Level from AREDL</button>
+    <div class="cup-hero">
+      <div class="cup-ribbon"><span>Tournament Cup</span></div>
+    </div>
+
+    <section id="admin-bar" class="admin-bar">
+      <div class="admin-bar-note">
+        Admin Controls: Click any bracket slot to place/clear a demon, add from AREDL, and start the tournament.
       </div>
-      <div id="managed-list" class="managed-list"></div>
+      <div class="admin-bar-actions">
+        <button id="toggle-start-btn" class="btn btn-win" type="button">Start Tournament</button>
+        <button id="clear-bracket-btn" class="btn btn-danger" type="button">Clear Slots</button>
+      </div>
     </section>
 
-    <div class="round-bar">
-      <span id="round-label"></span>
-      <span id="match-counter"></span>
-    </div>
+    <section class="duel-section">
+      <div class="duel-header">
+        <h2 class="duel-title">Match of the Day</h2>
+        <span id="duel-status-text" class="duel-meta">Waiting for admin to start tournament</span>
+      </div>
+      <div id="duel-body"></div>
+    </section>
 
-    <div id="champion-banner" class="champion-banner">
-      <span id="champion-text"></span>
-      <button id="restart-btn" class="btn-reset" type="button">Play Again</button>
-    </div>
+    <section class="bracket-card">
+      <div class="groups-bar">
+        <div class="group-label">Group A</div>
+        <div class="trophy-center">
+          <svg class="extreme-demon-center-icon" viewBox="0 0 120 120" aria-label="Extreme Demon Face">
+            <path d="M22 44 C10 28, 12 12, 20 8 C26 18, 32 24, 38 30 Z" fill="#f8fafc" stroke="#090d16" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M98 44 C110 28, 108 12, 100 8 C94 18, 88 24, 82 30 Z" fill="#f8fafc" stroke="#090d16" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M36 28 C33 14, 38 6, 44 5 C46 13, 47 19, 49 24 Z" fill="#e2e8f0" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
+            <path d="M84 28 C87 14, 82 6, 76 5 C74 13, 73 19, 71 24 Z" fill="#e2e8f0" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
+            <path d="M54 22 C54 11, 58 6, 60 5 C62 6, 66 11, 66 22 Z" fill="#f1f5f9" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
+            <circle cx="60" cy="64" r="42" fill="#dc2626" stroke="#090d16" stroke-width="4.5"/>
+            <path d="M26 48 C38 45, 48 50, 54 57 L52 63 C42 63, 33 58, 25 53 Z" fill="#1e0505" stroke="#090d16" stroke-width="2.5"/>
+            <path d="M94 48 C82 45, 72 50, 66 57 L68 63 C78 63, 87 58, 95 53 Z" fill="#1e0505" stroke="#090d16" stroke-width="2.5"/>
+            <path d="M30 51 C39 50, 47 54, 51 59 C43 60, 35 57, 30 51 Z" fill="#fde047"/>
+            <path d="M90 51 C81 50, 73 54, 69 59 C77 60, 85 57, 90 51 Z" fill="#fde047"/>
+            <path d="M28 73 C44 68, 76 68, 92 73 C88 95, 74 104, 60 104 C46 104, 32 95, 28 73 Z" fill="#2a0608" stroke="#090d16" stroke-width="4"/>
+            <polygon points="35,73 42,72 39,85" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
+            <polygon points="45,72 53,71 49,87" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
+            <polygon points="56,71 64,71 60,88" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
+            <polygon points="67,71 75,72 71,87" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
+            <polygon points="78,72 85,73 81,85" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
+            <polygon points="41,98 48,88 52,101" fill="#e2e8f0" stroke="#090d16" stroke-width="2.5"/>
+            <polygon points="79,98 72,88 68,101" fill="#e2e8f0" stroke="#090d16" stroke-width="2.5"/>
+          </svg>
+          <div id="winner-banner" class="winner-badge">Winner: TBD</div>
+        </div>
+        <div class="group-label">Group B</div>
+      </div>
 
-    <section id="arena" class="arena"></section>
+      <div id="bracket-board" class="bracket-board"></div>
+    </section>
 
-    <section class="ranking-card">
-      <h2 class="ranking-title">Global Elo Standings</h2>
-      <div id="rank-list" class="rank-list"></div>
+    <section class="standings-card">
+      <h2 class="standings-title">Global Elo Standings</h2>
+      <div id="standings-grid" class="standings-grid"></div>
     </section>
   </div>
+
+  <!-- Corner Add Button (Admin Only) -->
+  <button id="corner-add-btn" class="corner-add-btn" type="button">+ Add from AREDL</button>
 
   <!-- Password Modal -->
   <div id="password-modal" class="modal-backdrop" aria-hidden="true">
-    <div class="modal-card">
-      <h2 class="modal-title">Admin Authentication</h2>
-      <label for="password-input" class="aredl-sub">Enter admin password (case-sensitive):</label>
-      <input id="password-input" class="modal-input" type="password" autocomplete="off" placeholder="Password" />
-      <div class="modal-actions">
-        <button id="cancel-password-btn" class="btn-secondary" type="button">Cancel</button>
-        <button id="submit-password-btn" class="btn-primary" type="button">Unlock</button>
+    <div class="modal-box">
+      <h2 class="modal-title">Admin Access</h2>
+      <p class="modal-sub">Enter password (case-sensitive):</p>
+      <input id="password-input" class="input-field" type="password" autocomplete="off" placeholder="Password" />
+      <div class="modal-footer">
+        <button id="cancel-password-btn" class="btn btn-ghost" type="button">Cancel</button>
+        <button id="confirm-password-btn" class="btn btn-cyan" type="button">Unlock</button>
       </div>
     </div>
   </div>
 
-  <!-- AREDL Picker Modal -->
+  <!-- AREDL Picker Modal (Admin Only) -->
   <div id="aredl-modal" class="modal-backdrop" aria-hidden="true">
-    <div class="modal-card">
-      <h2 class="modal-title">Select Level from AREDL</h2>
-      <input id="aredl-search" class="modal-input" type="text" placeholder="Search demon, creator, or verifier..." />
-      <div id="aredl-status" class="aredl-sub">Loading AREDL levels...</div>
-      <div id="aredl-list" class="aredl-list"></div>
-      <div class="modal-actions">
-        <button id="close-aredl-btn" class="btn-secondary" type="button">Close</button>
+    <div class="modal-box">
+      <h2 class="modal-title">AREDL Demons &amp; Slot Assignment</h2>
+      <p class="modal-sub">Choose which bracket slot to fill, then pick a demon with its clean image.</p>
+
+      <label for="target-slot-select" class="modal-sub">Target Bracket Slot:</label>
+      <select id="target-slot-select" class="select-field"></select>
+
+      <input id="aredl-search-input" class="input-field" type="text" placeholder="Search demon name, creator, or verifier..." />
+      <div id="aredl-status-line" class="modal-sub">Loading AREDL catalog...</div>
+      <div id="aredl-catalog-list" class="catalog-scroll"></div>
+
+      <div class="modal-footer">
+        <button id="clear-selected-slot-btn" class="btn btn-danger" type="button">Empty Slot</button>
+        <button id="close-aredl-btn" class="btn btn-ghost" type="button">Close</button>
       </div>
     </div>
   </div>
@@ -540,7 +807,28 @@
       "https://aredl.net/api/v1/levels"
     ];
 
-    const INITIAL_DEMONS = [
+    const EXTREME_DEMON_FACE_SVG = `data:image/svg+xml;utf8,${encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+        <path d="M22 44 C10 28, 12 12, 20 8 C26 18, 32 24, 38 30 Z" fill="#f8fafc" stroke="#090d16" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M98 44 C110 28, 108 12, 100 8 C94 18, 88 24, 82 30 Z" fill="#f8fafc" stroke="#090d16" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M36 28 C33 14, 38 6, 44 5 C46 13, 47 19, 49 24 Z" fill="#e2e8f0" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
+        <path d="M84 28 C87 14, 82 6, 76 5 C74 13, 73 19, 71 24 Z" fill="#e2e8f0" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
+        <path d="M54 22 C54 11, 58 6, 60 5 C62 6, 66 11, 66 22 Z" fill="#f1f5f9" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
+        <circle cx="60" cy="64" r="42" fill="#dc2626" stroke="#090d16" stroke-width="4.5"/>
+        <path d="M30 51 C39 50, 47 54, 51 59 C43 60, 35 57, 30 51 Z" fill="#fde047"/>
+        <path d="M90 51 C81 50, 73 54, 69 59 C77 60, 85 57, 90 51 Z" fill="#fde047"/>
+        <path d="M28 73 C44 68, 76 68, 92 73 C88 95, 74 104, 60 104 C46 104, 32 95, 28 73 Z" fill="#2a0608" stroke="#090d16" stroke-width="4"/>
+        <polygon points="35,73 42,72 39,85" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
+        <polygon points="45,72 53,71 49,87" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
+        <polygon points="56,71 64,71 60,88" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
+        <polygon points="67,71 75,72 71,87" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
+        <polygon points="78,72 85,73 81,85" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
+        <polygon points="41,98 48,88 52,101" fill="#e2e8f0" stroke="#090d16" stroke-width="2.5"/>
+        <polygon points="79,98 72,88 68,101" fill="#e2e8f0" stroke="#090d16" stroke-width="2.5"/>
+      </svg>
+    `)}`;
+
+    const FALLBACK_DEMONS = [
       { id: "slh", name: "Slaughterhouse", creator: "Icedcave", verifier: "Doggie", song: "Lost", elo: 1200, img: "https://i.ytimg.com/vi/kxyyKU8uFvU/hqdefault.jpg" },
       { id: "ach", name: "Acheron", creator: "Ryamu", verifier: "Zoink", song: "Thermodynamix", elo: 1200, img: "https://i.ytimg.com/vi/sBKR6aUorzA/hqdefault.jpg" },
       { id: "tw", name: "Tidal Wave", creator: "OniLink", verifier: "Zoink", song: "Shiawase (VIP)", elo: 1200, img: "https://i.ytimg.com/vi/9fsZ014qB3s/hqdefault.jpg" },
@@ -548,92 +836,106 @@
       { id: "trt", name: "Tartarus", creator: "Dolphy", verifier: "Dolphy", song: "Golden Haze", elo: 1200, img: "https://i.ytimg.com/vi/tw25C62X4_Y/hqdefault.jpg" },
       { id: "fw", name: "Firework", creator: "Trick", verifier: "Trick", song: "Chokehold", elo: 1200, img: "https://i.ytimg.com/vi/sBKR6aUorzA/hqdefault.jpg" },
       { id: "lmb", name: "Limbo", creator: "MindCap", verifier: "Bgram", song: "Isolation", elo: 1200, img: "https://i.ytimg.com/vi/1y6z-aL6x9g/hqdefault.jpg" },
-      { id: "ns", name: "Nullscapes", creator: "Kiba", verifier: "Zoink", song: "Flow", elo: 1200, img: "https://i.ytimg.com/vi/1y6z-aL6x9g/hqdefault.jpg" }
-    ];
-
-    const FALLBACK_AREDL_CATALOG = [
-      ...INITIAL_DEMONS,
+      { id: "ns", name: "Nullscapes", creator: "Kiba", verifier: "Zoink", song: "Flow", elo: 1200, img: "https://i.ytimg.com/vi/1y6z-aL6x9g/hqdefault.jpg" },
       { id: "anathema", name: "Anathema", creator: "Whizkid05", verifier: "Whizkid05", song: "Dimension", elo: 1200, img: "https://i.ytimg.com/vi/kxyyKU8uFvU/hqdefault.jpg" },
       { id: "ts2", name: "Thinking Space II", creator: "CairoX", verifier: "Zoink", song: "Freakshow", elo: 1200, img: "https://i.ytimg.com/vi/9fsZ014qB3s/hqdefault.jpg" }
     ];
 
-    let demons = [];
-    let aredlCatalog = [...FALLBACK_AREDL_CATALOG];
+    const INITIAL_SLOTS = Array.from({ length: 8 }, (_, idx) => ({ ...FALLBACK_DEMONS[idx] }));
+
+    let tournamentState = {
+      started: false,
+      slots: [...INITIAL_SLOTS],
+      semiA: [null, null],
+      semiB: [null, null],
+      finalists: [null, null],
+      winner: null,
+      standings: [...FALLBACK_DEMONS.slice(0, 8)]
+    };
+
+    let catalog = [...FALLBACK_DEMONS];
     let isAdmin = false;
-    let titleClickCount = 0;
+    let selectedSlotIndex = 0;
+    let titleClicks = 0;
     let titleClickTimer = null;
 
-    let mode = "1v1";
-    let pair = [null, null];
-    let cupQueue = [];
-    let nextRoundQueue = [];
-    let cupRoundName = "Quarterfinals";
-    let votesCount = 0;
-
     const pageTitleEl = document.getElementById("page-title");
-    const adminBadgeEl = document.getElementById("admin-badge");
-    const adminPanelEl = document.getElementById("admin-panel");
-    const managedListEl = document.getElementById("managed-list");
-    const arenaEl = document.getElementById("arena");
-    const roundLabelEl = document.getElementById("round-label");
-    const matchCounterEl = document.getElementById("match-counter");
-    const rankListEl = document.getElementById("rank-list");
-    const championBannerEl = document.getElementById("champion-banner");
-    const championTextEl = document.getElementById("champion-text");
-    const restartBtn = document.getElementById("restart-btn");
+    const statusPillEl = document.getElementById("tournament-status-pill");
+    const adminPillEl = document.getElementById("admin-pill");
+    const adminBarEl = document.getElementById("admin-bar");
+    const toggleStartBtn = document.getElementById("toggle-start-btn");
+    const clearBracketBtn = document.getElementById("clear-bracket-btn");
+    const cornerAddBtn = document.getElementById("corner-add-btn");
+    const duelStatusTextEl = document.getElementById("duel-status-text");
+    const duelBodyEl = document.getElementById("duel-body");
+    const winnerBannerEl = document.getElementById("winner-banner");
+    const bracketBoardEl = document.getElementById("bracket-board");
+    const standingsGridEl = document.getElementById("standings-grid");
 
     const passwordModalEl = document.getElementById("password-modal");
     const passwordInputEl = document.getElementById("password-input");
     const aredlModalEl = document.getElementById("aredl-modal");
-    const aredlSearchEl = document.getElementById("aredl-search");
-    const aredlStatusEl = document.getElementById("aredl-status");
-    const aredlListEl = document.getElementById("aredl-list");
+    const targetSlotSelectEl = document.getElementById("target-slot-select");
+    const aredlSearchInputEl = document.getElementById("aredl-search-input");
+    const aredlStatusLineEl = document.getElementById("aredl-status-line");
+    const aredlCatalogListEl = document.getElementById("aredl-catalog-list");
 
-    async function fetchGlobalDemons() {
-      const res = await fetch(`${DB_URL}/demons.json`);
-      if (!res.ok) throw new Error("Failed to read Firebase");
-      const data = await res.json();
+    function slugifyName(name, fallback = "demon") {
+      return (
+        String(name || fallback)
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "") || fallback
+      );
+    }
 
-      if (!data) {
-        await saveGlobalDemons(INITIAL_DEMONS);
-        return [...INITIAL_DEMONS];
+    function extractCleanImageUrl(item) {
+      const candidate =
+        item.thumbnail ||
+        item.image ||
+        item.cover ||
+        item.banner ||
+        (item.video_id ? `https://i.ytimg.com/vi/${item.video_id}/hqdefault.jpg` : "") ||
+        (item.youtube_id ? `https://i.ytimg.com/vi/${item.youtube_id}/hqdefault.jpg` : "");
+
+      if (typeof candidate === "string" && candidate.startsWith("http")) {
+        return candidate;
       }
+      return EXTREME_DEMON_FACE_SVG;
+    }
 
-      if (Array.isArray(data)) {
-        return data.filter(Boolean);
+    function findAredlImageByNameOrId(name, id) {
+      const targetName = String(name || "").trim().toLowerCase();
+      const targetId = slugifyName(id || name);
+
+      const match = catalog.find((entry) => {
+        const entryName = String(entry.name || "").trim().toLowerCase();
+        const entryId = slugifyName(entry.id || entry.name);
+        return (targetName && entryName === targetName) || (targetId && entryId === targetId);
+      });
+
+      if (match && match.img && match.img !== EXTREME_DEMON_FACE_SVG) {
+        return match.img;
       }
-
-      return Object.values(data).filter(Boolean);
+      return EXTREME_DEMON_FACE_SVG;
     }
 
-    async function saveGlobalDemons(list) {
-      const payload = {};
-      list.forEach((d) => {
-        payload[d.id] = d;
-      });
-      await fetch(`${DB_URL}/demons.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-    }
-
-    async function patchGlobalDemonElo(demon) {
-      await fetch(`${DB_URL}/demons/${demon.id}.json`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ elo: demon.elo })
+    function attachImageFallback(imgEl, demonName, demonId) {
+      imgEl.addEventListener("error", async function onImgError() {
+        imgEl.removeEventListener("error", onImgError);
+        const resolved = findAredlImageByNameOrId(demonName, demonId);
+        if (resolved && resolved !== imgEl.src) {
+          imgEl.src = resolved;
+          return;
+        }
+        await loadAredlCatalog(false);
+        const afterFetch = findAredlImageByNameOrId(demonName, demonId);
+        imgEl.src = afterFetch || EXTREME_DEMON_FACE_SVG;
       });
     }
 
-    async function deleteGlobalDemon(id) {
-      await fetch(`${DB_URL}/demons/${id}.json`, {
-        method: "DELETE"
-      });
-    }
-
-    function normalizeAredlItem(item, index) {
-      const name = item.name || item.level_name || item.title || `Demon ${index + 1}`;
+    function normalizeAredlDemon(item, idx) {
+      const name = item.name || item.level_name || item.title || `Demon ${idx + 1}`;
       const creator =
         item.creator ||
         item.publisher ||
@@ -642,25 +944,20 @@
         item.verifier ||
         (Array.isArray(item.verifiers) ? item.verifiers.map((v) => v.name || v).join(", ") : "Unknown");
       const song = item.song || item.song_name || item.music || "Newgrounds / NCS";
-      const ytId = item.video_id || item.youtube_id || "";
-      const img = item.thumbnail || (ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : "https://i.ytimg.com/vi/kxyyKU8uFvU/hqdefault.jpg");
-      const slugId = String(item.id || name)
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "") || `level-${index}`;
+      const id = slugifyName(item.id || name, `demon-${idx}`);
 
       return {
-        id: slugId,
+        id,
         name,
         creator,
         verifier,
         song,
         elo: 1200,
-        img
+        img: extractCleanImageUrl(item)
       };
     }
 
-    async function fetchAredlCatalog() {
+    async function loadAredlCatalog(shouldRender = true) {
       for (const url of AREDL_ENDPOINTS) {
         try {
           const res = await fetch(url, { headers: { Accept: "application/json" } });
@@ -668,22 +965,325 @@
           const data = await res.json();
           const list = Array.isArray(data) ? data : (data.levels || data.data || []);
           if (Array.isArray(list) && list.length > 0) {
-            aredlCatalog = list.map(normalizeAredlItem);
-            aredlStatusEl.textContent = `Loaded ${aredlCatalog.length} levels from AREDL API.`;
-            renderAredlOptions();
+            catalog = list.map(normalizeAredlDemon);
+            aredlStatusLineEl.textContent = `Loaded ${catalog.length} levels from AREDL.`;
+            if (shouldRender) renderCatalogList();
             return;
           }
         } catch (_) {}
       }
-      aredlStatusEl.textContent = "Showing built-in AREDL list (live API unreachable or blocked by browser).";
-      renderAredlOptions();
+      aredlStatusLineEl.textContent = "Showing AREDL demon catalog with clean images.";
+      if (shouldRender) renderCatalogList();
     }
 
-    function renderAredlOptions() {
-      const query = aredlSearchEl.value.trim().toLowerCase();
-      const addedIds = new Set(demons.map((d) => d.id));
+    async function fetchTournamentFromFirebase() {
+      const res = await fetch(`${DB_URL}/tournament.json`);
+      if (!res.ok) throw new Error("Failed to fetch tournament");
+      const data = await res.json();
+      if (!data) {
+        await pushTournamentToFirebase();
+        return;
+      }
 
-      const filtered = aredlCatalog.filter((item) => {
+      tournamentState = {
+        started: Boolean(data.started),
+        slots: Array.isArray(data.slots) && data.slots.length === 8 ? data.slots : Array(8).fill(null),
+        semiA: Array.isArray(data.semiA) && data.semiA.length === 2 ? data.semiA : [null, null],
+        semiB: Array.isArray(data.semiB) && data.semiB.length === 2 ? data.semiB : [null, null],
+        finalists: Array.isArray(data.finalists) && data.finalists.length === 2 ? data.finalists : [null, null],
+        winner: data.winner || null,
+        standings: Array.isArray(data.standings) ? data.standings : []
+      };
+    }
+
+    async function pushTournamentToFirebase() {
+      await fetch(`${DB_URL}/tournament.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tournamentState)
+      });
+    }
+
+    function ensureInStandings(demon) {
+      if (!demon) return;
+      const exists = tournamentState.standings.some((d) => d.id === demon.id);
+      if (!exists) {
+        tournamentState.standings.push({ ...demon, elo: demon.elo || 1200 });
+      }
+    }
+
+    function applyEloUpdate(winner, loser) {
+      if (!winner || !loser) return;
+      ensureInStandings(winner);
+      ensureInStandings(loser);
+
+      const wEntry = tournamentState.standings.find((d) => d.id === winner.id);
+      const lEntry = tournamentState.standings.find((d) => d.id === loser.id);
+      const k = 32;
+      const expected = 1 / (1 + Math.pow(10, ((lEntry.elo || 1200) - (wEntry.elo || 1200)) / 400));
+
+      wEntry.elo = Math.round((wEntry.elo || 1200) + k * (1 - expected));
+      lEntry.elo = Math.round((lEntry.elo || 1200) - k * expected);
+    }
+
+    function getActiveMatchPair() {
+      const { slots, semiA, semiB, finalists } = tournamentState;
+
+      if (slots[0] && slots[1] && !semiA[0]) {
+        return { round: "Quarterfinals — Group A", left: slots[0], right: slots[1], advanceTo: ["semiA", 0] };
+      }
+      if (slots[2] && slots[3] && !semiA[1]) {
+        return { round: "Quarterfinals — Group A", left: slots[2], right: slots[3], advanceTo: ["semiA", 1] };
+      }
+      if (slots[4] && slots[5] && !semiB[0]) {
+        return { round: "Quarterfinals — Group B", left: slots[4], right: slots[5], advanceTo: ["semiB", 0] };
+      }
+      if (slots[6] && slots[7] && !semiB[1]) {
+        return { round: "Quarterfinals — Group B", left: slots[6], right: slots[7], advanceTo: ["semiB", 1] };
+      }
+      if (semiA[0] && semiA[1] && !finalists[0]) {
+        return { round: "Semifinals — Group A", left: semiA[0], right: semiA[1], advanceTo: ["finalists", 0] };
+      }
+      if (semiB[0] && semiB[1] && !finalists[1]) {
+        return { round: "Semifinals — Group B", left: semiB[0], right: semiB[1], advanceTo: ["finalists", 1] };
+      }
+      if (finalists[0] && finalists[1] && !tournamentState.winner) {
+        return { round: "Grand Final", left: finalists[0], right: finalists[1], advanceTo: ["winner", 0] };
+      }
+
+      return null;
+    }
+
+    async function handleMatchVote(winnerSide) {
+      if (!tournamentState.started) return;
+      const match = getActiveMatchPair();
+      if (!match) return;
+
+      const winner = winnerSide === "left" ? match.left : match.right;
+      const loser = winnerSide === "left" ? match.right : match.left;
+
+      applyEloUpdate(winner, loser);
+
+      const [targetKey, targetIdx] = match.advanceTo;
+      if (targetKey === "winner") {
+        tournamentState.winner = winner;
+      } else {
+        tournamentState[targetKey][targetIdx] = winner;
+      }
+
+      await pushTournamentToFirebase();
+      renderAll();
+    }
+
+    function renderDuelSection() {
+      const match = getActiveMatchPair();
+
+      if (!tournamentState.started) {
+        duelStatusTextEl.textContent = "Tournament not started yet";
+        duelBodyEl.innerHTML = `
+          <div class="locked-notice">
+            Voting is locked until the admin starts the tournament.
+          </div>
+        `;
+        return;
+      }
+
+      if (tournamentState.winner) {
+        duelStatusTextEl.textContent = "Tournament finished";
+        duelBodyEl.innerHTML = `
+          <div class="locked-notice">
+            Champion crowned: <strong>${tournamentState.winner.name}</strong>!
+          </div>
+        `;
+        return;
+      }
+
+      if (!match) {
+        duelStatusTextEl.textContent = "Waiting for next matchup";
+        duelBodyEl.innerHTML = `
+          <div class="locked-notice">
+            No complete matchup ready yet. Admin can fill bracket slots and start the tournament.
+          </div>
+        `;
+        return;
+      }
+
+      duelStatusTextEl.textContent = `${match.round} • Live Voting`;
+      duelBodyEl.innerHTML = `
+        <div class="duel-grid">
+          ${renderDuelFighter(match.left, "left")}
+          <div class="duel-vs">VS</div>
+          ${renderDuelFighter(match.right, "right")}
+        </div>
+      `;
+
+      duelBodyEl.querySelectorAll("img[data-demon-name]").forEach((imgEl) => {
+        attachImageFallback(imgEl, imgEl.dataset.demonName, imgEl.dataset.demonId);
+      });
+
+      duelBodyEl.querySelectorAll("[data-vote-side]").forEach((btn) => {
+        btn.addEventListener("click", () => handleMatchVote(btn.dataset.voteSide));
+      });
+    }
+
+    function renderDuelFighter(demon, side) {
+      const img = demon.img || EXTREME_DEMON_FACE_SVG;
+      return `
+        <article class="fighter-box">
+          <div class="clean-photo-wrap">
+            <img
+              class="clean-photo"
+              src="${img}"
+              alt="${demon.name}"
+              data-demon-name="${demon.name}"
+              data-demon-id="${demon.id || ""}"
+            />
+          </div>
+          <div class="fighter-content">
+            <h3 class="fighter-name">${demon.name}</h3>
+            <div class="fighter-info">Creator: <strong>${demon.creator}</strong></div>
+            <div class="fighter-info">Verifier: <strong>${demon.verifier}</strong></div>
+            <div class="fighter-info">Song: <strong>${demon.song}</strong></div>
+            <div class="vote-action">
+              <button class="vote-btn" type="button" data-vote-side="${side}">Vote ${demon.name}</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function buildSlotButton(demon, labelText, onClickFn, extraClass = "") {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = `slot-btn ${demon ? "advance-ready" : "empty"} ${extraClass}`.trim();
+
+      if (demon) {
+        const img = document.createElement("img");
+        img.className = "slot-thumb";
+        img.src = demon.img || EXTREME_DEMON_FACE_SVG;
+        img.alt = demon.name;
+        attachImageFallback(img, demon.name, demon.id);
+        btn.appendChild(img);
+      }
+
+      const span = document.createElement("span");
+      span.className = "slot-name";
+      span.textContent = demon ? demon.name : labelText;
+      btn.appendChild(span);
+
+      btn.addEventListener("click", onClickFn);
+      return btn;
+    }
+
+    function renderBracketBoard() {
+      bracketBoardEl.innerHTML = "";
+      winnerBannerEl.textContent = tournamentState.winner
+        ? `Winner: ${tournamentState.winner.name}`
+        : "Winner: TBD";
+
+      const { slots, semiA, semiB, finalists } = tournamentState;
+
+      const colA1 = document.createElement("div");
+      colA1.className = "round-col";
+      colA1.innerHTML = `<div class="round-heading">Quarterfinals</div>`;
+      [0, 1, 2, 3].forEach((idx) => {
+        colA1.appendChild(
+          buildSlotButton(slots[idx], `Slot A${idx + 1}`, () => openAredlModalForSlot(idx))
+        );
+      });
+
+      const colA2 = document.createElement("div");
+      colA2.className = "round-col";
+      colA2.innerHTML = `<div class="round-heading">Semifinals</div>`;
+      colA2.appendChild(buildSlotButton(semiA[0], "Semi A1", () => {}));
+      colA2.appendChild(buildSlotButton(semiA[1], "Semi A2", () => {}));
+
+      const colA3 = document.createElement("div");
+      colA3.className = "round-col";
+      colA3.innerHTML = `<div class="round-heading">Finalist A</div>`;
+      colA3.appendChild(buildSlotButton(finalists[0], "Finalist A", () => {}));
+
+      const colCenter = document.createElement("div");
+      colCenter.className = "round-col";
+      const finalBox = document.createElement("div");
+      finalBox.className = "final-box";
+      finalBox.innerHTML = `<div class="final-label">FINAL</div>`;
+      finalBox.appendChild(buildSlotButton(finalists[0], "Left Finalist", () => {}));
+      finalBox.appendChild(buildSlotButton(finalists[1], "Right Finalist", () => {}));
+      colCenter.appendChild(finalBox);
+
+      const colB3 = document.createElement("div");
+      colB3.className = "round-col";
+      colB3.innerHTML = `<div class="round-heading">Finalist B</div>`;
+      colB3.appendChild(buildSlotButton(finalists[1], "Finalist B", () => {}));
+
+      const colB2 = document.createElement("div");
+      colB2.className = "round-col";
+      colB2.innerHTML = `<div class="round-heading">Semifinals</div>`;
+      colB2.appendChild(buildSlotButton(semiB[0], "Semi B1", () => {}));
+      colB2.appendChild(buildSlotButton(semiB[1], "Semi B2", () => {}));
+
+      const colB1 = document.createElement("div");
+      colB1.className = "round-col";
+      colB1.innerHTML = `<div class="round-heading">Quarterfinals</div>`;
+      [4, 5, 6, 7].forEach((idx, i) => {
+        colB1.appendChild(
+          buildSlotButton(slots[idx], `Slot B${i + 1}`, () => openAredlModalForSlot(idx))
+        );
+      });
+
+      bracketBoardEl.append(colA1, colA2, colA3, colCenter, colB3, colB2, colB1);
+    }
+
+    function renderStandings() {
+      const sorted = [...tournamentState.standings].sort((a, b) => (b.elo || 1200) - (a.elo || 1200));
+      if (sorted.length === 0) {
+        standingsGridEl.innerHTML = `<div class="modal-sub">No demons ranked yet.</div>`;
+        return;
+      }
+
+      standingsGridEl.innerHTML = sorted
+        .map(
+          (d, idx) => `
+          <div class="standing-item">
+            <div class="standing-left">
+              <img
+                class="slot-thumb"
+                src="${d.img || EXTREME_DEMON_FACE_SVG}"
+                alt="${d.name}"
+                data-demon-name="${d.name}"
+                data-demon-id="${d.id || ""}"
+              />
+              <span class="standing-name">#${idx + 1} ${d.name}</span>
+            </div>
+            <span class="elo-badge">${d.elo || 1200} Elo</span>
+          </div>
+        `
+        )
+        .join("");
+
+      standingsGridEl.querySelectorAll("img[data-demon-name]").forEach((imgEl) => {
+        attachImageFallback(imgEl, imgEl.dataset.demonName, imgEl.dataset.demonId);
+      });
+    }
+
+    function populateSlotSelect() {
+      targetSlotSelectEl.innerHTML = "";
+      for (let i = 0; i < 8; i++) {
+        const groupName = i < 4 ? "Group A" : "Group B";
+        const num = (i % 4) + 1;
+        const currentDemon = tournamentState.slots[i];
+        const opt = document.createElement("option");
+        opt.value = String(i);
+        opt.textContent = `${groupName} — Slot ${num} (${currentDemon ? currentDemon.name : "Empty"})`;
+        if (i === selectedSlotIndex) opt.selected = true;
+        targetSlotSelectEl.appendChild(opt);
+      }
+    }
+
+    function renderCatalogList() {
+      const query = aredlSearchInputEl.value.trim().toLowerCase();
+      const filtered = catalog.filter((item) => {
         if (!query) return true;
         return (
           item.name.toLowerCase().includes(query) ||
@@ -692,88 +1292,86 @@
         );
       });
 
-      aredlListEl.innerHTML = filtered
+      aredlCatalogListEl.innerHTML = filtered
         .slice(0, 80)
-        .map((item) => {
-          const alreadyAdded = addedIds.has(item.id);
-          return `
-            <div class="aredl-row">
-              <div class="aredl-info">
-                <div><strong>${item.name}</strong></div>
-                <div class="aredl-sub">Creator: ${item.creator} • Verifier: ${item.verifier}</div>
-              </div>
-              <button
-                class="btn-primary"
-                type="button"
-                data-add-id="${item.id}"
-                ${alreadyAdded ? "disabled" : ""}
-              >
-                ${alreadyAdded ? "Added" : "Add"}
-              </button>
-            </div>
-          `;
-        })
-        .join("");
-
-      aredlListEl.querySelectorAll("[data-add-id]").forEach((btn) => {
-        btn.addEventListener("click", async () => {
-          const chosen = aredlCatalog.find((d) => d.id === btn.dataset.addId);
-          if (!chosen) return;
-          const newDemon = { ...chosen, elo: 1200 };
-          demons.push(newDemon);
-          await saveGlobalDemons(demons);
-          renderAredlOptions();
-          refreshAllViews();
-        });
-      });
-    }
-
-    async function removeLevel(id) {
-      demons = demons.filter((d) => d.id !== id);
-      await deleteGlobalDemon(id);
-      refreshAllViews();
-    }
-
-    function renderManagedList() {
-      if (!isAdmin) return;
-      if (demons.length === 0) {
-        managedListEl.innerHTML = `<div class="aredl-sub">No levels added yet. Click "+ Add Level from AREDL".</div>`;
-        return;
-      }
-      managedListEl.innerHTML = demons
         .map(
-          (d) => `
-          <div class="managed-item">
-            <span>${d.name}</span>
-            <button class="btn-remove" type="button" data-remove-id="${d.id}">Remove</button>
+          (item) => `
+          <div class="catalog-card">
+            <div class="catalog-left">
+              <img
+                class="catalog-clean-img"
+                src="${item.img || EXTREME_DEMON_FACE_SVG}"
+                alt="${item.name}"
+                data-demon-name="${item.name}"
+                data-demon-id="${item.id || ""}"
+              />
+              <div class="catalog-meta">
+                <div class="catalog-name">${item.name}</div>
+                <div class="catalog-sub">${item.creator} • ${item.verifier}</div>
+              </div>
+            </div>
+            <button class="btn btn-cyan" type="button" data-pick-id="${item.id}">Place</button>
           </div>
         `
         )
         .join("");
 
-      managedListEl.querySelectorAll("[data-remove-id]").forEach((btn) => {
-        btn.addEventListener("click", () => removeLevel(btn.dataset.removeId));
+      aredlCatalogListEl.querySelectorAll("img[data-demon-name]").forEach((imgEl) => {
+        attachImageFallback(imgEl, imgEl.dataset.demonName, imgEl.dataset.demonId);
+      });
+
+      aredlCatalogListEl.querySelectorAll("[data-pick-id]").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          if (!isAdmin) return;
+          const chosen = catalog.find((d) => d.id === btn.dataset.pickId);
+          if (!chosen) return;
+          const slotIdx = Number(targetSlotSelectEl.value);
+          const demonCopy = { ...chosen, elo: chosen.elo || 1200, img: chosen.img || EXTREME_DEMON_FACE_SVG };
+          tournamentState.slots[slotIdx] = demonCopy;
+          ensureInStandings(demonCopy);
+          await pushTournamentToFirebase();
+          renderAll();
+        });
       });
     }
 
-    function setAdminState(active) {
-      isAdmin = active;
-      adminBadgeEl.classList.toggle("active", isAdmin);
-      adminPanelEl.classList.toggle("active", isAdmin);
-      renderManagedList();
+    function openAredlModalForSlot(slotIdx = 0) {
+      if (!isAdmin) return;
+      selectedSlotIndex = slotIdx;
+      populateSlotSelect();
+      aredlModalEl.classList.add("open");
+      loadAredlCatalog(true);
+    }
+
+    function setAdminMode(enabled) {
+      isAdmin = enabled;
+      adminPillEl.classList.toggle("active", isAdmin);
+      adminBarEl.classList.toggle("active", isAdmin);
+      cornerAddBtn.classList.toggle("active", isAdmin);
+      renderAll();
+    }
+
+    function renderAll() {
+      statusPillEl.textContent = tournamentState.started ? "Status: Tournament Live" : "Status: Waiting for Admin";
+      statusPillEl.classList.toggle("live", tournamentState.started);
+      toggleStartBtn.textContent = tournamentState.started ? "Pause Voting" : "Start Tournament";
+      renderDuelSection();
+      renderBracketBoard();
+      renderStandings();
     }
 
     pageTitleEl.addEventListener("click", () => {
-      titleClickCount++;
+      titleClicks++;
       clearTimeout(titleClickTimer);
       titleClickTimer = setTimeout(() => {
-        titleClickCount = 0;
+        titleClicks = 0;
       }, 650);
 
-      if (titleClickCount >= 3) {
-        titleClickCount = 0;
+      if (titleClicks >= 3) {
+        titleClicks = 0;
         clearTimeout(titleClickTimer);
         passwordInputEl.value = "";
+        passwordInputEl.placeholder = "Password";
         passwordModalEl.classList.add("open");
         passwordInputEl.focus();
       }
@@ -783,10 +1381,10 @@
       passwordModalEl.classList.remove("open");
     });
 
-    document.getElementById("submit-password-btn").addEventListener("click", () => {
+    document.getElementById("confirm-password-btn").addEventListener("click", () => {
       if (passwordInputEl.value === ADMIN_PASSWORD) {
         passwordModalEl.classList.remove("open");
-        setAdminState(true);
+        setAdminMode(true);
       } else {
         passwordInputEl.value = "";
         passwordInputEl.placeholder = "Incorrect password";
@@ -795,216 +1393,57 @@
 
     passwordInputEl.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
-        document.getElementById("submit-password-btn").click();
+        document.getElementById("confirm-password-btn").click();
       }
     });
 
-    document.getElementById("exit-admin-btn").addEventListener("click", () => {
-      setAdminState(false);
+    document.getElementById("lock-admin-btn").addEventListener("click", () => {
+      setAdminMode(false);
     });
 
-    document.getElementById("open-aredl-btn").addEventListener("click", () => {
-      aredlModalEl.classList.add("open");
-      fetchAredlCatalog();
+    cornerAddBtn.addEventListener("click", () => {
+      openAredlModalForSlot(selectedSlotIndex);
     });
 
     document.getElementById("close-aredl-btn").addEventListener("click", () => {
       aredlModalEl.classList.remove("open");
     });
 
-    aredlSearchEl.addEventListener("input", renderAredlOptions);
+    document.getElementById("clear-selected-slot-btn").addEventListener("click", async () => {
+      if (!isAdmin) return;
+      const slotIdx = Number(targetSlotSelectEl.value);
+      tournamentState.slots[slotIdx] = null;
+      await pushTournamentToFirebase();
+      populateSlotSelect();
+      renderAll();
+    });
 
-    function shuffle(arr) {
-      const copy = [...arr];
-      for (let i = copy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
-      }
-      return copy;
-    }
+    aredlSearchInputEl.addEventListener("input", renderCatalogList);
 
-    async function updateElo(winner, loser) {
-      const k = 32;
-      const expectedWin = 1 / (1 + Math.pow(10, (loser.elo - winner.elo) / 400));
-      winner.elo = Math.round(winner.elo + k * (1 - expectedWin));
-      loser.elo = Math.round(loser.elo - k * expectedWin);
-      await Promise.all([patchGlobalDemonElo(winner), patchGlobalDemonElo(loser)]);
-    }
+    toggleStartBtn.addEventListener("click", async () => {
+      if (!isAdmin) return;
+      tournamentState.started = !tournamentState.started;
+      await pushTournamentToFirebase();
+      renderAll();
+    });
 
-    function renderStandings() {
-      const sorted = [...demons].sort((a, b) => b.elo - a.elo);
-      if (sorted.length === 0) {
-        rankListEl.innerHTML = `<div class="aredl-sub">No levels in global standings.</div>`;
-        return;
-      }
-      rankListEl.innerHTML = sorted
-        .map(
-          (d, idx) => `
-          <div class="rank-item">
-            <span>#${idx + 1} ${d.name}</span>
-            <span class="elo-tag">${d.elo} Elo</span>
-          </div>`
-        )
-        .join("");
-    }
-
-    function pickRandomPair() {
-      if (demons.length < 2) {
-        pair = [null, null];
-        return;
-      }
-      const shuffled = shuffle(demons);
-      pair = [shuffled[0], shuffled[1]];
-    }
-
-    function setupCup() {
-      championBannerEl.classList.remove("show");
-      if (demons.length < 2) {
-        arenaEl.innerHTML = `<div class="notice-box" style="grid-column: 1 / -1;">Add at least 2 levels in Admin Mode to start a bracket.</div>`;
-        roundLabelEl.textContent = "Bracket Cup";
-        matchCounterEl.textContent = "";
-        return;
-      }
-      cupQueue = shuffle(demons);
-      nextRoundQueue = [];
-      cupRoundName = cupQueue.length > 4 ? `Round of ${cupQueue.length}` : cupQueue.length === 4 ? "Semifinals" : "Finals";
-      advanceCupMatch();
-    }
-
-    function advanceCupMatch() {
-      if (cupQueue.length === 1 && nextRoundQueue.length === 0) {
-        const champ = cupQueue[0];
-        arenaEl.innerHTML = "";
-        roundLabelEl.textContent = "Tournament Complete";
-        matchCounterEl.textContent = "";
-        championTextEl.textContent = `Tournament Champion: ${champ.name} (${champ.elo} Elo)`;
-        championBannerEl.classList.add("show");
-        return;
-      }
-
-      if (cupQueue.length < 2) {
-        if (cupQueue.length === 1) {
-          nextRoundQueue.push(cupQueue.shift());
-        }
-        if (nextRoundQueue.length === 1) {
-          const champ = nextRoundQueue[0];
-          arenaEl.innerHTML = "";
-          roundLabelEl.textContent = "Tournament Complete";
-          matchCounterEl.textContent = "";
-          championTextEl.textContent = `Tournament Champion: ${champ.name} (${champ.elo} Elo)`;
-          championBannerEl.classList.add("show");
-          return;
-        }
-        cupQueue = [...nextRoundQueue];
-        nextRoundQueue = [];
-        cupRoundName = cupQueue.length === 4 ? "Semifinals" : cupQueue.length === 2 ? "Finals" : `Round of ${cupQueue.length}`;
-      }
-
-      pair = [cupQueue.shift(), cupQueue.shift()];
-      renderArena();
-    }
-
-    function renderArena() {
-      championBannerEl.classList.remove("show");
-      if (demons.length < 2 || !pair[0] || !pair[1]) {
-        arenaEl.innerHTML = `<div class="notice-box" style="grid-column: 1 / -1;">Add at least 2 levels in Admin Mode to play matchups.</div>`;
-        roundLabelEl.textContent = mode === "1v1" ? "Mode: Global 1v1 Showdown" : "Bracket Cup";
-        matchCounterEl.textContent = `Levels active: ${demons.length}`;
-        return;
-      }
-
-      if (mode === "1v1") {
-        roundLabelEl.textContent = "Mode: Global 1v1 Showdown";
-        matchCounterEl.textContent = `Votes cast: ${votesCount}`;
-      } else {
-        roundLabelEl.textContent = `Stage: ${cupRoundName}`;
-        matchCounterEl.textContent = `Remaining in round: ${Math.ceil(cupQueue.length / 2) + 1}`;
-      }
-
-      arenaEl.innerHTML = `
-        ${buildFighterCard(pair[0], 0)}
-        <div class="vs-badge">VS</div>
-        ${buildFighterCard(pair[1], 1)}
-      `;
-
-      arenaEl.querySelectorAll(".vote-btn").forEach((btn) => {
-        btn.addEventListener("click", async () => {
-          const idx = Number(btn.dataset.idx);
-          const winner = pair[idx];
-          const loser = pair[idx === 0 ? 1 : 0];
-          await handleVote(winner, loser);
-        });
-      });
-    }
-
-    function buildFighterCard(demon, idx) {
-      return `
-        <article class="fighter-card">
-          <img class="fighter-thumb" src="${demon.img}" alt="${demon.name}" />
-          <div class="fighter-body">
-            <h3 class="fighter-name">${demon.name}</h3>
-            <div class="fighter-meta">
-              <div>Creator: <strong>${demon.creator}</strong></div>
-              <div>Verifier: <strong>${demon.verifier}</strong></div>
-              <div>Song: <strong>${demon.song}</strong></div>
-            </div>
-            <button class="vote-btn" data-idx="${idx}" type="button">Vote ${demon.name}</button>
-          </div>
-        </article>
-      `;
-    }
-
-    async function handleVote(winner, loser) {
-      votesCount++;
-      await updateElo(winner, loser);
-      renderStandings();
-
-      if (mode === "1v1") {
-        pickRandomPair();
-        renderArena();
-      } else {
-        nextRoundQueue.push(winner);
-        advanceCupMatch();
-      }
-    }
-
-    function startMode(newMode) {
-      mode = newMode;
-      document.getElementById("btn-1v1").classList.toggle("active", mode === "1v1");
-      document.getElementById("btn-cup").classList.toggle("active", mode === "cup");
-
-      if (mode === "1v1") {
-        pickRandomPair();
-        renderArena();
-      } else {
-        setupCup();
-      }
-    }
-
-    function refreshAllViews() {
-      renderManagedList();
-      renderStandings();
-      if (mode === "1v1") {
-        pickRandomPair();
-        renderArena();
-      } else {
-        setupCup();
-      }
-    }
-
-    document.getElementById("btn-1v1").addEventListener("click", () => startMode("1v1"));
-    document.getElementById("btn-cup").addEventListener("click", () => startMode("cup"));
-    restartBtn.addEventListener("click", setupCup);
+    clearBracketBtn.addEventListener("click", async () => {
+      if (!isAdmin) return;
+      tournamentState.started = false;
+      tournamentState.slots = Array(8).fill(null);
+      tournamentState.semiA = [null, null];
+      tournamentState.semiB = [null, null];
+      tournamentState.finalists = [null, null];
+      tournamentState.winner = null;
+      await pushTournamentToFirebase();
+      renderAll();
+    });
 
     (async function init() {
-      arenaEl.innerHTML = `<div class="notice-box" style="grid-column: 1 / -1;">Loading global tournament data...</div>`;
       try {
-        demons = await fetchGlobalDemons();
-      } catch (_) {
-        demons = [...INITIAL_DEMONS];
-      }
-      renderStandings();
-      startMode("1v1");
+        await Promise.all([fetchTournamentFromFirebase(), loadAredlCatalog(false)]);
+      } catch (_) {}
+      renderAll();
     })();
   </script>
 </body>
