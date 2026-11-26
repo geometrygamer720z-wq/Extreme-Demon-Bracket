@@ -6,18 +6,18 @@
   <title>Extreme Demon Tournament</title>
   <style>
     :root {
-      --bg-0: #050b16;
-      --bg-1: #091529;
-      --panel: rgba(11, 23, 44, 0.88);
-      --panel-2: rgba(16, 34, 65, 0.92);
-      --line: rgba(56, 189, 248, 0.22);
-      --line-strong: rgba(56, 189, 248, 0.55);
+      --bg-top: #071326;
+      --bg-bottom: #040914;
+      --surface: rgba(10, 22, 42, 0.86);
+      --surface-hover: rgba(16, 35, 66, 0.96);
+      --border: rgba(56, 189, 248, 0.24);
+      --border-bright: rgba(56, 189, 248, 0.65);
       --text: #f8fafc;
-      --muted: #9fb3cc;
-      --cyan: #38bdf8;
-      --cyan-2: #0284c7;
-      --gold: #fbbf24;
-      --win: #22c55e;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-deep: #0284c7;
+      --gold: #facc15;
+      --ok: #22c55e;
       --danger: #ef4444;
     }
 
@@ -28,524 +28,437 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 50% 8%, rgba(56, 189, 248, 0.22), transparent 42%),
-        radial-gradient(circle at 12% 25%, rgba(2, 132, 199, 0.16), transparent 36%),
-        radial-gradient(circle at 88% 25%, rgba(2, 132, 199, 0.16), transparent 36%),
-        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 100%);
-      padding: 20px 14px 96px;
+        radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.22), transparent 55%),
+        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+      padding: 18px 14px 84px;
       overflow-x: hidden;
     }
 
-    .container {
-      max-width: 1220px;
+    .wrap {
+      max-width: 1180px;
       margin: 0 auto;
     }
 
-    .topbar {
+    .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 18px;
-      padding: 12px 16px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
     }
 
-    .brand-title {
+    .title {
       margin: 0;
-      font-size: 20px;
-      font-weight: 900;
-      letter-spacing: 0.4px;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
       cursor: pointer;
       user-select: none;
-      text-transform: uppercase;
     }
 
-    .brand-sub {
-      margin: 2px 0 0;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .topbar-right {
+    .header-actions {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .status-pill {
-      padding: 6px 12px;
-      border-radius: 999px;
+    .pill {
       font-size: 12px;
-      font-weight: 800;
-      border: 1px solid var(--line);
-      background: var(--panel-2);
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
       color: var(--muted);
     }
 
-    .status-pill.live {
-      border-color: rgba(34, 197, 94, 0.5);
-      background: rgba(34, 197, 94, 0.14);
+    .pill.live {
       color: #86efac;
+      border-color: rgba(34, 197, 94, 0.5);
+      background: rgba(34, 197, 94, 0.12);
     }
 
-    .admin-pill {
+    .pill.admin {
       display: none;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-      background: rgba(251, 191, 36, 0.15);
-      border: 1px solid rgba(251, 191, 36, 0.5);
       color: var(--gold);
+      border-color: rgba(250, 204, 21, 0.5);
+      background: rgba(250, 204, 21, 0.12);
+      align-items: center;
+      gap: 6px;
     }
 
-    .admin-pill.active {
+    .pill.admin.show {
       display: inline-flex;
     }
 
     .btn {
-      border: none;
-      border-radius: 10px;
-      padding: 8px 13px;
-      font-size: 12.5px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: transform 0.12s ease, opacity 0.12s ease;
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .btn-cyan {
-      background: linear-gradient(135deg, var(--cyan), var(--cyan-2));
-      color: #04101d;
-    }
-
-    .btn-win {
-      background: var(--win);
-      color: #05150b;
-    }
-
-    .btn-danger {
-      background: rgba(239, 68, 68, 0.18);
-      color: #fca5a5;
-      border: 1px solid rgba(239, 68, 68, 0.45);
-    }
-
-    .btn-ghost {
-      background: var(--panel-2);
+      border: 1px solid var(--border);
+      background: var(--surface);
       color: var(--text);
-      border: 1px solid var(--line);
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
     }
 
-    .cup-hero {
+    .btn:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-bright);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      color: #04101d;
+      border: none;
+    }
+
+    .btn.ok {
+      background: var(--ok);
+      color: #05160b;
+      border: none;
+    }
+
+    .btn.danger {
+      background: rgba(239, 68, 68, 0.16);
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.45);
+    }
+
+    .banner-wrap {
       display: flex;
       justify-content: center;
-      margin-bottom: 18px;
+      margin: 8px 0 18px;
     }
 
-    .cup-ribbon {
-      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-      color: #04101f;
-      font-weight: 950;
-      font-size: clamp(16px, 2.5vw, 23px);
-      letter-spacing: 1.5px;
+    .banner {
+      background: linear-gradient(135deg, #38bdf8, #0284c7);
+      color: #04111e;
+      font-weight: 900;
+      font-size: clamp(15px, 2.2vw, 21px);
+      letter-spacing: 1.4px;
       text-transform: uppercase;
-      padding: 10px 34px;
+      padding: 8px 28px;
+      border-radius: 5px;
       transform: skewX(-14deg);
-      border-radius: 6px;
-      box-shadow: 0 10px 28px rgba(2, 132, 199, 0.35);
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.3);
     }
 
-    .cup-ribbon span {
+    .banner span {
       display: inline-block;
       transform: skewX(14deg);
     }
 
-    .admin-bar {
+    .admin-toolbar {
       display: none;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 18px;
-      padding: 12px 16px;
-      background: rgba(251, 191, 36, 0.08);
-      border: 1px solid rgba(251, 191, 36, 0.38);
-      border-radius: 14px;
-    }
-
-    .admin-bar.active {
-      display: flex;
-    }
-
-    .admin-bar-note {
-      font-size: 12.5px;
-      color: #fde68a;
-      font-weight: 600;
-    }
-
-    .admin-bar-actions {
-      display: flex;
       flex-wrap: wrap;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      background: rgba(250, 204, 21, 0.08);
+      border: 1px solid rgba(250, 204, 21, 0.35);
+      font-size: 12px;
+      color: #fef08a;
+    }
+
+    .admin-toolbar.show {
+      display: flex;
+    }
+
+    .admin-toolbar-btns {
+      display: flex;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .duel-section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 24px;
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 18px;
     }
 
-    .duel-header {
+    .panel-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
     }
 
-    .duel-title {
+    .panel-title {
       margin: 0;
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: 0.3px;
+      font-size: 15px;
+      font-weight: 800;
     }
 
-    .duel-meta {
-      font-size: 12.5px;
+    .muted {
       color: var(--muted);
+      font-size: 12px;
     }
 
-    .duel-grid {
+    .duel-row {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
-      gap: 14px;
+      gap: 12px;
       align-items: stretch;
     }
 
-    @media (max-width: 760px) {
-      .duel-grid {
+    @media (max-width: 720px) {
+      .duel-row {
         grid-template-columns: 1fr;
       }
-      .duel-vs {
+      .vs-tag {
         text-align: center;
       }
     }
 
-    .duel-vs {
+    .vs-tag {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 950;
-      font-size: 18px;
-      color: var(--cyan);
-      padding: 4px 8px;
+      font-weight: 900;
+      font-size: 15px;
+      color: var(--accent);
+      padding: 0 4px;
     }
 
-    .fighter-box {
-      background: var(--panel-2);
-      border: 1.5px solid var(--line);
-      border-radius: 14px;
+    .duel-card {
+      background: rgba(7, 17, 34, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 12px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
 
-    .clean-photo-wrap {
+    .duel-thumb {
       width: 100%;
-      height: 155px;
-      background: #040913;
-      overflow: hidden;
-    }
-
-    .clean-photo {
-      width: 100%;
-      height: 100%;
+      height: 145px;
       object-fit: cover;
+      background: #030711;
       display: block;
     }
 
-    .fighter-content {
-      padding: 14px;
+    .duel-body {
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
       flex: 1;
     }
 
-    .fighter-name {
+    .duel-name {
       margin: 0;
-      font-size: 17px;
-      font-weight: 850;
+      font-size: 16px;
+      font-weight: 800;
     }
 
-    .fighter-info {
-      font-size: 12.5px;
-      color: var(--muted);
-    }
-
-    .vote-action {
+    .duel-vote-wrap {
       margin-top: auto;
       padding-top: 8px;
     }
 
-    .vote-btn {
-      width: 100%;
-      padding: 10px 12px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--cyan), var(--cyan-2));
-      color: #04101d;
-      font-weight: 900;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .locked-notice {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px dashed var(--line);
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .bracket-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 20px 16px;
-      margin-bottom: 24px;
-    }
-
-    .groups-bar {
+    .groups-header {
       display: grid;
-      grid-template-columns: 1fr 220px 1fr;
+      grid-template-columns: 1fr 190px 1fr;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 10px;
       text-align: center;
+      margin-bottom: 14px;
     }
 
-    @media (max-width: 960px) {
-      .groups-bar {
+    @media (max-width: 900px) {
+      .groups-header {
         grid-template-columns: 1fr;
       }
     }
 
-    .group-label {
-      font-size: 17px;
-      font-weight: 900;
-      letter-spacing: 0.6px;
-      color: var(--text);
+    .group-name {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
     }
 
-    .trophy-center {
+    .center-crest {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
     }
 
-    .extreme-demon-center-icon {
-      width: 74px;
-      height: 74px;
-      filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.45));
+    .crest-svg {
+      width: 66px;
+      height: 66px;
     }
 
-    .winner-badge {
-      background: linear-gradient(180deg, #facc15, #d97706);
-      color: #1e1300;
-      font-weight: 950;
-      font-size: 13px;
-      letter-spacing: 1px;
-      padding: 5px 14px;
-      border-radius: 8px;
+    .winner-pill {
+      background: linear-gradient(180deg, #facc15, #ca8a04);
+      color: #1c1302;
+      font-weight: 900;
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 7px;
       text-transform: uppercase;
-      max-width: 220px;
-      white-space: nowrap;
+      max-width: 190px;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .bracket-board {
+    .bracket-grid {
       display: grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
       gap: 8px;
       align-items: center;
       overflow-x: auto;
-      padding-bottom: 6px;
+      padding-bottom: 4px;
     }
 
-    @media (max-width: 1020px) {
-      .bracket-board {
+    @media (max-width: 980px) {
+      .bracket-grid {
         grid-template-columns: 1fr;
-        gap: 14px;
+        gap: 12px;
       }
     }
 
-    .round-col {
+    .col {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      min-width: 132px;
+      gap: 8px;
+      min-width: 128px;
     }
 
-    .round-heading {
+    .col-label {
       text-align: center;
-      font-size: 10.5px;
-      font-weight: 900;
-      letter-spacing: 0.8px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.7px;
       text-transform: uppercase;
-      color: var(--cyan);
-      margin-bottom: 2px;
+      color: var(--accent);
     }
 
-    .slot-wrapper {
+    .slot-line {
       display: flex;
       align-items: center;
       gap: 4px;
     }
 
-    .slot-btn {
+    .slot {
       width: 100%;
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(2, 132, 199, 0.14));
-      border: 1px solid var(--line-strong);
+      background: rgba(15, 33, 62, 0.85);
+      border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 7px 8px;
+      padding: 6px 8px;
       color: var(--text);
       font-size: 11.5px;
-      font-weight: 800;
-      text-align: left;
-      cursor: pointer;
+      font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 7px;
-      transition: border-color 0.12s ease, background 0.12s ease;
-      min-height: 36px;
-    }
-
-    .slot-btn:hover {
-      border-color: var(--cyan);
-      background: rgba(56, 189, 248, 0.25);
-    }
-
-    .slot-btn.empty {
-      color: var(--muted);
-      border-style: dashed;
-      background: rgba(15, 23, 42, 0.55);
-    }
-
-    .slot-btn.advance-ready {
-      border-color: rgba(34, 197, 94, 0.65);
-    }
-
-    .slot-del-btn {
-      display: none;
-      background: rgba(239, 68, 68, 0.22);
-      color: #fca5a5;
-      border: 1px solid rgba(239, 68, 68, 0.5);
-      border-radius: 7px;
-      padding: 6px 8px;
-      font-size: 11px;
-      font-weight: 900;
+      gap: 6px;
+      text-align: left;
       cursor: pointer;
-      flex-shrink: 0;
+      min-height: 34px;
     }
 
-    .slot-del-btn.visible {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+    .slot:hover {
+      border-color: var(--border-bright);
     }
 
-    .slot-thumb {
-      width: 24px;
-      height: 24px;
-      border-radius: 5px;
+    .slot.empty {
+      border-style: dashed;
+      color: var(--muted);
+      background: rgba(7, 17, 34, 0.55);
+    }
+
+    .slot.filled {
+      border-color: rgba(34, 197, 94, 0.55);
+    }
+
+    .slot-mini {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
       object-fit: cover;
       flex-shrink: 0;
-      background: #040913;
+      background: #030711;
     }
 
-    .slot-name {
+    .slot-text {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       flex: 1;
     }
 
+    .slot-x {
+      display: none;
+      border: 1px solid rgba(239, 68, 68, 0.45);
+      background: rgba(239, 68, 68, 0.16);
+      color: #fca5a5;
+      border-radius: 6px;
+      padding: 5px 7px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .slot-x.show {
+      display: inline-flex;
+    }
+
     .final-box {
-      background: var(--panel-2);
-      border: 1.5px solid rgba(250, 204, 21, 0.5);
-      border-radius: 14px;
-      padding: 12px 10px;
+      background: rgba(7, 17, 34, 0.9);
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      border-radius: 12px;
+      padding: 10px 8px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 7px;
       text-align: center;
     }
 
-    .final-label {
-      font-size: 12px;
-      font-weight: 950;
-      letter-spacing: 1px;
+    .final-title {
+      font-size: 11.5px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
       color: var(--gold);
     }
 
-    .standings-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 16px 18px;
-    }
-
-    .standings-title {
-      margin: 0 0 12px;
-      font-size: 15px;
-      font-weight: 900;
-    }
-
-    .standings-grid {
+    .standings-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
       gap: 8px;
     }
 
-    .standing-item {
+    .standing-row {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: 8px;
-      background: var(--panel-2);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 8px 11px;
-      font-size: 12.5px;
+      padding: 7px 10px;
+      border-radius: 9px;
+      background: rgba(7, 17, 34, 0.85);
+      border: 1px solid var(--border);
+      font-size: 12px;
       font-weight: 700;
     }
 
     .standing-left {
       display: flex;
       align-items: center;
-      gap: 8px;
-      overflow: hidden;
+      gap: 7px;
+      min-width: 0;
     }
 
     .standing-name {
@@ -554,194 +467,235 @@
       white-space: nowrap;
     }
 
-    .elo-badge {
+    .elo-val {
       color: var(--gold);
       font-size: 11.5px;
       flex-shrink: 0;
     }
 
-    .corner-add-btn {
+    .fab-add {
       display: none;
       position: fixed;
-      right: 20px;
-      bottom: 20px;
+      right: 18px;
+      bottom: 18px;
       z-index: 40;
-      padding: 14px 18px;
-      border-radius: 999px;
       border: none;
-      background: linear-gradient(135deg, var(--win), #16a34a);
-      color: #05140b;
-      font-weight: 950;
-      font-size: 13.5px;
-      box-shadow: 0 12px 28px rgba(34, 197, 94, 0.35);
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      color: #04101d;
+      box-shadow: 0 10px 24px rgba(2, 132, 199, 0.35);
       cursor: pointer;
     }
 
-    .corner-add-btn.active {
+    .fab-add.show {
       display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
 
-    .modal-backdrop {
+    .modal-bg {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(2, 6, 14, 0.8);
-      backdrop-filter: blur(4px);
       z-index: 60;
+      background: rgba(2, 6, 14, 0.78);
+      backdrop-filter: blur(3px);
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: 14px;
     }
 
-    .modal-backdrop.open {
+    .modal-bg.open {
       display: flex;
     }
 
-    .modal-box {
+    .modal {
       width: 100%;
       max-width: 580px;
-      max-height: 86vh;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 20px;
+      max-height: 88vh;
+      background: #081529;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+      overflow-y: auto;
     }
 
     .modal-title {
       margin: 0;
-      font-size: 17px;
-      font-weight: 900;
+      font-size: 16px;
+      font-weight: 800;
     }
 
-    .modal-sub {
-      margin: 0;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .input-field,
-    .select-field {
+    .field {
       width: 100%;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      background: var(--panel-2);
+      padding: 9px 11px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(12, 27, 52, 0.95);
       color: var(--text);
-      font-size: 13.5px;
+      font-size: 13px;
     }
 
-    .catalog-scroll {
-      overflow-y: auto;
+    .custom-box {
+      background: rgba(12, 27, 52, 0.65);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
       gap: 8px;
-      padding-right: 4px;
     }
 
-    .catalog-card {
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    @media (max-width: 520px) {
+      .row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .yt-preview-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(4, 10, 22, 0.85);
+      border: 1px dashed var(--border);
+      border-radius: 9px;
+      padding: 8px;
+    }
+
+    .yt-preview-img {
+      width: 92px;
+      height: 52px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #030711;
+      flex-shrink: 0;
+    }
+
+    .yt-search-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .yt-results {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 190px;
+      overflow-y: auto;
+    }
+
+    .yt-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      background: var(--panel-2);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 8px 10px;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(15, 33, 62, 0.85);
+      border: 1px solid var(--border);
     }
 
-    .catalog-left {
+    .yt-item-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       min-width: 0;
     }
 
-    .catalog-clean-img {
-      width: 78px;
-      height: 46px;
-      border-radius: 7px;
+    .yt-item-img {
+      width: 68px;
+      height: 38px;
+      border-radius: 5px;
       object-fit: cover;
       flex-shrink: 0;
-      background: #040913;
+      background: #030711;
     }
 
-    .catalog-meta {
-      min-width: 0;
+    .aredl-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      max-height: 230px;
+      overflow-y: auto;
     }
 
-    .catalog-name {
-      font-size: 13.5px;
-      font-weight: 850;
-      white-space: nowrap;
+    .aredl-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 9px;
+      border-radius: 9px;
+      background: rgba(12, 27, 52, 0.85);
+      border: 1px solid var(--border);
+    }
+
+    .aredl-name {
+      font-size: 13px;
+      font-weight: 700;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-
-    .catalog-sub {
-      font-size: 11.5px;
-      color: var(--muted);
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
-    .modal-footer {
+    .modal-foot {
       display: flex;
       justify-content: flex-end;
       gap: 8px;
+      flex-wrap: wrap;
       margin-top: 4px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="topbar">
-      <div>
-        <h1 id="page-title" class="brand-title" title="Triple click for admin login">Extreme Demon Tournament</h1>
-        <p class="brand-sub">Global Tournament Bracket &amp; Match of the Day</p>
-      </div>
-
-      <div class="topbar-right">
-        <span id="tournament-status-pill" class="status-pill">Status: Waiting for Admin</span>
-        <div id="admin-pill" class="admin-pill">
+  <div class="wrap">
+    <header class="header">
+      <h1 id="title-btn" class="title" title="Triple click for admin">Extreme Demon Tournament</h1>
+      <div class="header-actions">
+        <span id="status-pill" class="pill">Status: Waiting for Admin</span>
+        <div id="admin-pill" class="pill admin">
           <span>ADMIN</span>
-          <button id="lock-admin-btn" class="btn btn-ghost" type="button">Lock</button>
+          <button id="lock-btn" class="btn" type="button">Lock</button>
         </div>
       </div>
     </header>
 
-    <div class="cup-hero">
-      <div class="cup-ribbon"><span>Tournament Cup</span></div>
+    <div class="banner-wrap">
+      <div class="banner"><span>Tournament Cup</span></div>
     </div>
 
-    <section id="admin-bar" class="admin-bar">
-      <div class="admin-bar-note">
-        Admin Controls: Click any slot to pick from AREDL, or click X on any slot to delete it.
+    <div id="admin-toolbar" class="admin-toolbar">
+      <span>Click any slot to add or pick a level.</span>
+      <div class="admin-toolbar-btns">
+        <button id="start-btn" class="btn ok" type="button">Start Tournament</button>
+        <button id="clear-all-btn" class="btn danger" type="button">Clear All Slots</button>
       </div>
-      <div class="admin-bar-actions">
-        <button id="toggle-start-btn" class="btn btn-win" type="button">Start Tournament</button>
-        <button id="clear-bracket-btn" class="btn btn-danger" type="button">Clear All Slots</button>
+    </div>
+
+    <section class="panel">
+      <div class="panel-top">
+        <h2 class="panel-title">Match of the Day</h2>
+        <span id="duel-sub" class="muted">Waiting for admin to start tournament</span>
       </div>
+      <div id="duel-content"></div>
     </section>
 
-    <section class="duel-section">
-      <div class="duel-header">
-        <h2 class="duel-title">Match of the Day</h2>
-        <span id="duel-status-text" class="duel-meta">Waiting for admin to start tournament</span>
-      </div>
-      <div id="duel-body"></div>
-    </section>
-
-    <section class="bracket-card">
-      <div class="groups-bar">
-        <div class="group-label">Group A</div>
-        <div class="trophy-center">
-          <svg class="extreme-demon-center-icon" viewBox="0 0 120 120" aria-label="Extreme Demon Face">
+    <section class="panel">
+      <div class="groups-header">
+        <div class="group-name">Group A</div>
+        <div class="center-crest">
+          <svg class="crest-svg" viewBox="0 0 120 120" aria-label="Extreme Demon">
             <path d="M22 44 C10 28, 12 12, 20 8 C26 18, 32 24, 38 30 Z" fill="#f8fafc" stroke="#090d16" stroke-width="4" stroke-linejoin="round"/>
             <path d="M98 44 C110 28, 108 12, 100 8 C94 18, 88 24, 82 30 Z" fill="#f8fafc" stroke="#090d16" stroke-width="4" stroke-linejoin="round"/>
             <path d="M36 28 C33 14, 38 6, 44 5 C46 13, 47 19, 49 24 Z" fill="#e2e8f0" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
@@ -759,84 +713,96 @@
             <polygon points="41,98 48,88 52,101" fill="#e2e8f0" stroke="#090d16" stroke-width="2.5"/>
             <polygon points="79,98 72,88 68,101" fill="#e2e8f0" stroke="#090d16" stroke-width="2.5"/>
           </svg>
-          <div id="winner-banner" class="winner-badge">Winner: TBD</div>
+          <div id="winner-pill" class="winner-pill">Winner: TBD</div>
         </div>
-        <div class="group-label">Group B</div>
+        <div class="group-name">Group B</div>
       </div>
-
-      <div id="bracket-board" class="bracket-board"></div>
+      <div id="bracket-grid" class="bracket-grid"></div>
     </section>
 
-    <section class="standings-card">
-      <h2 class="standings-title">Global Elo Standings</h2>
-      <div id="standings-grid" class="standings-grid"></div>
+    <section class="panel">
+      <h2 class="panel-title" style="margin-bottom:10px;">Global Elo Standings</h2>
+      <div id="standings-list" class="standings-list"></div>
     </section>
   </div>
 
-  <button id="corner-add-btn" class="corner-add-btn" type="button">+ Add from AREDL</button>
+  <button id="fab-add" class="fab-add" type="button">+ Add Level</button>
 
-  <div id="password-modal" class="modal-backdrop" aria-hidden="true">
-    <div class="modal-box">
+  <div id="pass-modal" class="modal-bg" aria-hidden="true">
+    <div class="modal">
       <h2 class="modal-title">Admin Access</h2>
-      <p class="modal-sub">Enter password (case-sensitive):</p>
-      <input id="password-input" class="input-field" type="password" autocomplete="off" placeholder="Password" />
-      <div class="modal-footer">
-        <button id="cancel-password-btn" class="btn btn-ghost" type="button">Cancel</button>
-        <button id="confirm-password-btn" class="btn btn-cyan" type="button">Unlock</button>
+      <input id="pass-input" class="field" type="password" autocomplete="off" placeholder="Password" />
+      <div class="modal-foot">
+        <button id="pass-cancel" class="btn" type="button">Cancel</button>
+        <button id="pass-ok" class="btn primary" type="button">Unlock</button>
       </div>
     </div>
   </div>
 
-  <div id="aredl-modal" class="modal-backdrop" aria-hidden="true">
-    <div class="modal-box">
-      <h2 class="modal-title">AREDL Catalog &amp; Slot Manager</h2>
-      <p class="modal-sub">Pick a slot, choose a level from AREDL, or remove the current level.</p>
+  <div id="level-modal" class="modal-bg" aria-hidden="true">
+    <div class="modal">
+      <h2 class="modal-title">Add / Pick Level</h2>
+      <select id="slot-select" class="field"></select>
 
-      <label for="target-slot-select" class="modal-sub">Target Bracket Slot:</label>
-      <select id="target-slot-select" class="select-field"></select>
+      <div class="custom-box">
+        <div style="font-size:13px;font-weight:800;">Add with YouTube Link or Search</div>
+        <input id="custom-name" class="field" type="text" placeholder="Level name (e.g. Xeno's Demon)" />
+        <input id="custom-yt-url" class="field" type="text" placeholder="Paste YouTube link or video ID (auto-detects thumbnail)" />
 
-      <input id="aredl-search-input" class="input-field" type="text" placeholder="Type to search across all AREDL levels..." />
-      <div id="aredl-status-line" class="modal-sub">Loading AREDL levels...</div>
-      <div id="aredl-catalog-list" class="catalog-scroll"></div>
+        <div class="yt-search-row">
+          <input id="yt-search-input" class="field" style="flex:1;min-width:170px;" type="text" placeholder="Search YouTube for thumbnail..." />
+          <button id="yt-search-btn" class="btn" type="button">Search YT</button>
+        </div>
 
-      <div class="modal-footer">
-        <button id="clear-selected-slot-btn" class="btn btn-danger" type="button">Remove Demon from Slot</button>
-        <button id="close-aredl-btn" class="btn btn-ghost" type="button">Close</button>
+        <div id="yt-search-results" class="yt-results"></div>
+
+        <div class="yt-preview-box">
+          <img id="yt-preview-img" class="yt-preview-img" src="" alt="Preview" />
+          <div>
+            <div id="yt-preview-status" style="font-size:12px;font-weight:700;">Paste a YouTube link or pick a video</div>
+            <div id="yt-preview-url" class="muted"></div>
+          </div>
+        </div>
+
+        <div class="row-2">
+          <input id="custom-creator" class="field" type="text" placeholder="Creator (optional)" />
+          <input id="custom-song" class="field" type="text" placeholder="Song (optional)" />
+        </div>
+
+        <button id="save-custom-btn" class="btn ok" type="button">Place Level in Slot</button>
+      </div>
+
+      <div style="font-size:13px;font-weight:800;">Or Pick from Full AREDL List</div>
+      <input id="aredl-search" class="field" type="text" placeholder="Search full AREDL list (e.g. Xeno's Demon)..." />
+      <div id="aredl-count" class="muted">Loading full AREDL list...</div>
+      <div id="aredl-list" class="aredl-list"></div>
+
+      <div class="modal-foot">
+        <button id="remove-slot-btn" class="btn danger" type="button">Remove from Slot</button>
+        <button id="close-level-modal" class="btn" type="button">Close</button>
       </div>
     </div>
   </div>
 
   <script>
     const ADMIN_PASSWORD = "6767XDXD";
-    const ADMIN_SESSION_KEY = "edt_admin_unlocked";
+    const ADMIN_KEY = "edt_admin_session";
     const DB_URL = "https://extreme-demon-tournament-default-rtdb.firebaseio.com";
-    const AREDL_ENDPOINTS = [
+    const AREDL_URLS = [
       "https://api.aredl.net/v2/api/aredl/levels",
       "https://aredl.net/api/aredl/levels"
     ];
 
-    const EXTREME_DEMON_FACE_SVG = `data:image/svg+xml;utf8,${encodeURIComponent(`
+    const FALLBACK_SVG = `data:image/svg+xml;utf8,${encodeURIComponent(`
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
-        <path d="M22 44 C10 28, 12 12, 20 8 C26 18, 32 24, 38 30 Z" fill="#f8fafc" stroke="#090d16" stroke-width="4" stroke-linejoin="round"/>
-        <path d="M98 44 C110 28, 108 12, 100 8 C94 18, 88 24, 82 30 Z" fill="#f8fafc" stroke="#090d16" stroke-width="4" stroke-linejoin="round"/>
-        <path d="M36 28 C33 14, 38 6, 44 5 C46 13, 47 19, 49 24 Z" fill="#e2e8f0" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
-        <path d="M84 28 C87 14, 82 6, 76 5 C74 13, 73 19, 71 24 Z" fill="#e2e8f0" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
-        <path d="M54 22 C54 11, 58 6, 60 5 C62 6, 66 11, 66 22 Z" fill="#f1f5f9" stroke="#090d16" stroke-width="3.5" stroke-linejoin="round"/>
         <circle cx="60" cy="64" r="42" fill="#dc2626" stroke="#090d16" stroke-width="4.5"/>
         <path d="M30 51 C39 50, 47 54, 51 59 C43 60, 35 57, 30 51 Z" fill="#fde047"/>
         <path d="M90 51 C81 50, 73 54, 69 59 C77 60, 85 57, 90 51 Z" fill="#fde047"/>
         <path d="M28 73 C44 68, 76 68, 92 73 C88 95, 74 104, 60 104 C46 104, 32 95, 28 73 Z" fill="#2a0608" stroke="#090d16" stroke-width="4"/>
-        <polygon points="35,73 42,72 39,85" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
-        <polygon points="45,72 53,71 49,87" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
-        <polygon points="56,71 64,71 60,88" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
-        <polygon points="67,71 75,72 71,87" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
-        <polygon points="78,72 85,73 81,85" fill="#f8fafc" stroke="#090d16" stroke-width="2.5"/>
-        <polygon points="41,98 48,88 52,101" fill="#e2e8f0" stroke="#090d16" stroke-width="2.5"/>
-        <polygon points="79,98 72,88 68,101" fill="#e2e8f0" stroke="#090d16" stroke-width="2.5"/>
       </svg>
     `)}`;
 
-    let tournamentState = {
+    let state = {
       started: false,
       slots: Array(8).fill(null),
       semiA: [null, null],
@@ -846,206 +812,296 @@
       standings: []
     };
 
-    let catalog = [];
-    const detailImageCache = new Map();
+    let aredlLevels = [];
     let isAdmin = false;
-    let selectedSlotIndex = 0;
-    let titleClicks = 0;
-    let titleClickTimer = null;
+    let activeSlot = 0;
+    let clicks = 0;
+    let clickTimer = null;
 
-    const pageTitleEl = document.getElementById("page-title");
-    const statusPillEl = document.getElementById("tournament-status-pill");
-    const adminPillEl = document.getElementById("admin-pill");
-    const adminBarEl = document.getElementById("admin-bar");
-    const toggleStartBtn = document.getElementById("toggle-start-btn");
-    const clearBracketBtn = document.getElementById("clear-bracket-btn");
-    const cornerAddBtn = document.getElementById("corner-add-btn");
-    const duelStatusTextEl = document.getElementById("duel-status-text");
-    const duelBodyEl = document.getElementById("duel-body");
-    const winnerBannerEl = document.getElementById("winner-banner");
-    const bracketBoardEl = document.getElementById("bracket-board");
-    const standingsGridEl = document.getElementById("standings-grid");
+    const titleBtn = document.getElementById("title-btn");
+    const statusPill = document.getElementById("status-pill");
+    const adminPill = document.getElementById("admin-pill");
+    const adminToolbar = document.getElementById("admin-toolbar");
+    const startBtn = document.getElementById("start-btn");
+    const clearAllBtn = document.getElementById("clear-all-btn");
+    const fabAdd = document.getElementById("fab-add");
+    const duelSub = document.getElementById("duel-sub");
+    const duelContent = document.getElementById("duel-content");
+    const winnerPill = document.getElementById("winner-pill");
+    const bracketGrid = document.getElementById("bracket-grid");
+    const standingsList = document.getElementById("standings-list");
 
-    const passwordModalEl = document.getElementById("password-modal");
-    const passwordInputEl = document.getElementById("password-input");
-    const aredlModalEl = document.getElementById("aredl-modal");
-    const targetSlotSelectEl = document.getElementById("target-slot-select");
-    const aredlSearchInputEl = document.getElementById("aredl-search-input");
-    const aredlStatusLineEl = document.getElementById("aredl-status-line");
-    const aredlCatalogListEl = document.getElementById("aredl-catalog-list");
+    const passModal = document.getElementById("pass-modal");
+    const passInput = document.getElementById("pass-input");
+    const levelModal = document.getElementById("level-modal");
+    const slotSelect = document.getElementById("slot-select");
+    const customName = document.getElementById("custom-name");
+    const customYtUrl = document.getElementById("custom-yt-url");
+    const customCreator = document.getElementById("custom-creator");
+    const customSong = document.getElementById("custom-song");
+    const ytPreviewImg = document.getElementById("yt-preview-img");
+    const ytPreviewStatus = document.getElementById("yt-preview-status");
+    const ytPreviewUrl = document.getElementById("yt-preview-url");
+    const ytSearchInput = document.getElementById("yt-search-input");
+    const ytSearchBtn = document.getElementById("yt-search-btn");
+    const ytSearchResults = document.getElementById("yt-search-results");
+    const aredlSearch = document.getElementById("aredl-search");
+    const aredlCount = document.getElementById("aredl-count");
+    const aredlList = document.getElementById("aredl-list");
 
-    function slugifyName(name, fallback = "demon") {
-      return (
-        String(name || fallback)
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-|-$/g, "") || fallback
-      );
+    function parseYoutubeId(input) {
+      if (!input || typeof input !== "string") return "";
+      const clean = input.trim();
+      if (/^[A-Za-z0-9_-]{11}$/.test(clean)) return clean;
+      const m = clean.match(/(?:v=|\/embed\/|youtu\.be\/|\/shorts\/|\/live\/)([A-Za-z0-9_-]{11})/);
+      return m ? m[1] : "";
     }
 
-    function extractYoutubeIdFromText(text) {
-      if (typeof text !== "string" || !text) return "";
-      const match = text.match(/(?:v=|\/embed\/|youtu\.be\/)([A-Za-z0-9_-]{11})/);
-      return match ? match[1] : "";
+    function ytThumbFromId(id) {
+      return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : "";
     }
 
-    function extractCleanImageUrl(item) {
-      if (item.thumbnail && typeof item.thumbnail === "string" && item.thumbnail.startsWith("http")) {
-        return item.thumbnail;
+    function attachThumb(img, src) {
+      const candidates = [];
+      const ytMatch = typeof src === "string" ? src.match(/\/vi\/([A-Za-z0-9_-]{11})\//) : null;
+      if (ytMatch) {
+        const vid = ytMatch[1];
+        candidates.push(
+          `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`,
+          `https://i.ytimg.com/vi/${vid}/mqdefault.jpg`,
+          `https://i.ytimg.com/vi/${vid}/maxresdefault.jpg`
+        );
+      } else if (src && src.startsWith("http")) {
+        candidates.push(src);
       }
-      if (item.image && typeof item.image === "string" && item.image.startsWith("http")) {
-        return item.image;
-      }
+      candidates.push(FALLBACK_SVG);
 
-      const rawVideo =
-        item.video_id ||
-        item.youtube_id ||
-        item.video ||
-        item.video_url ||
-        item.verification_video ||
-        item.url ||
-        "";
-
-      const ytId =
-        typeof rawVideo === "string" && /^[A-Za-z0-9_-]{11}$/.test(rawVideo.trim())
-          ? rawVideo.trim()
-          : extractYoutubeIdFromText(String(rawVideo));
-
-      if (ytId) {
-        return `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg`;
-      }
-
-      return "";
-    }
-
-    async function resolveDemonImageFromAredl(demon) {
-      if (demon.img && demon.img.startsWith("http")) {
-        return demon.img;
-      }
-      const key = String(demon.rawId || demon.id || demon.name);
-      if (detailImageCache.has(key)) {
-        return detailImageCache.get(key) || EXTREME_DEMON_FACE_SVG;
-      }
-
-      if (demon.rawId) {
-        try {
-          const res = await fetch(`https://api.aredl.net/v2/api/aredl/levels/${encodeURIComponent(demon.rawId)}`);
-          if (res.ok) {
-            const detail = await res.json();
-            const foundUrl = extractCleanImageUrl(detail);
-            if (foundUrl) {
-              detailImageCache.set(key, foundUrl);
-              return foundUrl;
-            }
-          }
-        } catch (_) {}
-      }
-
-      detailImageCache.set(key, "");
-      return EXTREME_DEMON_FACE_SVG;
-    }
-
-    function attachSmartImage(imgEl, demon) {
-      const initialUrl = demon.img && demon.img.startsWith("http") ? demon.img : EXTREME_DEMON_FACE_SVG;
-      imgEl.src = initialUrl;
-
-      let triedLookup = false;
-      imgEl.addEventListener("error", async function onErr() {
-        if (triedLookup) {
-          imgEl.removeEventListener("error", onErr);
-          imgEl.src = EXTREME_DEMON_FACE_SVG;
-          return;
+      let i = 0;
+      img.src = candidates[0];
+      img.onerror = () => {
+        i += 1;
+        if (i < candidates.length) {
+          img.src = candidates[i];
         }
-        triedLookup = true;
-        const resolved = await resolveDemonImageFromAredl(demon);
-        if (resolved && resolved !== imgEl.src) {
-          imgEl.src = resolved;
-        } else {
-          imgEl.removeEventListener("error", onErr);
-          imgEl.src = EXTREME_DEMON_FACE_SVG;
-        }
-      });
+      };
+    }
 
-      if (!demon.img || !demon.img.startsWith("http")) {
-        resolveDemonImageFromAredl(demon).then((resolved) => {
-          if (resolved && resolved !== EXTREME_DEMON_FACE_SVG) {
-            imgEl.src = resolved;
-            demon.img = resolved;
+    function updateYtPreview() {
+      const vid = parseYoutubeId(customYtUrl.value);
+      if (!vid) {
+        ytPreviewImg.src = FALLBACK_SVG;
+        ytPreviewStatus.textContent = "Paste a YouTube link or pick a video";
+        ytPreviewUrl.textContent = "";
+        return "";
+      }
+      const thumb = ytThumbFromId(vid);
+      attachThumb(ytPreviewImg, thumb);
+      ytPreviewStatus.textContent = `Detected YouTube ID: ${vid}`;
+      ytPreviewUrl.textContent = thumb;
+      return thumb;
+    }
+
+    async function searchYoutubeVideos() {
+      const q = ytSearchInput.value.trim();
+      if (!q) return;
+      ytSearchResults.innerHTML = `<div class="muted">Searching YouTube...</div>`;
+
+      const proxies = [
+        `https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(q)}&filter=videos`,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent("https://www.youtube.com/results?search_query=" + q)}`
+      ];
+
+      try {
+        const res = await fetch(proxies[0]);
+        if (res.ok) {
+          const data = await res.json();
+          const items = Array.isArray(data.items) ? data.items.slice(0, 8) : [];
+          if (items.length > 0) {
+            renderYtResults(
+              items.map((v) => {
+                const vid = parseYoutubeId(v.url || v.id || "");
+                return {
+                  id: vid,
+                  title: v.title || "YouTube Video",
+                  thumb: ytThumbFromId(vid)
+                };
+              }).filter((x) => x.id)
+            );
+            return;
           }
+        }
+      } catch (_) {}
+
+      try {
+        const res = await fetch(proxies[1]);
+        if (res.ok) {
+          const html = await res.text();
+          const ids = [...new Set([...html.matchAll(/"videoId":"([A-Za-z0-9_-]{11})"/g)].map((m) => m[1]))].slice(0, 8);
+          if (ids.length > 0) {
+            renderYtResults(
+              ids.map((id, idx) => ({
+                id,
+                title: `${q} — Result ${idx + 1}`,
+                thumb: ytThumbFromId(id)
+              }))
+            );
+            return;
+          }
+        }
+      } catch (_) {}
+
+      ytSearchResults.innerHTML = `<div class="muted">Could not load search results right now. Paste a YouTube link directly above.</div>`;
+    }
+
+    function renderYtResults(results) {
+      ytSearchResults.innerHTML = "";
+      results.forEach((vid) => {
+        const row = document.createElement("div");
+        row.className = "yt-item";
+
+        const left = document.createElement("div");
+        left.className = "yt-item-left";
+
+        const img = document.createElement("img");
+        img.className = "yt-item-img";
+        attachThumb(img, vid.thumb);
+
+        const label = document.createElement("div");
+        label.className = "aredl-name";
+        label.textContent = vid.title;
+
+        left.append(img, label);
+
+        const useBtn = document.createElement("button");
+        useBtn.className = "btn primary";
+        useBtn.type = "button";
+        useBtn.textContent = "Use";
+        useBtn.addEventListener("click", () => {
+          customYtUrl.value = `https://www.youtube.com/watch?v=${vid.id}`;
+          if (!customName.value.trim()) {
+            customName.value = vid.title;
+          }
+          updateYtPreview();
         });
-      }
+
+        row.append(left, useBtn);
+        ytSearchResults.appendChild(row);
+      });
     }
 
-    function normalizeAredlDemon(item, idx) {
-      const name = item.name || item.level_name || item.title || `Demon ${idx + 1}`;
-      const rawId = item.id || "";
+    function extractAredlThumb(item) {
+      const direct = item.thumbnail || item.image || "";
+      if (typeof direct === "string" && direct.startsWith("http")) return direct;
+      const rawVid = item.video_id || item.youtube_id || item.video || item.video_url || item.url || "";
+      const vid = parseYoutubeId(String(rawVid));
+      return vid ? ytThumbFromId(vid) : FALLBACK_SVG;
+    }
+
+    function normalizeAredl(item, index) {
+      const name = item.name || item.level_name || item.title || `Level ${index + 1}`;
       const creator =
         item.creator ||
         item.publisher ||
         (Array.isArray(item.creators) ? item.creators.map((c) => c.name || c).join(", ") : "") ||
         "AREDL";
-      const verifier =
-        item.verifier ||
-        (Array.isArray(item.verifiers) ? item.verifiers.map((v) => v.name || v).join(", ") : "") ||
-        "Verified";
       const song =
         item.song ||
         item.song_name ||
         item.music ||
         (item.song_info && item.song_info.name) ||
         "GD Song";
-      const id = slugifyName(rawId || name, `demon-${idx}`);
+      const slug =
+        String(item.id || name)
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "") || `demon-${index}`;
 
       return {
-        id,
-        rawId,
+        id: slug,
         name,
         creator,
-        verifier,
         song,
         elo: 1200,
-        img: extractCleanImageUrl(item)
+        img: extractAredlThumb(item)
       };
     }
 
-    async function loadAredlCatalog(shouldRender = true) {
-      for (const url of AREDL_ENDPOINTS) {
+    async function fetchAllAredlLevels() {
+      for (const url of AREDL_URLS) {
         try {
           const res = await fetch(url, { headers: { Accept: "application/json" } });
           if (!res.ok) continue;
           const data = await res.json();
-          const list = Array.isArray(data)
-            ? data
-            : (data.levels || data.data || data.items || []);
-
-          if (Array.isArray(list) && list.length > 0) {
-            catalog = list.map(normalizeAredlDemon);
-            aredlStatusLineEl.textContent = `Loaded ${catalog.length} levels from AREDL API.`;
-            if (shouldRender) renderCatalogList();
+          const arr = Array.isArray(data) ? data : (data.levels || data.data || data.items || []);
+          if (Array.isArray(arr) && arr.length > 0) {
+            aredlLevels = arr.map(normalizeAredl);
+            renderAredlList();
             return;
           }
         } catch (_) {}
       }
-
-      aredlStatusLineEl.textContent = "Could not load AREDL levels right now.";
-      if (shouldRender) renderCatalogList();
+      aredlCount.textContent = "Could not load AREDL levels.";
     }
 
-    async function fetchTournamentFromFirebase() {
-      const res = await fetch(`${DB_URL}/tournament.json`);
-      if (!res.ok) throw new Error("Failed to fetch tournament");
-      const data = await res.json();
-      if (!data) {
-        await pushTournamentToFirebase();
+    function renderAredlList() {
+      aredlList.innerHTML = "";
+      const q = aredlSearch.value.trim().toLowerCase();
+      const matches = q
+        ? aredlLevels.filter(
+            (d) =>
+              d.name.toLowerCase().includes(q) ||
+              d.creator.toLowerCase().includes(q) ||
+              d.id.toLowerCase().includes(q)
+          )
+        : aredlLevels;
+
+      aredlCount.textContent = `Showing ${matches.length} of ${aredlLevels.length} AREDL levels.`;
+
+      if (matches.length === 0) {
+        aredlList.innerHTML = `<div class="muted">No level matches that name.</div>`;
         return;
       }
 
-      const rawSlots = Array.isArray(data.slots) ? data.slots : [];
-      const normalizedSlots = Array.from({ length: 8 }, (_, i) => rawSlots[i] || null);
+      matches.forEach((d) => {
+        const row = document.createElement("div");
+        row.className = "aredl-row";
 
-      tournamentState = {
+        const nameEl = document.createElement("div");
+        nameEl.className = "aredl-name";
+        nameEl.textContent = `${d.name} (${d.creator})`;
+
+        const placeBtn = document.createElement("button");
+        placeBtn.className = "btn primary";
+        placeBtn.type = "button";
+        placeBtn.textContent = "Place";
+        placeBtn.addEventListener("click", async () => {
+          if (!isAdmin) return;
+          const idx = Number(slotSelect.value);
+          const demon = { ...d, elo: d.elo || 1200 };
+          state.slots[idx] = demon;
+          ensureStanding(demon);
+          await saveState();
+          refreshSlotSelect();
+          render();
+        });
+
+        row.append(nameEl, placeBtn);
+        aredlList.appendChild(row);
+      });
+    }
+
+    async function loadState() {
+      const res = await fetch(`${DB_URL}/tournament.json`);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data) {
+        await saveState();
+        return;
+      }
+      const rawSlots = Array.isArray(data.slots) ? data.slots : [];
+      state = {
         started: Boolean(data.started),
-        slots: normalizedSlots,
+        slots: Array.from({ length: 8 }, (_, i) => rawSlots[i] || null),
         semiA: Array.isArray(data.semiA) && data.semiA.length === 2 ? data.semiA : [null, null],
         semiB: Array.isArray(data.semiB) && data.semiB.length === 2 ? data.semiB : [null, null],
         finalists: Array.isArray(data.finalists) && data.finalists.length === 2 ? data.finalists : [null, null],
@@ -1054,517 +1110,404 @@
       };
     }
 
-    async function pushTournamentToFirebase() {
+    async function saveState() {
       await fetch(`${DB_URL}/tournament.json`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(tournamentState)
+        body: JSON.stringify(state)
       });
     }
 
-    function ensureInStandings(demon) {
+    function ensureStanding(demon) {
       if (!demon) return;
-      const exists = tournamentState.standings.some((d) => d.id === demon.id);
-      if (!exists) {
-        tournamentState.standings.push({ ...demon, elo: demon.elo || 1200 });
+      if (!state.standings.some((x) => x.id === demon.id)) {
+        state.standings.push({ ...demon, elo: demon.elo || 1200 });
       }
     }
 
-    function applyEloUpdate(winner, loser) {
-      if (!winner || !loser) return;
-      ensureInStandings(winner);
-      ensureInStandings(loser);
-
-      const wEntry = tournamentState.standings.find((d) => d.id === winner.id);
-      const lEntry = tournamentState.standings.find((d) => d.id === loser.id);
-      const k = 32;
-      const expected = 1 / (1 + Math.pow(10, ((lEntry.elo || 1200) - (wEntry.elo || 1200)) / 400));
-
-      wEntry.elo = Math.round((wEntry.elo || 1200) + k * (1 - expected));
-      lEntry.elo = Math.round((lEntry.elo || 1200) - k * expected);
+    function updateElo(winDemon, loseDemon) {
+      ensureStanding(winDemon);
+      ensureStanding(loseDemon);
+      const w = state.standings.find((x) => x.id === winDemon.id);
+      const l = state.standings.find((x) => x.id === loseDemon.id);
+      const expected = 1 / (1 + Math.pow(10, ((l.elo || 1200) - (w.elo || 1200)) / 400));
+      w.elo = Math.round((w.elo || 1200) + 32 * (1 - expected));
+      l.elo = Math.round((l.elo || 1200) - 32 * expected);
     }
 
-    function getActiveMatchPair() {
-      const { slots, semiA, semiB, finalists } = tournamentState;
-
-      if (slots[0] && slots[1] && !semiA[0]) {
-        return { round: "Quarterfinals — Group A", left: slots[0], right: slots[1], advanceTo: ["semiA", 0] };
-      }
-      if (slots[2] && slots[3] && !semiA[1]) {
-        return { round: "Quarterfinals — Group A", left: slots[2], right: slots[3], advanceTo: ["semiA", 1] };
-      }
-      if (slots[4] && slots[5] && !semiB[0]) {
-        return { round: "Quarterfinals — Group B", left: slots[4], right: slots[5], advanceTo: ["semiB", 0] };
-      }
-      if (slots[6] && slots[7] && !semiB[1]) {
-        return { round: "Quarterfinals — Group B", left: slots[6], right: slots[7], advanceTo: ["semiB", 1] };
-      }
-      if (semiA[0] && semiA[1] && !finalists[0]) {
-        return { round: "Semifinals — Group A", left: semiA[0], right: semiA[1], advanceTo: ["finalists", 0] };
-      }
-      if (semiB[0] && semiB[1] && !finalists[1]) {
-        return { round: "Semifinals — Group B", left: semiB[0], right: semiB[1], advanceTo: ["finalists", 1] };
-      }
-      if (finalists[0] && finalists[1] && !tournamentState.winner) {
-        return { round: "Grand Final", left: finalists[0], right: finalists[1], advanceTo: ["winner", 0] };
-      }
-
+    function getMatch() {
+      const { slots, semiA, semiB, finalists } = state;
+      if (slots[0] && slots[1] && !semiA[0]) return { round: "Quarterfinals — Group A", left: slots[0], right: slots[1], dest: ["semiA", 0] };
+      if (slots[2] && slots[3] && !semiA[1]) return { round: "Quarterfinals — Group A", left: slots[2], right: slots[3], dest: ["semiA", 1] };
+      if (slots[4] && slots[5] && !semiB[0]) return { round: "Quarterfinals — Group B", left: slots[4], right: slots[5], dest: ["semiB", 0] };
+      if (slots[6] && slots[7] && !semiB[1]) return { round: "Quarterfinals — Group B", left: slots[6], right: slots[7], dest: ["semiB", 1] };
+      if (semiA[0] && semiA[1] && !finalists[0]) return { round: "Semifinals — Group A", left: semiA[0], right: semiA[1], dest: ["finalists", 0] };
+      if (semiB[0] && semiB[1] && !finalists[1]) return { round: "Semifinals — Group B", left: semiB[0], right: semiB[1], dest: ["finalists", 1] };
+      if (finalists[0] && finalists[1] && !state.winner) return { round: "Grand Final", left: finalists[0], right: finalists[1], dest: ["winner", 0] };
       return null;
     }
 
-    async function handleMatchVote(winnerSide) {
-      if (!tournamentState.started) return;
-      const match = getActiveMatchPair();
-      if (!match) return;
-
-      const winner = winnerSide === "left" ? match.left : match.right;
-      const loser = winnerSide === "left" ? match.right : match.left;
-
-      applyEloUpdate(winner, loser);
-
-      const [targetKey, targetIdx] = match.advanceTo;
-      if (targetKey === "winner") {
-        tournamentState.winner = winner;
-      } else {
-        tournamentState[targetKey][targetIdx] = winner;
-      }
-
-      await pushTournamentToFirebase();
-      renderAll();
+    async function voteSide(side) {
+      if (!state.started) return;
+      const m = getMatch();
+      if (!m) return;
+      const winner = side === "left" ? m.left : m.right;
+      const loser = side === "left" ? m.right : m.left;
+      updateElo(winner, loser);
+      const [key, idx] = m.dest;
+      if (key === "winner") state.winner = winner;
+      else state[key][idx] = winner;
+      await saveState();
+      render();
     }
 
-    function renderDuelFighterCard(demon, side) {
-      const article = document.createElement("article");
-      article.className = "fighter-box";
+    function buildDuelCard(demon, side) {
+      const card = document.createElement("div");
+      card.className = "duel-card";
 
-      const photoWrap = document.createElement("div");
-      photoWrap.className = "clean-photo-wrap";
       const img = document.createElement("img");
-      img.className = "clean-photo";
+      img.className = "duel-thumb";
       img.alt = demon.name;
-      attachSmartImage(img, demon);
-      photoWrap.appendChild(img);
+      attachThumb(img, demon.img);
 
-      const content = document.createElement("div");
-      content.className = "fighter-content";
-      content.innerHTML = `
-        <h3 class="fighter-name">${demon.name}</h3>
-        <div class="fighter-info">Creator: <strong>${demon.creator}</strong></div>
-        <div class="fighter-info">Verifier: <strong>${demon.verifier}</strong></div>
-        <div class="fighter-info">Song: <strong>${demon.song}</strong></div>
-        <div class="vote-action">
-          <button class="vote-btn" type="button">Vote ${demon.name}</button>
+      const body = document.createElement("div");
+      body.className = "duel-body";
+      body.innerHTML = `
+        <h3 class="duel-name">${demon.name}</h3>
+        <div class="muted">Creator: <strong>${demon.creator || "Unknown"}</strong></div>
+        <div class="muted">Song: <strong>${demon.song || "Unknown"}</strong></div>
+        <div class="duel-vote-wrap">
+          <button class="btn primary" style="width:100%;padding:9px;" type="button">Vote ${demon.name}</button>
         </div>
       `;
-      content.querySelector(".vote-btn").addEventListener("click", () => handleMatchVote(side));
+      body.querySelector("button").addEventListener("click", () => voteSide(side));
 
-      article.append(photoWrap, content);
-      return article;
+      card.append(img, body);
+      return card;
     }
 
-    function renderDuelSection() {
-      const match = getActiveMatchPair();
-      duelBodyEl.innerHTML = "";
-
-      if (!tournamentState.started) {
-        duelStatusTextEl.textContent = "Tournament not started yet";
-        duelBodyEl.innerHTML = `<div class="locked-notice">Voting is locked until the admin starts the tournament.</div>`;
+    function renderDuel() {
+      duelContent.innerHTML = "";
+      if (!state.started) {
+        duelSub.textContent = "Tournament not started yet";
+        duelContent.innerHTML = `<div class="muted" style="padding:10px 0;">Voting is locked until admin starts the tournament.</div>`;
         return;
       }
-
-      if (tournamentState.winner) {
-        duelStatusTextEl.textContent = "Tournament finished";
-        duelBodyEl.innerHTML = `<div class="locked-notice">Champion crowned: <strong>${tournamentState.winner.name}</strong>!</div>`;
+      if (state.winner) {
+        duelSub.textContent = "Finished";
+        duelContent.innerHTML = `<div style="padding:10px 0;font-weight:800;">Winner: ${state.winner.name}</div>`;
         return;
       }
-
-      if (!match) {
-        duelStatusTextEl.textContent = "Waiting for next matchup";
-        duelBodyEl.innerHTML = `<div class="locked-notice">No complete matchup ready yet. Admin can fill bracket slots and start the tournament.</div>`;
+      const m = getMatch();
+      if (!m) {
+        duelSub.textContent = "Waiting for matchup";
+        duelContent.innerHTML = `<div class="muted" style="padding:10px 0;">Add levels to the slots and start the tournament.</div>`;
         return;
       }
-
-      duelStatusTextEl.textContent = `${match.round} • Live Voting`;
-      const grid = document.createElement("div");
-      grid.className = "duel-grid";
-
+      duelSub.textContent = `${m.round}`;
+      const row = document.createElement("div");
+      row.className = "duel-row";
       const vs = document.createElement("div");
-      vs.className = "duel-vs";
+      vs.className = "vs-tag";
       vs.textContent = "VS";
-
-      grid.append(
-        renderDuelFighterCard(match.left, "left"),
-        vs,
-        renderDuelFighterCard(match.right, "right")
-      );
-      duelBodyEl.appendChild(grid);
+      row.append(buildDuelCard(m.left, "left"), vs, buildDuelCard(m.right, "right"));
+      duelContent.appendChild(row);
     }
 
-    async function deleteSlotDemon(slotIdx) {
+    async function removeSlot(idx) {
       if (!isAdmin) return;
-      tournamentState.slots[slotIdx] = null;
-      await pushTournamentToFirebase();
-      populateSlotSelect();
-      renderAll();
+      state.slots[idx] = null;
+      await saveState();
+      refreshSlotSelect();
+      render();
     }
 
-    function buildEditableSlotRow(demon, slotIdx, fallbackLabel) {
-      const wrap = document.createElement("div");
-      wrap.className = "slot-wrapper";
+    function makeSlotButton(demon, fallback, editable, slotIdx) {
+      const line = document.createElement("div");
+      line.className = "slot-line";
 
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = `slot-btn ${demon ? "advance-ready" : "empty"}`;
+      btn.className = `slot ${demon ? "filled" : "empty"}`;
 
       if (demon) {
         const img = document.createElement("img");
-        img.className = "slot-thumb";
+        img.className = "slot-mini";
         img.alt = demon.name;
-        attachSmartImage(img, demon);
+        attachThumb(img, demon.img);
         btn.appendChild(img);
       }
 
-      const span = document.createElement("span");
-      span.className = "slot-name";
-      span.textContent = demon ? demon.name : fallbackLabel;
-      btn.appendChild(span);
+      const txt = document.createElement("span");
+      txt.className = "slot-text";
+      txt.textContent = demon ? demon.name : fallback;
+      btn.appendChild(txt);
 
-      btn.addEventListener("click", () => {
-        if (isAdmin) {
-          openAredlModalForSlot(slotIdx);
-        }
-      });
-
-      wrap.appendChild(btn);
-
-      if (isAdmin && demon) {
-        const delBtn = document.createElement("button");
-        delBtn.type = "button";
-        delBtn.className = "slot-del-btn visible";
-        delBtn.title = `Remove ${demon.name}`;
-        delBtn.textContent = "X";
-        delBtn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          deleteSlotDemon(slotIdx);
+      if (editable) {
+        btn.addEventListener("click", () => {
+          if (isAdmin) openLevelModal(slotIdx);
         });
-        wrap.appendChild(delBtn);
       }
 
-      return wrap;
-    }
+      line.appendChild(btn);
 
-    function buildReadonlySlotButton(demon, labelText) {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = `slot-btn ${demon ? "advance-ready" : "empty"}`;
-
-      if (demon) {
-        const img = document.createElement("img");
-        img.className = "slot-thumb";
-        img.alt = demon.name;
-        attachSmartImage(img, demon);
-        btn.appendChild(img);
+      if (editable && isAdmin && demon) {
+        const del = document.createElement("button");
+        del.type = "button";
+        del.className = "slot-x show";
+        del.textContent = "X";
+        del.addEventListener("click", (e) => {
+          e.stopPropagation();
+          removeSlot(slotIdx);
+        });
+        line.appendChild(del);
       }
 
-      const span = document.createElement("span");
-      span.className = "slot-name";
-      span.textContent = demon ? demon.name : labelText;
-      btn.appendChild(span);
-
-      return btn;
+      return line;
     }
 
-    function renderBracketBoard() {
-      bracketBoardEl.innerHTML = "";
-      winnerBannerEl.textContent = tournamentState.winner
-        ? `Winner: ${tournamentState.winner.name}`
-        : "Winner: TBD";
+    function renderBracket() {
+      bracketGrid.innerHTML = "";
+      winnerPill.textContent = state.winner ? `Winner: ${state.winner.name}` : "Winner: TBD";
 
-      const { slots, semiA, semiB, finalists } = tournamentState;
+      const { slots, semiA, semiB, finalists } = state;
 
-      const colA1 = document.createElement("div");
-      colA1.className = "round-col";
-      colA1.innerHTML = `<div class="round-heading">Quarterfinals</div>`;
-      [0, 1, 2, 3].forEach((idx) => {
-        colA1.appendChild(buildEditableSlotRow(slots[idx], idx, `Slot A${idx + 1}`));
-      });
+      const c1 = document.createElement("div");
+      c1.className = "col";
+      c1.innerHTML = `<div class="col-label">Quarterfinals</div>`;
+      [0, 1, 2, 3].forEach((i) => c1.appendChild(makeSlotButton(slots[i], `Slot A${i + 1}`, true, i)));
 
-      const colA2 = document.createElement("div");
-      colA2.className = "round-col";
-      colA2.innerHTML = `<div class="round-heading">Semifinals</div>`;
-      colA2.appendChild(buildReadonlySlotButton(semiA[0], "Semi A1"));
-      colA2.appendChild(buildReadonlySlotButton(semiA[1], "Semi A2"));
+      const c2 = document.createElement("div");
+      c2.className = "col";
+      c2.innerHTML = `<div class="col-label">Semifinals</div>`;
+      c2.appendChild(makeSlotButton(semiA[0], "Semi A1", false, -1));
+      c2.appendChild(makeSlotButton(semiA[1], "Semi A2", false, -1));
 
-      const colA3 = document.createElement("div");
-      colA3.className = "round-col";
-      colA3.innerHTML = `<div class="round-heading">Finalist A</div>`;
-      colA3.appendChild(buildReadonlySlotButton(finalists[0], "Finalist A"));
+      const c3 = document.createElement("div");
+      c3.className = "col";
+      c3.innerHTML = `<div class="col-label">Finalist A</div>`;
+      c3.appendChild(makeSlotButton(finalists[0], "Finalist A", false, -1));
 
-      const colCenter = document.createElement("div");
-      colCenter.className = "round-col";
-      const finalBox = document.createElement("div");
-      finalBox.className = "final-box";
-      finalBox.innerHTML = `<div class="final-label">FINAL</div>`;
-      finalBox.appendChild(buildReadonlySlotButton(finalists[0], "Left Finalist"));
-      finalBox.appendChild(buildReadonlySlotButton(finalists[1], "Right Finalist"));
-      colCenter.appendChild(finalBox);
+      const center = document.createElement("div");
+      center.className = "col";
+      const fbox = document.createElement("div");
+      fbox.className = "final-box";
+      fbox.innerHTML = `<div class="final-title">FINAL</div>`;
+      fbox.appendChild(makeSlotButton(finalists[0], "Left", false, -1));
+      fbox.appendChild(makeSlotButton(finalists[1], "Right", false, -1));
+      center.appendChild(fbox);
 
-      const colB3 = document.createElement("div");
-      colB3.className = "round-col";
-      colB3.innerHTML = `<div class="round-heading">Finalist B</div>`;
-      colB3.appendChild(buildReadonlySlotButton(finalists[1], "Finalist B"));
+      const c5 = document.createElement("div");
+      c5.className = "col";
+      c5.innerHTML = `<div class="col-label">Finalist B</div>`;
+      c5.appendChild(makeSlotButton(finalists[1], "Finalist B", false, -1));
 
-      const colB2 = document.createElement("div");
-      colB2.className = "round-col";
-      colB2.innerHTML = `<div class="round-heading">Semifinals</div>`;
-      colB2.appendChild(buildReadonlySlotButton(semiB[0], "Semi B1"));
-      colB2.appendChild(buildReadonlySlotButton(semiB[1], "Semi B2"));
+      const c6 = document.createElement("div");
+      c6.className = "col";
+      c6.innerHTML = `<div class="col-label">Semifinals</div>`;
+      c6.appendChild(makeSlotButton(semiB[0], "Semi B1", false, -1));
+      c6.appendChild(makeSlotButton(semiB[1], "Semi B2", false, -1));
 
-      const colB1 = document.createElement("div");
-      colB1.className = "round-col";
-      colB1.innerHTML = `<div class="round-heading">Quarterfinals</div>`;
-      [4, 5, 6, 7].forEach((idx, i) => {
-        colB1.appendChild(buildEditableSlotRow(slots[idx], idx, `Slot B${i + 1}`));
-      });
+      const c7 = document.createElement("div");
+      c7.className = "col";
+      c7.innerHTML = `<div class="col-label">Quarterfinals</div>`;
+      [4, 5, 6, 7].forEach((i, k) => c7.appendChild(makeSlotButton(slots[i], `Slot B${k + 1}`, true, i)));
 
-      bracketBoardEl.append(colA1, colA2, colA3, colCenter, colB3, colB2, colB1);
+      bracketGrid.append(c1, c2, c3, center, c5, c6, c7);
     }
 
     function renderStandings() {
-      standingsGridEl.innerHTML = "";
-      const sorted = [...tournamentState.standings].sort((a, b) => (b.elo || 1200) - (a.elo || 1200));
+      standingsList.innerHTML = "";
+      const sorted = [...state.standings].sort((a, b) => (b.elo || 1200) - (a.elo || 1200));
       if (sorted.length === 0) {
-        standingsGridEl.innerHTML = `<div class="modal-sub">No demons ranked yet.</div>`;
+        standingsList.innerHTML = `<div class="muted">No levels ranked yet.</div>`;
         return;
       }
-
-      sorted.forEach((d, idx) => {
+      sorted.forEach((d, i) => {
         const row = document.createElement("div");
-        row.className = "standing-item";
+        row.className = "standing-row";
 
         const left = document.createElement("div");
         left.className = "standing-left";
 
         const img = document.createElement("img");
-        img.className = "slot-thumb";
+        img.className = "slot-mini";
         img.alt = d.name;
-        attachSmartImage(img, d);
+        attachThumb(img, d.img);
 
-        const nameSpan = document.createElement("span");
-        nameSpan.className = "standing-name";
-        nameSpan.textContent = `#${idx + 1} ${d.name}`;
+        const nm = document.createElement("span");
+        nm.className = "standing-name";
+        nm.textContent = `#${i + 1} ${d.name}`;
 
-        left.append(img, nameSpan);
+        left.append(img, nm);
 
-        const eloSpan = document.createElement("span");
-        eloSpan.className = "elo-badge";
-        eloSpan.textContent = `${d.elo || 1200} Elo`;
+        const elo = document.createElement("span");
+        elo.className = "elo-val";
+        elo.textContent = `${d.elo || 1200} Elo`;
 
-        row.append(left, eloSpan);
-        standingsGridEl.appendChild(row);
+        row.append(left, elo);
+        standingsList.appendChild(row);
       });
     }
 
-    function populateSlotSelect() {
-      targetSlotSelectEl.innerHTML = "";
+    function refreshSlotSelect() {
+      slotSelect.innerHTML = "";
       for (let i = 0; i < 8; i++) {
-        const groupName = i < 4 ? "Group A" : "Group B";
+        const grp = i < 4 ? "Group A" : "Group B";
         const num = (i % 4) + 1;
-        const currentDemon = tournamentState.slots[i];
+        const cur = state.slots[i];
         const opt = document.createElement("option");
         opt.value = String(i);
-        opt.textContent = `${groupName} — Slot ${num} (${currentDemon ? currentDemon.name : "Empty"})`;
-        if (i === selectedSlotIndex) opt.selected = true;
-        targetSlotSelectEl.appendChild(opt);
+        opt.textContent = `${grp} — Slot ${num} (${cur ? cur.name : "Empty"})`;
+        if (i === activeSlot) opt.selected = true;
+        slotSelect.appendChild(opt);
       }
     }
 
-    function renderCatalogList() {
-      aredlCatalogListEl.innerHTML = "";
-      const query = aredlSearchInputEl.value.trim().toLowerCase();
-
-      const filtered = catalog.filter((item) => {
-        if (!query) return true;
-        return (
-          item.name.toLowerCase().includes(query) ||
-          item.creator.toLowerCase().includes(query) ||
-          item.verifier.toLowerCase().includes(query)
-        );
-      });
-
-      if (filtered.length === 0) {
-        aredlCatalogListEl.innerHTML = `<div class="modal-sub">No AREDL levels found for that search.</div>`;
-        return;
-      }
-
-      aredlStatusLineEl.textContent = `Showing ${filtered.length} of ${catalog.length} levels from AREDL API.`;
-
-      filtered.forEach((item) => {
-        const card = document.createElement("div");
-        card.className = "catalog-card";
-
-        const left = document.createElement("div");
-        left.className = "catalog-left";
-
-        const img = document.createElement("img");
-        img.className = "catalog-clean-img";
-        img.alt = item.name;
-        attachSmartImage(img, item);
-
-        const meta = document.createElement("div");
-        meta.className = "catalog-meta";
-        meta.innerHTML = `
-          <div class="catalog-name">${item.name}</div>
-          <div class="catalog-sub">${item.creator} • ${item.verifier}</div>
-        `;
-
-        left.append(img, meta);
-
-        const pickBtn = document.createElement("button");
-        pickBtn.className = "btn btn-cyan";
-        pickBtn.type = "button";
-        pickBtn.textContent = "Place";
-        pickBtn.addEventListener("click", async () => {
-          if (!isAdmin) return;
-          const slotIdx = Number(targetSlotSelectEl.value);
-          const resolvedImg = await resolveDemonImageFromAredl(item);
-          const demonCopy = { ...item, elo: item.elo || 1200, img: resolvedImg };
-          tournamentState.slots[slotIdx] = demonCopy;
-          ensureInStandings(demonCopy);
-          await pushTournamentToFirebase();
-          populateSlotSelect();
-          renderAll();
-        });
-
-        card.append(left, pickBtn);
-        aredlCatalogListEl.appendChild(card);
-      });
-    }
-
-    function openAredlModalForSlot(slotIdx = 0) {
+    function openLevelModal(slotIdx = 0) {
       if (!isAdmin) return;
-      selectedSlotIndex = slotIdx;
-      populateSlotSelect();
-      aredlModalEl.classList.add("open");
-      loadAredlCatalog(true);
-    }
-
-    function setAdminMode(enabled, persist = true) {
-      isAdmin = enabled;
-      if (persist) {
-        try {
-          if (enabled) {
-            sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
-          } else {
-            sessionStorage.removeItem(ADMIN_SESSION_KEY);
-          }
-        } catch (_) {}
+      activeSlot = slotIdx;
+      refreshSlotSelect();
+      customName.value = "";
+      customYtUrl.value = "";
+      customCreator.value = "";
+      customSong.value = "";
+      ytSearchResults.innerHTML = "";
+      updateYtPreview();
+      levelModal.classList.add("open");
+      if (aredlLevels.length === 0) {
+        fetchAllAredlLevels();
+      } else {
+        renderAredlList();
       }
-      adminPillEl.classList.toggle("active", isAdmin);
-      adminBarEl.classList.toggle("active", isAdmin);
-      cornerAddBtn.classList.toggle("active", isAdmin);
-      renderAll();
     }
 
-    function renderAll() {
-      statusPillEl.textContent = tournamentState.started ? "Status: Tournament Live" : "Status: Waiting for Admin";
-      statusPillEl.classList.toggle("live", tournamentState.started);
-      toggleStartBtn.textContent = tournamentState.started ? "Pause Voting" : "Start Tournament";
-      renderDuelSection();
-      renderBracketBoard();
+    function setAdmin(on) {
+      isAdmin = on;
+      try {
+        if (on) sessionStorage.setItem(ADMIN_KEY, "1");
+        else sessionStorage.removeItem(ADMIN_KEY);
+      } catch (_) {}
+      adminPill.classList.toggle("show", on);
+      adminToolbar.classList.toggle("show", on);
+      fabAdd.classList.toggle("show", on);
+      render();
+    }
+
+    function render() {
+      statusPill.textContent = state.started ? "Status: Live" : "Status: Waiting for Admin";
+      statusPill.classList.toggle("live", state.started);
+      startBtn.textContent = state.started ? "Pause Voting" : "Start Tournament";
+      renderDuel();
+      renderBracket();
       renderStandings();
     }
 
-    pageTitleEl.addEventListener("click", () => {
-      titleClicks++;
-      clearTimeout(titleClickTimer);
-      titleClickTimer = setTimeout(() => {
-        titleClicks = 0;
-      }, 650);
-
-      if (titleClicks >= 3) {
-        titleClicks = 0;
-        clearTimeout(titleClickTimer);
-        passwordInputEl.value = "";
-        passwordInputEl.placeholder = "Password";
-        passwordModalEl.classList.add("open");
-        passwordInputEl.focus();
+    titleBtn.addEventListener("click", () => {
+      clicks += 1;
+      clearTimeout(clickTimer);
+      clickTimer = setTimeout(() => { clicks = 0; }, 650);
+      if (clicks >= 3) {
+        clicks = 0;
+        clearTimeout(clickTimer);
+        passInput.value = "";
+        passInput.placeholder = "Password";
+        passModal.classList.add("open");
+        passInput.focus();
       }
     });
 
-    document.getElementById("cancel-password-btn").addEventListener("click", () => {
-      passwordModalEl.classList.remove("open");
-    });
-
-    document.getElementById("confirm-password-btn").addEventListener("click", () => {
-      if (passwordInputEl.value === ADMIN_PASSWORD) {
-        passwordModalEl.classList.remove("open");
-        setAdminMode(true, true);
+    document.getElementById("pass-cancel").addEventListener("click", () => passModal.classList.remove("open"));
+    document.getElementById("pass-ok").addEventListener("click", () => {
+      if (passInput.value === ADMIN_PASSWORD) {
+        passModal.classList.remove("open");
+        setAdmin(true);
       } else {
-        passwordInputEl.value = "";
-        passwordInputEl.placeholder = "Incorrect password";
+        passInput.value = "";
+        passInput.placeholder = "Incorrect password";
       }
     });
 
-    passwordInputEl.addEventListener("keydown", (e) => {
+    passInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") document.getElementById("pass-ok").click();
+    });
+
+    document.getElementById("lock-btn").addEventListener("click", () => setAdmin(false));
+    fabAdd.addEventListener("click", () => openLevelModal(activeSlot));
+    document.getElementById("close-level-modal").addEventListener("click", () => levelModal.classList.remove("open"));
+
+    customYtUrl.addEventListener("input", updateYtPreview);
+    ytSearchBtn.addEventListener("click", searchYoutubeVideos);
+    ytSearchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
-        document.getElementById("confirm-password-btn").click();
+        e.preventDefault();
+        searchYoutubeVideos();
       }
     });
 
-    document.getElementById("lock-admin-btn").addEventListener("click", () => {
-      setAdminMode(false, true);
-    });
-
-    cornerAddBtn.addEventListener("click", () => {
-      openAredlModalForSlot(selectedSlotIndex);
-    });
-
-    document.getElementById("close-aredl-btn").addEventListener("click", () => {
-      aredlModalEl.classList.remove("open");
-    });
-
-    document.getElementById("clear-selected-slot-btn").addEventListener("click", async () => {
+    document.getElementById("save-custom-btn").addEventListener("click", async () => {
       if (!isAdmin) return;
-      const slotIdx = Number(targetSlotSelectEl.value);
-      await deleteSlotDemon(slotIdx);
+      const thumb = updateYtPreview();
+      const rawName = customName.value.trim();
+      const vid = parseYoutubeId(customYtUrl.value);
+      const name = rawName || (vid ? `Demon (${vid})` : "");
+      if (!name) {
+        customName.focus();
+        return;
+      }
+      const idx = Number(slotSelect.value);
+      const demon = {
+        id: `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${idx}-${Date.now()}`,
+        name,
+        creator: customCreator.value.trim() || "Custom",
+        song: customSong.value.trim() || "GD Song",
+        elo: 1200,
+        img: thumb || FALLBACK_SVG
+      };
+      state.slots[idx] = demon;
+      ensureStanding(demon);
+      await saveState();
+      refreshSlotSelect();
+      render();
     });
 
-    aredlSearchInputEl.addEventListener("input", renderCatalogList);
-
-    toggleStartBtn.addEventListener("click", async () => {
+    document.getElementById("remove-slot-btn").addEventListener("click", async () => {
       if (!isAdmin) return;
-      tournamentState.started = !tournamentState.started;
-      await pushTournamentToFirebase();
-      renderAll();
+      await removeSlot(Number(slotSelect.value));
     });
 
-    clearBracketBtn.addEventListener("click", async () => {
+    aredlSearch.addEventListener("input", renderAredlList);
+
+    startBtn.addEventListener("click", async () => {
       if (!isAdmin) return;
-      tournamentState.started = false;
-      tournamentState.slots = Array(8).fill(null);
-      tournamentState.semiA = [null, null];
-      tournamentState.semiB = [null, null];
-      tournamentState.finalists = [null, null];
-      tournamentState.winner = null;
-      await pushTournamentToFirebase();
-      renderAll();
+      state.started = !state.started;
+      await saveState();
+      render();
     });
 
-    (async function init() {
+    clearAllBtn.addEventListener("click", async () => {
+      if (!isAdmin) return;
+      state.started = false;
+      state.slots = Array(8).fill(null);
+      state.semiA = [null, null];
+      state.semiB = [null, null];
+      state.finalists = [null, null];
+      state.winner = null;
+      await saveState();
+      render();
+    });
+
+    (async function boot() {
       try {
-        if (sessionStorage.getItem(ADMIN_SESSION_KEY) === "1") {
+        if (sessionStorage.getItem(ADMIN_KEY) === "1") {
           isAdmin = true;
-          adminPillEl.classList.add("active");
-          adminBarEl.classList.add("active");
-          cornerAddBtn.classList.add("active");
+          adminPill.classList.add("show");
+          adminToolbar.classList.add("show");
+          fabAdd.classList.add("show");
         }
       } catch (_) {}
-
-      try {
-        await Promise.all([fetchTournamentFromFirebase(), loadAredlCatalog(false)]);
-      } catch (_) {}
-      renderAll();
+      await Promise.all([loadState(), fetchAllAredlLevels()]);
+      render();
     })();
   </script>
 </body>
