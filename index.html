@@ -8,7 +8,7 @@
     :root {
       --bg-top: #071326;
       --bg-bottom: #040914;
-      --surface: rgba(10, 22, 42, 0.86);
+      --surface: rgba(10, 22, 42, 0.88);
       --surface-hover: rgba(16, 35, 66, 0.96);
       --border: rgba(56, 189, 248, 0.24);
       --border-bright: rgba(56, 189, 248, 0.65);
@@ -124,6 +124,12 @@
       border: none;
     }
 
+    .btn.gold {
+      background: linear-gradient(135deg, #fde047, #eab308);
+      color: #1c1302;
+      border: none;
+    }
+
     .btn.danger {
       background: rgba(239, 68, 68, 0.16);
       color: #fca5a5;
@@ -205,68 +211,6 @@
     .muted {
       color: var(--muted);
       font-size: 12px;
-    }
-
-    .duel-row {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 12px;
-      align-items: stretch;
-    }
-
-    @media (max-width: 720px) {
-      .duel-row {
-        grid-template-columns: 1fr;
-      }
-      .vs-tag {
-        text-align: center;
-      }
-    }
-
-    .vs-tag {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 15px;
-      color: var(--accent);
-      padding: 0 4px;
-    }
-
-    .duel-card {
-      background: rgba(7, 17, 34, 0.9);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .duel-thumb {
-      width: 100%;
-      height: 145px;
-      object-fit: cover;
-      background: #030711;
-      display: block;
-    }
-
-    .duel-body {
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      flex: 1;
-    }
-
-    .duel-name {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 800;
-    }
-
-    .duel-vote-wrap {
-      margin-top: auto;
-      padding-top: 8px;
     }
 
     .groups-header {
@@ -435,42 +379,105 @@
       color: var(--gold);
     }
 
-    .standings-list {
+    .fight-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
-      gap: 8px;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 14px;
+      align-items: stretch;
     }
 
-    .standing-row {
+    @media (max-width: 740px) {
+      .fight-grid {
+        grid-template-columns: 1fr;
+      }
+      .fight-vs {
+        text-align: center;
+      }
+    }
+
+    .fight-vs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 16px;
+      color: var(--accent);
+      padding: 0 4px;
+    }
+
+    .fight-card {
+      background: rgba(7, 17, 34, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .fight-card.leading {
+      border-color: rgba(250, 204, 21, 0.65);
+    }
+
+    .fight-photo {
+      width: 100%;
+      height: 155px;
+      object-fit: cover;
+      background: #030711;
+      display: block;
+    }
+
+    .fight-body {
+      padding: 12px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .fight-head-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      padding: 7px 10px;
-      border-radius: 9px;
-      background: rgba(7, 17, 34, 0.85);
-      border: 1px solid var(--border);
-      font-size: 12px;
-      font-weight: 700;
+      gap: 10px;
     }
 
-    .standing-left {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      min-width: 0;
-    }
-
-    .standing-name {
+    .fight-name {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .elo-val {
-      color: var(--gold);
-      font-size: 11.5px;
+    .votes-badge {
       flex-shrink: 0;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--accent);
+    }
+
+    .fight-vote-btn {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 13px;
+      margin-top: auto;
+    }
+
+    .fight-result-banner {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.45);
+      color: #86efac;
+      font-size: 12.5px;
+      font-weight: 800;
+      text-align: center;
     }
 
     .fab-add {
@@ -591,7 +598,7 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
-      max-height: 190px;
+      max-height: 180px;
       overflow-y: auto;
     }
 
@@ -626,7 +633,7 @@
       display: flex;
       flex-direction: column;
       gap: 7px;
-      max-height: 230px;
+      max-height: 220px;
       overflow-y: auto;
     }
 
@@ -676,20 +683,14 @@
     </div>
 
     <div id="admin-toolbar" class="admin-toolbar">
-      <span>Click any slot to add or pick a level.</span>
+      <span>Admin: Click any slot to add/pick a level, or choose &amp; end the daily fight.</span>
       <div class="admin-toolbar-btns">
+        <button id="choose-fight-btn" class="btn primary" type="button">Choose Fight</button>
         <button id="start-btn" class="btn ok" type="button">Start Tournament</button>
+        <button id="end-day-btn" class="btn gold" type="button">End Day &amp; Advance</button>
         <button id="clear-all-btn" class="btn danger" type="button">Clear All Slots</button>
       </div>
     </div>
-
-    <section class="panel">
-      <div class="panel-top">
-        <h2 class="panel-title">Match of the Day</h2>
-        <span id="duel-sub" class="muted">Waiting for admin to start tournament</span>
-      </div>
-      <div id="duel-content"></div>
-    </section>
 
     <section class="panel">
       <div class="groups-header">
@@ -721,8 +722,11 @@
     </section>
 
     <section class="panel">
-      <h2 class="panel-title" style="margin-bottom:10px;">Global Elo Standings</h2>
-      <div id="standings-list" class="standings-list"></div>
+      <div class="panel-top">
+        <h2 class="panel-title">Fight of the Day</h2>
+        <span id="fight-sub" class="muted">Waiting for admin</span>
+      </div>
+      <div id="fight-content"></div>
     </section>
   </div>
 
@@ -735,6 +739,35 @@
       <div class="modal-foot">
         <button id="pass-cancel" class="btn" type="button">Cancel</button>
         <button id="pass-ok" class="btn primary" type="button">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="fight-picker-modal" class="modal-bg" aria-hidden="true">
+    <div class="modal">
+      <h2 class="modal-title">Choose Fight of the Day</h2>
+      <div class="muted">Pick any two levels from the bracket or rounds to face off today.</div>
+
+      <label class="muted" for="fighter-left-select">Fighter 1 (Left)</label>
+      <select id="fighter-left-select" class="field"></select>
+
+      <label class="muted" for="fighter-right-select">Fighter 2 (Right)</label>
+      <select id="fighter-right-select" class="field"></select>
+
+      <label class="muted" for="advance-target-select">When the day ends, winner advances to:</label>
+      <select id="advance-target-select" class="field">
+        <option value="semiA:0">Semifinals — Semi A1</option>
+        <option value="semiA:1">Semifinals — Semi A2</option>
+        <option value="semiB:0">Semifinals — Semi B1</option>
+        <option value="semiB:1">Semifinals — Semi B2</option>
+        <option value="finalists:0">Finalist A (Left Final)</option>
+        <option value="finalists:1">Finalist B (Right Final)</option>
+        <option value="winner:0">Tournament Winner</option>
+      </select>
+
+      <div class="modal-foot">
+        <button id="close-fight-picker" class="btn" type="button">Cancel</button>
+        <button id="save-fight-btn" class="btn ok" type="button">Set Fight of the Day</button>
       </div>
     </div>
   </div>
@@ -764,11 +797,6 @@
           </div>
         </div>
 
-        <div class="row-2">
-          <input id="custom-creator" class="field" type="text" placeholder="Creator (optional)" />
-          <input id="custom-song" class="field" type="text" placeholder="Song (optional)" />
-        </div>
-
         <button id="save-custom-btn" class="btn ok" type="button">Place Level in Slot</button>
       </div>
 
@@ -787,6 +815,7 @@
   <script>
     const ADMIN_PASSWORD = "6767XDXD";
     const ADMIN_KEY = "edt_admin_session";
+    const VOTED_FIGHT_KEY = "edt_voted_fight_id";
     const DB_URL = "https://extreme-demon-tournament-default-rtdb.firebaseio.com";
     const AREDL_URLS = [
       "https://api.aredl.net/v2/api/aredl/levels",
@@ -809,7 +838,7 @@
       semiB: [null, null],
       finalists: [null, null],
       winner: null,
-      standings: []
+      dailyFight: null
     };
 
     let aredlLevels = [];
@@ -823,22 +852,26 @@
     const adminPill = document.getElementById("admin-pill");
     const adminToolbar = document.getElementById("admin-toolbar");
     const startBtn = document.getElementById("start-btn");
+    const chooseFightBtn = document.getElementById("choose-fight-btn");
+    const endDayBtn = document.getElementById("end-day-btn");
     const clearAllBtn = document.getElementById("clear-all-btn");
     const fabAdd = document.getElementById("fab-add");
-    const duelSub = document.getElementById("duel-sub");
-    const duelContent = document.getElementById("duel-content");
     const winnerPill = document.getElementById("winner-pill");
     const bracketGrid = document.getElementById("bracket-grid");
-    const standingsList = document.getElementById("standings-list");
+    const fightSub = document.getElementById("fight-sub");
+    const fightContent = document.getElementById("fight-content");
 
     const passModal = document.getElementById("pass-modal");
     const passInput = document.getElementById("pass-input");
+    const fightPickerModal = document.getElementById("fight-picker-modal");
+    const fighterLeftSelect = document.getElementById("fighter-left-select");
+    const fighterRightSelect = document.getElementById("fighter-right-select");
+    const advanceTargetSelect = document.getElementById("advance-target-select");
+
     const levelModal = document.getElementById("level-modal");
     const slotSelect = document.getElementById("slot-select");
     const customName = document.getElementById("custom-name");
     const customYtUrl = document.getElementById("custom-yt-url");
-    const customCreator = document.getElementById("custom-creator");
-    const customSong = document.getElementById("custom-song");
     const ytPreviewImg = document.getElementById("yt-preview-img");
     const ytPreviewStatus = document.getElementById("yt-preview-status");
     const ytPreviewUrl = document.getElementById("yt-preview-url");
@@ -906,51 +939,38 @@
       if (!q) return;
       ytSearchResults.innerHTML = `<div class="muted">Searching YouTube...</div>`;
 
-      const proxies = [
-        `https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(q)}&filter=videos`,
-        `https://api.allorigins.win/raw?url=${encodeURIComponent("https://www.youtube.com/results?search_query=" + q)}`
-      ];
-
       try {
-        const res = await fetch(proxies[0]);
+        const res = await fetch(`https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(q)}&filter=videos`);
         if (res.ok) {
           const data = await res.json();
           const items = Array.isArray(data.items) ? data.items.slice(0, 8) : [];
-          if (items.length > 0) {
-            renderYtResults(
-              items.map((v) => {
-                const vid = parseYoutubeId(v.url || v.id || "");
-                return {
-                  id: vid,
-                  title: v.title || "YouTube Video",
-                  thumb: ytThumbFromId(vid)
-                };
-              }).filter((x) => x.id)
-            );
+          const mapped = items
+            .map((v) => {
+              const vid = parseYoutubeId(v.url || v.id || "");
+              return { id: vid, title: v.title || "YouTube Video", thumb: ytThumbFromId(vid) };
+            })
+            .filter((x) => x.id);
+          if (mapped.length > 0) {
+            renderYtResults(mapped);
             return;
           }
         }
       } catch (_) {}
 
       try {
-        const res = await fetch(proxies[1]);
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent("https://www.youtube.com/results?search_query=" + q)}`;
+        const res = await fetch(proxyUrl);
         if (res.ok) {
           const html = await res.text();
           const ids = [...new Set([...html.matchAll(/"videoId":"([A-Za-z0-9_-]{11})"/g)].map((m) => m[1]))].slice(0, 8);
           if (ids.length > 0) {
-            renderYtResults(
-              ids.map((id, idx) => ({
-                id,
-                title: `${q} — Result ${idx + 1}`,
-                thumb: ytThumbFromId(id)
-              }))
-            );
+            renderYtResults(ids.map((id, idx) => ({ id, title: `${q} — ${idx + 1}`, thumb: ytThumbFromId(id) })));
             return;
           }
         }
       } catch (_) {}
 
-      ytSearchResults.innerHTML = `<div class="muted">Could not load search results right now. Paste a YouTube link directly above.</div>`;
+      ytSearchResults.innerHTML = `<div class="muted">Could not load search results. Paste a YouTube link directly above.</div>`;
     }
 
     function renderYtResults(results) {
@@ -978,9 +998,7 @@
         useBtn.textContent = "Use";
         useBtn.addEventListener("click", () => {
           customYtUrl.value = `https://www.youtube.com/watch?v=${vid.id}`;
-          if (!customName.value.trim()) {
-            customName.value = vid.title;
-          }
+          if (!customName.value.trim()) customName.value = vid.title;
           updateYtPreview();
         });
 
@@ -999,17 +1017,6 @@
 
     function normalizeAredl(item, index) {
       const name = item.name || item.level_name || item.title || `Level ${index + 1}`;
-      const creator =
-        item.creator ||
-        item.publisher ||
-        (Array.isArray(item.creators) ? item.creators.map((c) => c.name || c).join(", ") : "") ||
-        "AREDL";
-      const song =
-        item.song ||
-        item.song_name ||
-        item.music ||
-        (item.song_info && item.song_info.name) ||
-        "GD Song";
       const slug =
         String(item.id || name)
           .toLowerCase()
@@ -1019,9 +1026,6 @@
       return {
         id: slug,
         name,
-        creator,
-        song,
-        elo: 1200,
         img: extractAredlThumb(item)
       };
     }
@@ -1047,12 +1051,7 @@
       aredlList.innerHTML = "";
       const q = aredlSearch.value.trim().toLowerCase();
       const matches = q
-        ? aredlLevels.filter(
-            (d) =>
-              d.name.toLowerCase().includes(q) ||
-              d.creator.toLowerCase().includes(q) ||
-              d.id.toLowerCase().includes(q)
-          )
+        ? aredlLevels.filter((d) => d.name.toLowerCase().includes(q) || d.id.toLowerCase().includes(q))
         : aredlLevels;
 
       aredlCount.textContent = `Showing ${matches.length} of ${aredlLevels.length} AREDL levels.`;
@@ -1068,7 +1067,7 @@
 
         const nameEl = document.createElement("div");
         nameEl.className = "aredl-name";
-        nameEl.textContent = `${d.name} (${d.creator})`;
+        nameEl.textContent = d.name;
 
         const placeBtn = document.createElement("button");
         placeBtn.className = "btn primary";
@@ -1077,9 +1076,7 @@
         placeBtn.addEventListener("click", async () => {
           if (!isAdmin) return;
           const idx = Number(slotSelect.value);
-          const demon = { ...d, elo: d.elo || 1200 };
-          state.slots[idx] = demon;
-          ensureStanding(demon);
+          state.slots[idx] = { id: d.id, name: d.name, img: d.img };
           await saveState();
           refreshSlotSelect();
           render();
@@ -1106,7 +1103,7 @@
         semiB: Array.isArray(data.semiB) && data.semiB.length === 2 ? data.semiB : [null, null],
         finalists: Array.isArray(data.finalists) && data.finalists.length === 2 ? data.finalists : [null, null],
         winner: data.winner || null,
-        standings: Array.isArray(data.standings) ? data.standings : []
+        dailyFight: data.dailyFight || null
       };
     }
 
@@ -1118,100 +1115,206 @@
       });
     }
 
-    function ensureStanding(demon) {
-      if (!demon) return;
-      if (!state.standings.some((x) => x.id === demon.id)) {
-        state.standings.push({ ...demon, elo: demon.elo || 1200 });
+    function getAllAvailableLevels() {
+      const pool = [];
+      const labels = [
+        "Slot A1", "Slot A2", "Slot A3", "Slot A4",
+        "Slot B1", "Slot B2", "Slot B3", "Slot B4"
+      ];
+      state.slots.forEach((d, i) => {
+        if (d) pool.push({ key: `slots:${i}`, label: `${labels[i]} — ${d.name}`, demon: d });
+      });
+      state.semiA.forEach((d, i) => {
+        if (d) pool.push({ key: `semiA:${i}`, label: `Semi A${i + 1} — ${d.name}`, demon: d });
+      });
+      state.semiB.forEach((d, i) => {
+        if (d) pool.push({ key: `semiB:${i}`, label: `Semi B${i + 1} — ${d.name}`, demon: d });
+      });
+      state.finalists.forEach((d, i) => {
+        if (d) pool.push({ key: `finalists:${i}`, label: `Finalist ${i === 0 ? "A" : "B"} — ${d.name}`, demon: d });
+      });
+      return pool;
+    }
+
+    function openFightPicker() {
+      if (!isAdmin) return;
+      const pool = getAllAvailableLevels();
+      fighterLeftSelect.innerHTML = "";
+      fighterRightSelect.innerHTML = "";
+
+      if (pool.length < 2) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "Add at least 2 levels first";
+        fighterLeftSelect.appendChild(opt);
+        fighterRightSelect.appendChild(opt.cloneNode(true));
+      } else {
+        pool.forEach((entry, idx) => {
+          const o1 = document.createElement("option");
+          o1.value = String(idx);
+          o1.textContent = entry.label;
+          fighterLeftSelect.appendChild(o1);
+
+          const o2 = document.createElement("option");
+          o2.value = String(idx);
+          o2.textContent = entry.label;
+          if (idx === 1) o2.selected = true;
+          fighterRightSelect.appendChild(o2);
+        });
       }
+
+      if (state.dailyFight && state.dailyFight.advanceTo) {
+        advanceTargetSelect.value = state.dailyFight.advanceTo;
+      }
+      fightPickerModal.classList.add("open");
     }
 
-    function updateElo(winDemon, loseDemon) {
-      ensureStanding(winDemon);
-      ensureStanding(loseDemon);
-      const w = state.standings.find((x) => x.id === winDemon.id);
-      const l = state.standings.find((x) => x.id === loseDemon.id);
-      const expected = 1 / (1 + Math.pow(10, ((l.elo || 1200) - (w.elo || 1200)) / 400));
-      w.elo = Math.round((w.elo || 1200) + 32 * (1 - expected));
-      l.elo = Math.round((l.elo || 1200) - 32 * expected);
+    async function applyDailyFightSelection() {
+      if (!isAdmin) return;
+      const pool = getAllAvailableLevels();
+      const leftIdx = Number(fighterLeftSelect.value);
+      const rightIdx = Number(fighterRightSelect.value);
+      if (!pool[leftIdx] || !pool[rightIdx] || leftIdx === rightIdx) return;
+
+      const leftDemon = pool[leftIdx].demon;
+      const rightDemon = pool[rightIdx].demon;
+
+      state.dailyFight = {
+        id: `fight-${Date.now()}`,
+        left: { id: leftDemon.id, name: leftDemon.name, img: leftDemon.img || FALLBACK_SVG },
+        right: { id: rightDemon.id, name: rightDemon.name, img: rightDemon.img || FALLBACK_SVG },
+        votesLeft: 0,
+        votesRight: 0,
+        advanceTo: advanceTargetSelect.value,
+        finished: false,
+        winnerName: ""
+      };
+      state.started = true;
+
+      await saveState();
+      fightPickerModal.classList.remove("open");
+      render();
     }
 
-    function getMatch() {
-      const { slots, semiA, semiB, finalists } = state;
-      if (slots[0] && slots[1] && !semiA[0]) return { round: "Quarterfinals — Group A", left: slots[0], right: slots[1], dest: ["semiA", 0] };
-      if (slots[2] && slots[3] && !semiA[1]) return { round: "Quarterfinals — Group A", left: slots[2], right: slots[3], dest: ["semiA", 1] };
-      if (slots[4] && slots[5] && !semiB[0]) return { round: "Quarterfinals — Group B", left: slots[4], right: slots[5], dest: ["semiB", 0] };
-      if (slots[6] && slots[7] && !semiB[1]) return { round: "Quarterfinals — Group B", left: slots[6], right: slots[7], dest: ["semiB", 1] };
-      if (semiA[0] && semiA[1] && !finalists[0]) return { round: "Semifinals — Group A", left: semiA[0], right: semiA[1], dest: ["finalists", 0] };
-      if (semiB[0] && semiB[1] && !finalists[1]) return { round: "Semifinals — Group B", left: semiB[0], right: semiB[1], dest: ["finalists", 1] };
-      if (finalists[0] && finalists[1] && !state.winner) return { round: "Grand Final", left: finalists[0], right: finalists[1], dest: ["winner", 0] };
-      return null;
-    }
+    async function voteInDailyFight(side) {
+      const df = state.dailyFight;
+      if (!state.started || !df || df.finished) return;
+      let votedId = "";
+      try { votedId = sessionStorage.getItem(VOTED_FIGHT_KEY) || ""; } catch (_) {}
+      if (votedId === df.id) return;
 
-    async function voteSide(side) {
-      if (!state.started) return;
-      const m = getMatch();
-      if (!m) return;
-      const winner = side === "left" ? m.left : m.right;
-      const loser = side === "left" ? m.right : m.left;
-      updateElo(winner, loser);
-      const [key, idx] = m.dest;
-      if (key === "winner") state.winner = winner;
-      else state[key][idx] = winner;
+      if (side === "left") {
+        df.votesLeft = (df.votesLeft || 0) + 1;
+      } else {
+        df.votesRight = (df.votesRight || 0) + 1;
+      }
+
+      try { sessionStorage.setItem(VOTED_FIGHT_KEY, df.id); } catch (_) {}
       await saveState();
       render();
     }
 
-    function buildDuelCard(demon, side) {
+    async function endDayAndAdvance() {
+      if (!isAdmin) return;
+      const df = state.dailyFight;
+      if (!df) return;
+
+      const vL = df.votesLeft || 0;
+      const vR = df.votesRight || 0;
+      const winner = vL >= vR ? df.left : df.right;
+
+      df.finished = true;
+      df.winnerName = winner.name;
+
+      const [groupKey, slotStr] = (df.advanceTo || "semiA:0").split(":");
+      const slotIdx = Number(slotStr || 0);
+
+      if (groupKey === "winner") {
+        state.winner = { id: winner.id, name: winner.name, img: winner.img };
+      } else if (Array.isArray(state[groupKey])) {
+        state[groupKey][slotIdx] = { id: winner.id, name: winner.name, img: winner.img };
+      }
+
+      await saveState();
+      render();
+    }
+
+    function buildFightCard(demon, votes, side, isLeading, disabled, hasVoted) {
       const card = document.createElement("div");
-      card.className = "duel-card";
+      card.className = `fight-card ${isLeading ? "leading" : ""}`;
 
       const img = document.createElement("img");
-      img.className = "duel-thumb";
+      img.className = "fight-photo";
       img.alt = demon.name;
       attachThumb(img, demon.img);
 
       const body = document.createElement("div");
-      body.className = "duel-body";
-      body.innerHTML = `
-        <h3 class="duel-name">${demon.name}</h3>
-        <div class="muted">Creator: <strong>${demon.creator || "Unknown"}</strong></div>
-        <div class="muted">Song: <strong>${demon.song || "Unknown"}</strong></div>
-        <div class="duel-vote-wrap">
-          <button class="btn primary" style="width:100%;padding:9px;" type="button">Vote ${demon.name}</button>
-        </div>
-      `;
-      body.querySelector("button").addEventListener("click", () => voteSide(side));
+      body.className = "fight-body";
 
+      const head = document.createElement("div");
+      head.className = "fight-head-row";
+
+      const nameEl = document.createElement("h3");
+      nameEl.className = "fight-name";
+      nameEl.textContent = demon.name;
+
+      const votesEl = document.createElement("span");
+      votesEl.className = "votes-badge";
+      votesEl.textContent = `${votes} ${votes === 1 ? "vote" : "votes"}`;
+
+      head.append(nameEl, votesEl);
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn primary fight-vote-btn";
+      btn.disabled = disabled;
+      btn.textContent = hasVoted ? `Voted • ${demon.name}` : `Vote ${demon.name}`;
+      btn.addEventListener("click", () => voteInDailyFight(side));
+
+      body.append(head, btn);
       card.append(img, body);
       return card;
     }
 
-    function renderDuel() {
-      duelContent.innerHTML = "";
-      if (!state.started) {
-        duelSub.textContent = "Tournament not started yet";
-        duelContent.innerHTML = `<div class="muted" style="padding:10px 0;">Voting is locked until admin starts the tournament.</div>`;
+    function renderFightOfTheDay() {
+      fightContent.innerHTML = "";
+      const df = state.dailyFight;
+
+      if (!state.started || !df) {
+        fightSub.textContent = "Waiting for admin to start and choose fight";
+        fightContent.innerHTML = `<div class="muted">No fight active yet. Admin can click Choose Fight or Start Tournament.</div>`;
         return;
       }
-      if (state.winner) {
-        duelSub.textContent = "Finished";
-        duelContent.innerHTML = `<div style="padding:10px 0;font-weight:800;">Winner: ${state.winner.name}</div>`;
-        return;
-      }
-      const m = getMatch();
-      if (!m) {
-        duelSub.textContent = "Waiting for matchup";
-        duelContent.innerHTML = `<div class="muted" style="padding:10px 0;">Add levels to the slots and start the tournament.</div>`;
-        return;
-      }
-      duelSub.textContent = `${m.round}`;
-      const row = document.createElement("div");
-      row.className = "duel-row";
+
+      let votedId = "";
+      try { votedId = sessionStorage.getItem(VOTED_FIGHT_KEY) || ""; } catch (_) {}
+      const hasVoted = votedId === df.id;
+      const vL = df.votesLeft || 0;
+      const vR = df.votesRight || 0;
+
+      fightSub.textContent = df.finished
+        ? `Day finished • Winner: ${df.winnerName}`
+        : "Live voting today";
+
+      const grid = document.createElement("div");
+      grid.className = "fight-grid";
+
       const vs = document.createElement("div");
-      vs.className = "vs-tag";
+      vs.className = "fight-vs";
       vs.textContent = "VS";
-      row.append(buildDuelCard(m.left, "left"), vs, buildDuelCard(m.right, "right"));
-      duelContent.appendChild(row);
+
+      const leftCard = buildFightCard(df.left, vL, "left", vL > vR, df.finished || hasVoted, hasVoted);
+      const rightCard = buildFightCard(df.right, vR, "right", vR > vL, df.finished || hasVoted, hasVoted);
+
+      grid.append(leftCard, vs, rightCard);
+      fightContent.appendChild(grid);
+
+      if (df.finished) {
+        const resBanner = document.createElement("div");
+        resBanner.className = "fight-result-banner";
+        resBanner.textContent = `Winner of the day: ${df.winnerName} — advanced automatically!`;
+        fightContent.appendChild(resBanner);
+      }
     }
 
     async function removeSlot(idx) {
@@ -1316,40 +1419,6 @@
       bracketGrid.append(c1, c2, c3, center, c5, c6, c7);
     }
 
-    function renderStandings() {
-      standingsList.innerHTML = "";
-      const sorted = [...state.standings].sort((a, b) => (b.elo || 1200) - (a.elo || 1200));
-      if (sorted.length === 0) {
-        standingsList.innerHTML = `<div class="muted">No levels ranked yet.</div>`;
-        return;
-      }
-      sorted.forEach((d, i) => {
-        const row = document.createElement("div");
-        row.className = "standing-row";
-
-        const left = document.createElement("div");
-        left.className = "standing-left";
-
-        const img = document.createElement("img");
-        img.className = "slot-mini";
-        img.alt = d.name;
-        attachThumb(img, d.img);
-
-        const nm = document.createElement("span");
-        nm.className = "standing-name";
-        nm.textContent = `#${i + 1} ${d.name}`;
-
-        left.append(img, nm);
-
-        const elo = document.createElement("span");
-        elo.className = "elo-val";
-        elo.textContent = `${d.elo || 1200} Elo`;
-
-        row.append(left, elo);
-        standingsList.appendChild(row);
-      });
-    }
-
     function refreshSlotSelect() {
       slotSelect.innerHTML = "";
       for (let i = 0; i < 8; i++) {
@@ -1370,8 +1439,6 @@
       refreshSlotSelect();
       customName.value = "";
       customYtUrl.value = "";
-      customCreator.value = "";
-      customSong.value = "";
       ytSearchResults.innerHTML = "";
       updateYtPreview();
       levelModal.classList.add("open");
@@ -1398,9 +1465,8 @@
       statusPill.textContent = state.started ? "Status: Live" : "Status: Waiting for Admin";
       statusPill.classList.toggle("live", state.started);
       startBtn.textContent = state.started ? "Pause Voting" : "Start Tournament";
-      renderDuel();
       renderBracket();
-      renderStandings();
+      renderFightOfTheDay();
     }
 
     titleBtn.addEventListener("click", () => {
@@ -1436,6 +1502,11 @@
     fabAdd.addEventListener("click", () => openLevelModal(activeSlot));
     document.getElementById("close-level-modal").addEventListener("click", () => levelModal.classList.remove("open"));
 
+    chooseFightBtn.addEventListener("click", openFightPicker);
+    document.getElementById("close-fight-picker").addEventListener("click", () => fightPickerModal.classList.remove("open"));
+    document.getElementById("save-fight-btn").addEventListener("click", applyDailyFightSelection);
+    endDayBtn.addEventListener("click", endDayAndAdvance);
+
     customYtUrl.addEventListener("input", updateYtPreview);
     ytSearchBtn.addEventListener("click", searchYoutubeVideos);
     ytSearchInput.addEventListener("keydown", (e) => {
@@ -1456,16 +1527,11 @@
         return;
       }
       const idx = Number(slotSelect.value);
-      const demon = {
+      state.slots[idx] = {
         id: `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${idx}-${Date.now()}`,
         name,
-        creator: customCreator.value.trim() || "Custom",
-        song: customSong.value.trim() || "GD Song",
-        elo: 1200,
         img: thumb || FALLBACK_SVG
       };
-      state.slots[idx] = demon;
-      ensureStanding(demon);
       await saveState();
       refreshSlotSelect();
       render();
@@ -1493,6 +1559,7 @@
       state.semiB = [null, null];
       state.finalists = [null, null];
       state.winner = null;
+      state.dailyFight = null;
       await saveState();
       render();
     });
