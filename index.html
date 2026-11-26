@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,6 +106,10 @@
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .btn:hover {
@@ -406,6 +411,7 @@
       object-fit: cover;
       background: #030711;
       display: block;
+      cursor: pointer;
     }
 
     .today-caption-wrap {
@@ -423,6 +429,11 @@
       font-weight: 850;
       line-height: 1.25;
       word-break: break-word;
+      cursor: pointer;
+    }
+
+    .today-name:hover {
+      color: var(--accent);
     }
 
     .today-votes-line {
@@ -503,6 +514,27 @@
       flex-direction: column;
       gap: 10px;
       overflow-y: auto;
+    }
+
+    .video-modal {
+      max-width: 680px;
+    }
+
+    .video-frame-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #030711;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .video-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
     }
 
     .modal-title {
@@ -632,7 +664,7 @@
     <header class="header">
       <h1 id="title-btn" class="title" title="Triple click for admin">Extreme Demon Tournament</h1>
       <div class="header-actions">
-        <span id="status-pill" class="pill">Status: Waiting for Admin</span>
+        <span id="status-pill" class="pill">Status: Pending</span>
         <div id="admin-pill" class="pill admin">
           <span>ADMIN</span>
           <button id="lock-btn" class="btn" type="button">Lock</button>
@@ -645,7 +677,7 @@
     </div>
 
     <div id="admin-toolbar" class="admin-toolbar">
-      <span>Admin: Click any slot to add/pick a level, or set &amp; close today's fight.</span>
+      <span>Click any slot to add or pick a level, or set and close today's fight.</span>
       <div class="admin-toolbar-btns">
         <button id="choose-fight-btn" class="btn primary" type="button">Choose Fight</button>
         <button id="start-btn" class="btn ok" type="button">Start Tournament</button>
@@ -666,13 +698,34 @@
     <section class="section-block">
       <div class="section-head">
         <h2 class="section-title">Fight of the Day</h2>
-        <span id="fight-sub" class="muted">Waiting for admin</span>
+        <span id="fight-sub" class="muted">Upcoming</span>
       </div>
       <div id="fight-content"></div>
     </section>
   </div>
 
   <button id="fab-add" class="fab-add" type="button">+ Add Level</button>
+
+  <div id="video-modal" class="modal-bg" aria-hidden="true">
+    <div class="modal video-modal">
+      <h2 id="video-modal-title" class="modal-title">Level Showcase</h2>
+      <div class="video-frame-wrap">
+        <iframe
+          id="video-modal-frame"
+          class="video-frame"
+          src=""
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div id="video-modal-empty" class="muted" style="display:none;">No YouTube video linked for this level yet.</div>
+      <div class="modal-foot">
+        <a id="video-open-yt" class="btn primary" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">Open on YouTube</a>
+        <button id="close-video-modal" class="btn" type="button">Close</button>
+      </div>
+    </div>
+  </div>
 
   <div id="pass-modal" class="modal-bg" aria-hidden="true">
     <div class="modal">
@@ -803,6 +856,12 @@
     const fightSub = document.getElementById("fight-sub");
     const fightContent = document.getElementById("fight-content");
 
+    const videoModal = document.getElementById("video-modal");
+    const videoModalTitle = document.getElementById("video-modal-title");
+    const videoModalFrame = document.getElementById("video-modal-frame");
+    const videoModalEmpty = document.getElementById("video-modal-empty");
+    const videoOpenYt = document.getElementById("video-open-yt");
+
     const passModal = document.getElementById("pass-modal");
     const passInput = document.getElementById("pass-input");
     const fightPickerModal = document.getElementById("fight-picker-modal");
@@ -834,6 +893,46 @@
 
     function ytThumbFromId(id) {
       return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : "";
+    }
+
+    function normalizeYtWatchUrl(rawUrl, fallbackImg) {
+      const vid = parseYoutubeId(rawUrl || "") || parseYoutubeId(fallbackImg || "");
+      if (vid) return `https://www.youtube.com/watch?v=${vid}`;
+      if (typeof rawUrl === "string" && rawUrl.trim().startsWith("http")) return rawUrl.trim();
+      return "";
+    }
+
+    function openLevelVideo(demon) {
+      if (!demon) return;
+      const vid = parseYoutubeId(demon.ytUrl || "") || parseYoutubeId(demon.img || "");
+      const watchUrl = normalizeYtWatchUrl(demon.ytUrl, demon.img);
+
+      videoModalTitle.textContent = demon.name;
+      if (vid) {
+        videoModalEmpty.style.display = "none";
+        videoModalFrame.style.display = "block";
+        videoModalFrame.src = `https://www.youtube.com/embed/${vid}?autoplay=1`;
+        videoOpenYt.href = watchUrl;
+        videoOpenYt.style.display = "inline-flex";
+      } else if (watchUrl) {
+        videoModalEmpty.style.display = "none";
+        videoModalFrame.style.display = "none";
+        videoModalFrame.src = "";
+        videoOpenYt.href = watchUrl;
+        videoOpenYt.style.display = "inline-flex";
+      } else {
+        videoModalFrame.style.display = "none";
+        videoModalFrame.src = "";
+        videoModalEmpty.style.display = "block";
+        videoOpenYt.style.display = "none";
+      }
+
+      videoModal.classList.add("open");
+    }
+
+    function closeVideoModal() {
+      videoModal.classList.remove("open");
+      videoModalFrame.src = "";
     }
 
     function attachThumb(img, src) {
@@ -947,6 +1046,14 @@
       });
     }
 
+    function extractAredlVideoUrl(item) {
+      const rawVid = item.video_id || item.youtube_id || item.video || item.video_url || item.url || "";
+      const vid = parseYoutubeId(String(rawVid));
+      if (vid) return `https://www.youtube.com/watch?v=${vid}`;
+      if (typeof rawVid === "string" && rawVid.startsWith("http")) return rawVid;
+      return "";
+    }
+
     function extractAredlThumb(item) {
       const direct = item.thumbnail || item.image || "";
       if (typeof direct === "string" && direct.startsWith("http")) return direct;
@@ -963,7 +1070,12 @@
           .replace(/[^a-z0-9]+/g, "-")
           .replace(/^-|-$/g, "") || `demon-${index}`;
 
-      return { id: slug, name, img: extractAredlThumb(item) };
+      return {
+        id: slug,
+        name,
+        img: extractAredlThumb(item),
+        ytUrl: extractAredlVideoUrl(item)
+      };
     }
 
     async function fetchAllAredlLevels() {
@@ -1012,7 +1124,7 @@
         placeBtn.addEventListener("click", async () => {
           if (!isAdmin) return;
           const idx = Number(slotSelect.value);
-          state.slots[idx] = { id: d.id, name: d.name, img: d.img };
+          state.slots[idx] = { id: d.id, name: d.name, img: d.img, ytUrl: d.ytUrl || "" };
           await saveState();
           refreshSlotSelect();
           render();
@@ -1113,8 +1225,18 @@
 
       state.dailyFight = {
         id: `fight-${Date.now()}`,
-        left: { id: leftDemon.id, name: leftDemon.name, img: leftDemon.img || FALLBACK_SVG },
-        right: { id: rightDemon.id, name: rightDemon.name, img: rightDemon.img || FALLBACK_SVG },
+        left: {
+          id: leftDemon.id,
+          name: leftDemon.name,
+          img: leftDemon.img || FALLBACK_SVG,
+          ytUrl: leftDemon.ytUrl || ""
+        },
+        right: {
+          id: rightDemon.id,
+          name: rightDemon.name,
+          img: rightDemon.img || FALLBACK_SVG,
+          ytUrl: rightDemon.ytUrl || ""
+        },
         votesLeft: 0,
         votesRight: 0,
         advanceTo: advanceTargetSelect.value,
@@ -1148,6 +1270,9 @@
       const df = state.dailyFight;
       if (!df) return;
 
+      const ok = window.confirm("Are you sure you want to end the day and advance the winner?");
+      if (!ok) return;
+
       const vL = df.votesLeft || 0;
       const vR = df.votesRight || 0;
       const winner = vL >= vR ? df.left : df.right;
@@ -1159,9 +1284,19 @@
       const slotIdx = Number(slotStr || 0);
 
       if (groupKey === "winner") {
-        state.winner = { id: winner.id, name: winner.name, img: winner.img };
+        state.winner = {
+          id: winner.id,
+          name: winner.name,
+          img: winner.img,
+          ytUrl: winner.ytUrl || ""
+        };
       } else if (Array.isArray(state[groupKey])) {
-        state[groupKey][slotIdx] = { id: winner.id, name: winner.name, img: winner.img };
+        state[groupKey][slotIdx] = {
+          id: winner.id,
+          name: winner.name,
+          img: winner.img,
+          ytUrl: winner.ytUrl || ""
+        };
       }
 
       await saveState();
@@ -1205,22 +1340,18 @@
 
       tile.append(img, cap);
 
-      if (typeof editableSlotIdx === "number") {
-        tile.addEventListener("click", () => {
-          if (isAdmin) openLevelModal(editableSlotIdx);
-        });
+      tile.addEventListener("click", () => openLevelVideo(demon));
 
-        if (isAdmin) {
-          const delBtn = document.createElement("button");
-          delBtn.type = "button";
-          delBtn.className = "slot-remove show";
-          delBtn.textContent = "X";
-          delBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            removeSlot(editableSlotIdx);
-          });
-          tile.appendChild(delBtn);
-        }
+      if (typeof editableSlotIdx === "number" && isAdmin) {
+        const delBtn = document.createElement("button");
+        delBtn.type = "button";
+        delBtn.className = "slot-remove show";
+        delBtn.textContent = "X";
+        delBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          removeSlot(editableSlotIdx);
+        });
+        tile.appendChild(delBtn);
       }
 
       return tile;
@@ -1255,40 +1386,33 @@
 
       const { slots, semiA, semiB, finalists } = state;
 
-      // 1. 1A - 2A
       bracketStack.appendChild(
         buildBoutCard(slots[0], "Quarterfinals", 0, slots[1], "Quarterfinals", 1)
       );
 
-      // 2. 3A - 4A
       bracketStack.appendChild(
         buildBoutCard(slots[2], "Quarterfinals", 2, slots[3], "Quarterfinals", 3)
       );
 
-      // 3. Semifinals (top)
       addStageBanner("Semifinals");
       bracketStack.appendChild(
         buildBoutCard(semiA[0], "Semifinals", null, semiA[1], "Semifinals", null)
       );
 
-      // 4. Final
       addStageBanner("Final", true);
       bracketStack.appendChild(
         buildBoutCard(finalists[0], "Final", null, finalists[1], "Final", null, true)
       );
 
-      // 5. Semifinals (bottom)
       addStageBanner("Semifinals");
       bracketStack.appendChild(
         buildBoutCard(semiB[0], "Semifinals", null, semiB[1], "Semifinals", null)
       );
 
-      // 6. B3 - B4
       bracketStack.appendChild(
         buildBoutCard(slots[6], "Quarterfinals", 6, slots[7], "Quarterfinals", 7)
       );
 
-      // 7. B1 - B2
       bracketStack.appendChild(
         buildBoutCard(slots[4], "Quarterfinals", 4, slots[5], "Quarterfinals", 5)
       );
@@ -1302,6 +1426,7 @@
       img.className = "today-photo";
       img.alt = demon.name;
       attachThumb(img, demon.img);
+      img.addEventListener("click", () => openLevelVideo(demon));
 
       const capWrap = document.createElement("div");
       capWrap.className = "today-caption-wrap";
@@ -1309,6 +1434,7 @@
       const nameEl = document.createElement("h3");
       nameEl.className = "today-name";
       nameEl.textContent = demon.name;
+      nameEl.addEventListener("click", () => openLevelVideo(demon));
 
       const votesEl = document.createElement("div");
       votesEl.className = "today-votes-line";
@@ -1331,8 +1457,8 @@
       const df = state.dailyFight;
 
       if (!state.started || !df) {
-        fightSub.textContent = "Waiting for admin";
-        fightContent.innerHTML = `<div class="today-card"><div class="muted">No active daily fight yet. Admin can click Choose Fight or Start Tournament.</div></div>`;
+        fightSub.textContent = "Upcoming";
+        fightContent.innerHTML = `<div class="today-card"><div class="muted">Fights will be activated at some point.</div></div>`;
         return;
       }
 
@@ -1412,12 +1538,17 @@
     }
 
     function render() {
-      statusPill.textContent = state.started ? "Status: Live" : "Status: Waiting for Admin";
+      statusPill.textContent = state.started ? "Status: Live" : "Status: Pending";
       statusPill.classList.toggle("live", state.started);
       startBtn.textContent = state.started ? "Pause Voting" : "Start Tournament";
       renderAllBouts();
       renderFightOfTheDay();
     }
+
+    document.getElementById("close-video-modal").addEventListener("click", closeVideoModal);
+    videoModal.addEventListener("click", (e) => {
+      if (e.target === videoModal) closeVideoModal();
+    });
 
     titleBtn.addEventListener("click", () => {
       clicks += 1;
@@ -1470,17 +1601,20 @@
       if (!isAdmin) return;
       const thumb = updateYtPreview();
       const rawName = customName.value.trim();
-      const vid = parseYoutubeId(customYtUrl.value);
+      const rawYt = customYtUrl.value.trim();
+      const vid = parseYoutubeId(rawYt);
       const name = rawName || (vid ? `Demon (${vid})` : "");
       if (!name) {
         customName.focus();
         return;
       }
+      const ytUrl = vid ? `https://www.youtube.com/watch?v=${vid}` : rawYt;
       const idx = Number(slotSelect.value);
       state.slots[idx] = {
         id: `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${idx}-${Date.now()}`,
         name,
-        img: thumb || FALLBACK_SVG
+        img: thumb || FALLBACK_SVG,
+        ytUrl
       };
       await saveState();
       refreshSlotSelect();
@@ -1496,6 +1630,10 @@
 
     startBtn.addEventListener("click", async () => {
       if (!isAdmin) return;
+      const msg = state.started
+        ? "Are you sure you want to pause voting?"
+        : "Are you sure you want to start the tournament?";
+      if (!window.confirm(msg)) return;
       state.started = !state.started;
       await saveState();
       render();
@@ -1503,6 +1641,7 @@
 
     clearAllBtn.addEventListener("click", async () => {
       if (!isAdmin) return;
+      if (!window.confirm("Are you sure you want to clear all slots?")) return;
       state.started = false;
       state.slots = Array(8).fill(null);
       state.semiA = [null, null];
