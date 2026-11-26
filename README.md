@@ -9,3 +9,5 @@ A web-based 1v1 Elo ranking and tournament bracket system for Geometry Dash Extr
 
 ## Deployment
 Hosted as a static site via GitHub Pages (`index.html`).
+
+https://geometrygamer720z-wq.github.io/Extreme-Demon-Bracket/
