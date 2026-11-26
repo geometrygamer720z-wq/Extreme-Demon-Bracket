@@ -210,12 +210,26 @@
     }
 
     .round-heading {
-      margin: 18px 0 10px;
+      margin: 16px 0 10px;
       font-size: 12px;
       font-weight: 850;
       letter-spacing: 1px;
       text-transform: uppercase;
       color: var(--accent);
+    }
+
+    .center-stage-divider {
+      margin: 22px 0 14px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(250, 204, 21, 0.08);
+      border: 1px solid rgba(250, 204, 21, 0.32);
     }
 
     .bouts-grid {
@@ -233,6 +247,11 @@
       grid-template-columns: 1fr auto 1fr;
       gap: 10px;
       align-items: stretch;
+    }
+
+    .bout-card.final-bout {
+      border-color: rgba(250, 204, 21, 0.55);
+      background: linear-gradient(180deg, rgba(16, 32, 60, 0.95), rgba(10, 20, 38, 0.95));
     }
 
     @media (max-width: 520px) {
@@ -275,7 +294,7 @@
     .fighter-tile.placeholder {
       justify-content: center;
       align-items: center;
-      min-height: 156px;
+      min-height: 152px;
       border-style: dashed;
       color: var(--muted);
       background: rgba(8, 18, 36, 0.55);
@@ -393,42 +412,33 @@
       display: block;
     }
 
-    .today-meta {
-      padding: 12px 14px 14px;
+    .today-caption-wrap {
+      padding: 10px 12px 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      flex: 1;
-    }
-
-    .today-name-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       gap: 8px;
+      flex: 1;
+      text-align: center;
     }
 
     .today-name {
       margin: 0;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 850;
+      line-height: 1.25;
+      word-break: break-word;
     }
 
-    .vote-pill {
-      flex-shrink: 0;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 12px;
+    .today-votes-line {
+      font-size: 12.5px;
       font-weight: 800;
-      background: rgba(56, 189, 248, 0.14);
-      border: 1px solid rgba(56, 189, 248, 0.42);
       color: var(--accent);
     }
 
     .today-vote-btn {
       width: 100%;
-      padding: 10px 12px;
-      font-size: 13px;
+      padding: 9px 12px;
+      font-size: 12.5px;
       margin-top: auto;
     }
 
@@ -654,14 +664,18 @@
         <span id="winner-summary" class="muted">Winner: TBD</span>
       </div>
 
-      <div class="round-heading">Quarterfinals</div>
-      <div id="qf-grid" class="bouts-grid"></div>
+      <div class="round-heading">Semi A — Quarterfinals &amp; Semifinal</div>
+      <div id="semi-a-grid" class="bouts-grid"></div>
 
-      <div class="round-heading">Semifinals</div>
-      <div id="sf-grid" class="bouts-grid"></div>
+      <div class="center-stage-divider">Semifinales</div>
 
       <div class="round-heading">Final</div>
       <div id="final-grid" class="bouts-grid"></div>
+
+      <div class="center-stage-divider">Semifinales</div>
+
+      <div class="round-heading">Semi B — Quarterfinals &amp; Semifinal</div>
+      <div id="semi-b-grid" class="bouts-grid"></div>
     </section>
 
     <section class="section-block">
@@ -699,10 +713,10 @@
 
       <label class="muted" for="advance-target-select">When the day ends, winner advances to:</label>
       <select id="advance-target-select" class="field">
-        <option value="semiA:0">Semifinals — Semi A1</option>
-        <option value="semiA:1">Semifinals — Semi A2</option>
-        <option value="semiB:0">Semifinals — Semi B1</option>
-        <option value="semiB:1">Semifinals — Semi B2</option>
+        <option value="semiA:0">Semifinales — Semi A1</option>
+        <option value="semiA:1">Semifinales — Semi A2</option>
+        <option value="semiB:0">Semifinales — Semi B1</option>
+        <option value="semiB:1">Semifinales — Semi B2</option>
         <option value="finalists:0">Finalist A (Left)</option>
         <option value="finalists:1">Finalist B (Right)</option>
         <option value="winner:0">Tournament Winner</option>
@@ -800,9 +814,9 @@
     const clearAllBtn = document.getElementById("clear-all-btn");
     const fabAdd = document.getElementById("fab-add");
     const winnerSummary = document.getElementById("winner-summary");
-    const qfGrid = document.getElementById("qf-grid");
-    const sfGrid = document.getElementById("sf-grid");
+    const semiAGrid = document.getElementById("semi-a-grid");
     const finalGrid = document.getElementById("final-grid");
+    const semiBGrid = document.getElementById("semi-b-grid");
     const fightSub = document.getElementById("fight-sub");
     const fightContent = document.getElementById("fight-content");
 
@@ -1064,10 +1078,10 @@
         if (d) pool.push({ label: `${labels[i]} — ${d.name}`, demon: d });
       });
       state.semiA.forEach((d, i) => {
-        if (d) pool.push({ label: `Semifinales A${i + 1} — ${d.name}`, demon: d });
+        if (d) pool.push({ label: `Semi A${i + 1} — ${d.name}`, demon: d });
       });
       state.semiB.forEach((d, i) => {
-        if (d) pool.push({ label: `Semifinales B${i + 1} — ${d.name}`, demon: d });
+        if (d) pool.push({ label: `Semi B${i + 1} — ${d.name}`, demon: d });
       });
       state.finalists.forEach((d, i) => {
         if (d) pool.push({ label: `Finalist ${i === 0 ? "A" : "B"} — ${d.name}`, demon: d });
@@ -1233,9 +1247,9 @@
       return tile;
     }
 
-    function buildBoutCard(leftDemon, leftEmpty, leftIdx, rightDemon, rightEmpty, rightIdx) {
+    function buildBoutCard(leftDemon, leftEmpty, leftIdx, rightDemon, rightEmpty, rightIdx, isFinal = false) {
       const card = document.createElement("div");
-      card.className = "bout-card";
+      card.className = `bout-card ${isFinal ? "final-bout" : ""}`;
 
       const vs = document.createElement("div");
       vs.className = "bout-vs";
@@ -1250,28 +1264,28 @@
     }
 
     function renderAllBouts() {
-      qfGrid.innerHTML = "";
-      sfGrid.innerHTML = "";
+      semiAGrid.innerHTML = "";
       finalGrid.innerHTML = "";
+      semiBGrid.innerHTML = "";
 
       winnerSummary.textContent = state.winner ? `Winner: ${state.winner.name}` : "Winner: TBD";
 
       const { slots, semiA, semiB, finalists } = state;
 
-      qfGrid.append(
+      semiAGrid.append(
         buildBoutCard(slots[0], "Quarterfinals", 0, slots[1], "Quarterfinals", 1),
         buildBoutCard(slots[2], "Quarterfinals", 2, slots[3], "Quarterfinals", 3),
-        buildBoutCard(slots[4], "Quarterfinals", 4, slots[5], "Quarterfinals", 5),
-        buildBoutCard(slots[6], "Quarterfinals", 6, slots[7], "Quarterfinals", 7)
-      );
-
-      sfGrid.append(
-        buildBoutCard(semiA[0], "Semifinals", null, semiA[1], "Semifinals", null),
-        buildBoutCard(semiB[0], "Semifinals", null, semiB[1], "Semifinals", null)
+        buildBoutCard(semiA[0], "Semifinales", null, semiA[1], "Semifinales", null)
       );
 
       finalGrid.append(
-        buildBoutCard(finalists[0], "Final", null, finalists[1], "Final", null)
+        buildBoutCard(finalists[0], "Final", null, finalists[1], "Final", null, true)
+      );
+
+      semiBGrid.append(
+        buildBoutCard(slots[4], "Quarterfinals", 4, slots[5], "Quarterfinals", 5),
+        buildBoutCard(slots[6], "Quarterfinals", 6, slots[7], "Quarterfinals", 7),
+        buildBoutCard(semiB[0], "Semifinales", null, semiB[1], "Semifinales", null)
       );
     }
 
@@ -1284,21 +1298,16 @@
       img.alt = demon.name;
       attachThumb(img, demon.img);
 
-      const meta = document.createElement("div");
-      meta.className = "today-meta";
-
-      const row = document.createElement("div");
-      row.className = "today-name-row";
+      const capWrap = document.createElement("div");
+      capWrap.className = "today-caption-wrap";
 
       const nameEl = document.createElement("h3");
       nameEl.className = "today-name";
       nameEl.textContent = demon.name;
 
-      const votesEl = document.createElement("span");
-      votesEl.className = "vote-pill";
+      const votesEl = document.createElement("div");
+      votesEl.className = "today-votes-line";
       votesEl.textContent = `${votes} ${votes === 1 ? "vote" : "votes"}`;
-
-      row.append(nameEl, votesEl);
 
       const voteBtn = document.createElement("button");
       voteBtn.type = "button";
@@ -1307,8 +1316,8 @@
       voteBtn.textContent = hasVoted ? `Voted • ${demon.name}` : `Vote ${demon.name}`;
       voteBtn.addEventListener("click", () => voteInDailyFight(side));
 
-      meta.append(row, voteBtn);
-      box.append(img, meta);
+      capWrap.append(nameEl, votesEl, voteBtn);
+      box.append(img, capWrap);
       return box;
     }
 
